@@ -158,13 +158,15 @@
     img.style.width = '';
     img.removeAttribute('src');
     img.alt = `${p.no}번 ${p.title} 악보`;
-    img.onload = () => {
+    const onLoaded = () => {
       $('#mLoading').classList.add('is-hidden');
       setZoom(1, true);
       stage.scrollTop = 0;
       stage.scrollLeft = 0;
     };
+    img.onload = onLoaded;
     img.src = p.image;
+    if (img.complete && img.naturalWidth) onLoaded();
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
