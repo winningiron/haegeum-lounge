@@ -117,7 +117,7 @@ PIECES = [
     # 51·58 : 박자 변화가 줄 중간에서 일어난다
     dict(no=51, bowing=True, midline=True, level='중급', key='Eb', seed=201,
          sections=[(12, (4, 4)), (10, (3, 4)), (8, (4, 4)), (8, (3, 4)), (8, (4, 4))],
-         lines=[6, 6, 6, 6, 8, 8, 6],
+         lines=[6, 6, 7, 7, 7, 7, 6],
          tempos={1: 84, 13: 92}, dynamics={1: 'mf', 13: 'f'},
          title='넓은 도약과 3연음', tags=['4/4·3/4', '3연음']),
     dict(no=52, bowing=True, level='중급', key='Eb', seed=202,
