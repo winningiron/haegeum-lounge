@@ -10,6 +10,9 @@ THUMBS = os.path.join(REPO, 'scores', 'thumb')
 os.makedirs(SCORES, exist_ok=True)
 os.makedirs(THUMBS, exist_ok=True)
 
+ASSET_VER = '2'   # 악보를 다시 조판할 때 올린다 (브라우저 캐시 무효화)
+
+
 def meters_label(sections):
     labels = []
     for count, meter in sections:
@@ -27,18 +30,16 @@ def main(only=None):
         br = g.line_breaks(cfg)
         xml, b, mxs = g.build_piece(cfg, breaks_at=br)
         g.validate_xml(xml, cfg)
-        fit, widths = g.fit_layout(xml)
-        layout = dict(fit, breaks='encoded')
-        counts = g.system_measure_counts(xml, layout)
         expect = g.line_counts(br)
+        counts = g.system_measure_counts(xml, g.LAYOUT)
         if counts != expect:
             raise RuntimeError(f"#{cfg['no']}: 줄 마디 수 {counts} != 계획 {expect}")
         if any(c < 6 or c > 8 for c in counts):
             raise RuntimeError(f"#{cfg['no']}: 한 줄 마디 수가 6~8을 벗쓰남 {counts}")
-        png, pdf, size = g.render(xml, cfg['no'], SCORES, layout=layout)
+        png, pdf, size = g.render(xml, cfg['no'], SCORES, layout=dict(breaks='encoded'))
         im = Image.open(png)
         th = im.copy()
-        th.thumbnail((620, 1000), Image.LANCZOS)
+        th.thumbnail((560, 800), Image.LANCZOS)
         th.save(os.path.join(THUMBS, f"{cfg['no']:03d}.jpg"), quality=82, optimize=True)
         meta = dict(no=cfg['no'], level=cfg['level'], key=g.KEY_LABEL[cfg['key']],
                     fifths=g.KEY_FIFTHS[cfg['key']], title=cfg['title'],
@@ -47,12 +48,12 @@ def main(only=None):
                     bars=32, lines=counts,
                     midline=bool(cfg.get('midline')),
                     tags=cfg.get('tags', []),
-                    image=f"scores/{cfg['no']:03d}.png",
-                    pdf=f"scores/{cfg['no']:03d}.pdf",
-                    thumb=f"scores/thumb/{cfg['no']:03d}.jpg")
+                    image=f"scores/{cfg['no']:03d}.png?v={ASSET_VER}",
+                    pdf=f"scores/{cfg['no']:03d}.pdf?v={ASSET_VER}",
+                    thumb=f"scores/thumb/{cfg['no']:03d}.jpg?v={ASSET_VER}")
         out.append(meta)
         print(f"#{cfg['no']:3d} {cfg['level']} {meta['key']:2s} {'/'.join(meta['meters']):18s} "
-              f"{'x'.join(map(str, counts))} w{fit['pageWidth']} "
+              f"{'x'.join(map(str, counts))} "
               f"png {os.path.getsize(png)//1024}KB pdf {os.path.getsize(pdf)//1024}KB")
     json_path = os.path.join(REPO, 'pieces.json')
     old = []

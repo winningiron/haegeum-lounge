@@ -777,13 +777,34 @@ def apply_beams(items, meter):
                 return True
         return False
 
+    def dot_pair(a, b):
+        """점8분음표 + 16분음표(또는 그 반대) 짝인가."""
+        x, y = items[a], items[b]
+        if x['ntype'] == 'eighth' and x.get('dot') and y['ntype'] == '16th':
+            return True
+        if x['ntype'] == '16th' and y['ntype'] == 'eighth' and y.get('dot'):
+            return True
+        return False
+
     groups = []
     cur = []
     for i in beamable:
-        if cur and (bindex(starts[i]) != bindex(starts[cur[-1]]) or rest_between(cur[-1], i)):
+        if not cur:
+            cur = [i]
+            continue
+        prev = cur[-1]
+        boundary = (bindex(starts[i]) != bindex(starts[prev])) or rest_between(prev, i)
+        if not boundary:
+            cur.append(i)
+            continue
+        # 점8분 + 16분 짝은 박 경계를 넘어도 반드시 한 빔으로 묶는다.
+        if dot_pair(prev, i):
+            cur.append(i)
             groups.append(cur)
             cur = []
-        cur.append(i)
+            continue
+        groups.append(cur)
+        cur = [i]
     if cur:
         groups.append(cur)
 
@@ -805,7 +826,9 @@ def apply_beams(items, meter):
             runs.append(cur)
         for run in runs:
             if len(run) == 1:
-                items[run[0]]['beams'].append((2, 'backward hook'))
+                # 묶음의 첫 음이면 앞으로, 아니면 뒤로 향한 훅
+                hook = 'forward hook' if run[0] == g[0] else 'backward hook'
+                items[run[0]]['beams'].append((2, hook))
             else:
                 for pos, i in enumerate(run):
                     val = 'begin' if pos == 0 else ('end' if pos == len(run) - 1 else 'continue')
@@ -984,22 +1007,26 @@ def sections_meter(sections, mnum):
 # 거의 채우게 되어 Verovio 의 '남는 폭 배분' 이 개입할 여지가 줄어든다.
 # (기본값 0.25 대비) 남는 폭이 크면 장식음 무리 앞에 빈틈이 몰리는 현상이 생긴다.
 LAYOUT = {
-    "pageWidth": 1800,        # 곡마다 fit_layout() 이 자연 폭에 맞춰 다시 정한다
-    "pageHeight": 4000,        # adjustPageHeight 로 내용 높이에 맞춰 잘라 쓴다
-    "scale": 37,               # 출력 해상도
-    "unit": 10.5,              # 오선 한 칸 크기(기본 9.0). 키우면 음표가 커진다
+    "pageWidth": 2100,        # A4 세로형 폭 (Verovio 기본값과 같은 2100x2970 = 1:1.414)
+    "pageHeight": 2970,
+    "scale": 31,               # 출력 해상도 (PNG 가로 약 2000px)
+    "unit": 7.0,               # 오선 한 칸 크기. 키우면 음표가 커지고 한 줄 마디 수가 줄어든다
     "font": "Leland",          # SIL OFL 오픈소스 악보 활자
     "graceFactor": 0.58,
     "beamMaxSlope": 20,        # 기본 10°로는 계단처럼 끊기던 장식음 겹빔을 곧게 잇는다
-    "breaks": "auto",          # 마디 폭에 맞춰 줄바꿈 → 줄이 가득 차 간격이 고르다
-    "minLastJustification": 0.8,
+    "breaks": "encoded",       # 줄 나눔은 악보별 breaks_at 으로 고정
+    "minLastJustification": 0.0,   # 마지막 줄도 오른쪽 여백까지 꽉 채운다
     "breaksNoWidow": True,   # 마지막 줄에 마디 하나만 남지 않게
-    "spacingLinear": 1.0,
-    "spacingNonLinear": 0.34,
+    "spacingLinear": 0.8,
+    "spacingNonLinear": 0.32,
     "spacingSystem": 14,
-    "justifyVertically": False,
+    "justifyVertically": False,   # 세로 배치는 spread_systems() 가 직접 고르게 편다
     "mnumInterval": 0,
-    "adjustPageHeight": True,
+    "adjustPageHeight": False,
+    "pageMarginTop": 50,
+    "pageMarginBottom": 50,
+    "pageMarginLeft": 50,
+    "pageMarginRight": 50,
     "svgViewBox": True,
     "svgRemoveXlink": True,
     "footer": "none",
@@ -1105,6 +1132,58 @@ def system_measure_counts(xml, layout=None):
     return [c[1] for c in counts]
 
 
+def spread_systems(svg, page_h, top=130, bottom=170):
+    """줄(시스템)을 페이지 높이에 걸쳐 위아래 여백을 같게 두고 고르게 편다.
+
+    베로비오의 세로 정당화는 페이지 아래쪽을 다 쓰지 않아 빈 공간이 남으므로,
+    시스템 그룹을 세로로만 옮겨(translate) 첫 줄부터 마지막 줄까지 같은 간격으로 놓는다.
+    """
+    ns = "{http://www.w3.org/2000/svg}"
+    ET.register_namespace("", "http://www.w3.org/2000/svg")
+    root = ET.fromstring(svg)
+    inner = None
+    for el in root.iter(f"{ns}svg"):
+        if 'definition-scale' in (el.attrib.get('class') or ''):
+            inner = el
+            break
+    if inner is None:
+        return svg
+    groups = [g for g in inner.iter(f"{ns}g") if g.attrib.get('class') == 'system']
+    if len(groups) < 2:
+        return svg
+    k = 10.0                      # definition-scale 안쪽 좌표는 레이아웃 단위의 10배
+
+    def staff_top(g):
+        for st in g.iter(f"{ns}g"):
+            if st.attrib.get('class') == 'staff':
+                for p in st.iter(f"{ns}path"):
+                    m = re.match(r'M\s*([-0-9.]+)[, ]+([-0-9.]+)', p.attrib.get('d', ''))
+                    if m:
+                        return float(m.group(2))
+        return None
+
+    tops = [staff_top(g) for g in groups]
+    if any(t is None for t in tops):
+        return svg
+    # 페이지 여백 그룹의 translate 만큼 이미 내려가 있으므로 함께 고려한다
+    off = 0.0
+    for g in inner.iter(f"{ns}g"):
+        if 'page-margin' in (g.attrib.get('class') or ''):
+            m = re.match(r'translate\(([-0-9.]+)[, ]+([-0-9.]+)\)',
+                         g.attrib.get('transform', ''))
+            if m:
+                off = float(m.group(2))
+            break
+    first = top * k - off
+    step = ((page_h - bottom) * k - off - first) / (len(groups) - 1)
+    for i, g in enumerate(groups):
+        dy = round(first + i * step - tops[i], 1)
+        t = g.attrib.get('transform') or ''
+        g.set('transform', (t + ' ' if t else '') + f'translate(0,{dy})')
+    body = ET.tostring(root, encoding='unicode')
+    return body.replace('class="mNum"', 'class="mNum" fill="#888888" opacity="0.75"')
+
+
 def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
            footer='무단 복제 및 배포를 절대 금합니다.', font=None,
            filename=None, layout=None):
@@ -1120,6 +1199,7 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
     n_meas = svg.count('class="measure"')
     if n_meas != 32:
         raise RuntimeError(f'#{number}: 1페이지에 마디 {n_meas}개만 들어갔다 (32개여야 함)')
+    svg = spread_systems(svg, opts['pageHeight'])
     svg = svg.replace('class="mNum"', 'class="mNum" fill="#888888" opacity="0.75"')
     svg = re.sub(r'<rect class="page-margin"[^>]*/>', '', svg)
 
@@ -1215,7 +1295,7 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
     canvas.save(png_out, optimize=True)
 
     doc = fitz.open()
-    # 악보가 가로로 넓으면 A4 가로로 담는다 (인쇄했을 때 음표가 작아지지 않도록)
+    # 기본은 A4 세로. 내용이 가로로 넓은 경우에만 A4 가로로 담는다
     if canvas.width >= canvas.height:
         page_w, page_h = 842, 595
     else:
