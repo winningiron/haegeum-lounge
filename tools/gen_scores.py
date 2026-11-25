@@ -42,6 +42,12 @@ def midi_of(letter, octv, alter):
 
 LOW_MIDI, HIGH_MIDI = 57, 84          # A3 ~ C6
 
+# 한 곡 = 7단 × 한 줄 8마디 = 56마디 (A4 세로 한 페이지)
+TOTAL_MEASURES = 56
+MEASURES_PER_SYSTEM = 8
+SYSTEMS_PER_PAGE = 7
+SYSTEM_BREAKS = tuple(1 + i * MEASURES_PER_SYSTEM for i in range(1, SYSTEMS_PER_PAGE))
+
 
 def tonic_pc(fifths):
     return (7 * fifths) % 12
@@ -503,6 +509,7 @@ class PieceBuilder:
         self.tie_src = None
         self.last_dyn = None
         self.wedge_open = False
+        self.wedge_end = 0
 
     # --- 리듬 선택 -------------------------------------------------------
     def pick_pattern(self, meter, pref_tags, cadence=False):
@@ -838,10 +845,11 @@ def apply_beams(items, meter):
 # ----------------------------------------------------------------------------
 # 곡 구성
 # ----------------------------------------------------------------------------
-def build_piece(cfg, per_system=4, breaks_at=None):
+def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
     b = PieceBuilder(cfg)
     sections = cfg['sections']            # [(마디수, meter), ...]
-    assert sum(s[0] for s in sections) == 32
+    total = sum(s[0] for s in sections)
+    assert total == TOTAL_MEASURES, f"#{cfg['no']}: 마디 합계 {total} != {TOTAL_MEASURES}"
     key_changes = cfg.get('key_changes', {})   # {마디번호: key}
     tempos = cfg.get('tempos', {1: 80})
 
@@ -856,14 +864,14 @@ def build_piece(cfg, per_system=4, breaks_at=None):
         for _k in range(_count):
             _n += 1
             _prefs = b.tags_for(cfg['level'], _k % 8)
-            _pat = b.pick_pattern(_meter, _prefs, cadence=(_n == 32))
+            _pat = b.pick_pattern(_meter, _prefs, cadence=(_n == total))
             plans.append(dict(mnum=_n, meter=_meter, pat=_pat, k=_k, si=_si))
 
     for _idx, _pl in enumerate(plans):
             mnum = _pl['mnum']; meter = _pl['meter']; pat = _pl['pat']
             k = _pl['k']; si = _pl['si']
-            is_phrase_end = (mnum % 8 == 0) or (mnum == 32)
-            is_final = (mnum == 32)
+            is_phrase_end = (mnum % MEASURES_PER_SYSTEM == 0) or (mnum == total)
+            is_final = (mnum == total)
             if mnum % 4 == 1 and mnum > 1:
                 b.mel.phrase_start()
             tie_ok_next = False
@@ -885,20 +893,25 @@ def build_piece(cfg, per_system=4, breaks_at=None):
                 d = {'기초': 'mf', '중급': 'mp', '고급': 'p'}[cfg['level']]
                 dirs.append(dyn(d))
                 b.last_dyn = d
-            # 고급: subito p
+            # 고급: subito p (프레이즈 안에서 짧게)
+            pos = (mnum - 1) % MEASURES_PER_SYSTEM        # 프레이즈 안 위치
+            phrase = (mnum - 1) // MEASURES_PER_SYSTEM
             if cfg['level'] == '고급' and mnum in cfg.get('subito', []):
                 dirs.append(words_below('subito p'))
                 if not b.wedge_open:
                     dirs.append(wedge('crescendo'))
                     b.wedge_open = True
+                    # 줄을 넘지 않게: 세 마디 뒤 또는 이 줄 끝에서 닫는다
+                    b.wedge_end = min(mnum + 2, (phrase + 1) * MEASURES_PER_SYSTEM)
                 b.features.add('subito p')
-            # 크레셴도/디미누엔도
-            if cfg['level'] != '기초' and not b.wedge_open and k == 3 and si % 2 == 0:
+            # 크레셴도: 홀수 번째 프레이즈 둘째 마디에서 시작해 세 마디 뒤에 닫는다
+            # (줄을 넘지 않게 해서 긴 직선 모양의 헤어핀이 생기지 않도록)
+            elif (cfg['level'] != '기초' and phrase % 2 == 1 and pos == 1
+                  and not b.wedge_open and not is_final):
                 dirs.append(wedge('crescendo'))
                 b.wedge_open = True
-            elif b.wedge_open and k in (1, 2):
-                pass
-            if b.wedge_open and k == 2:
+                b.wedge_end = mnum + 2
+            if b.wedge_open and mnum >= b.wedge_end:
                 dirs.append(wedge('stop'))
                 b.wedge_open = False
             # 곡 마지막
@@ -968,9 +981,9 @@ def build_piece(cfg, per_system=4, breaks_at=None):
             else:
                 sys_break = '      <print new-system="yes"/>' if mnum in breaks_at else ""
             barline = ''
-            if mnum == 32:
+            if mnum == total:
                 barline = '      <barline location="right"><bar-style>light-heavy</bar-style></barline>'
-            elif (mnum + 1) in key_changes or (mnum < 32 and meter != sections_meter(sections, mnum + 1)):
+            elif (mnum + 1) in key_changes or (mnum < total and meter != sections_meter(sections, mnum + 1)):
                 barline = '      <barline location="right"><bar-style>light-light</bar-style></barline>'
 
             measure_xmls.append(dict(number=mnum, body=body, attrs=attrs, sys=sys_break,
@@ -1017,7 +1030,7 @@ LAYOUT = {
     "breaks": "encoded",       # 줄 나눔은 악보별 breaks_at 으로 고정
     "minLastJustification": 0.0,   # 마지막 줄도 오른쪽 여백까지 꽉 채운다
     "breaksNoWidow": True,   # 마지막 줄에 마디 하나만 남지 않게
-    "spacingLinear": 0.8,
+    "spacingLinear": 0.5,       # 한 줄 8마디를 눌러 담아도 음표끼리 붙지 않게 조절
     "spacingNonLinear": 0.32,
     "spacingSystem": 14,
     "justifyVertically": False,   # 세로 배치는 spread_systems() 가 직접 고르게 편다
@@ -1036,23 +1049,27 @@ LAYOUT = {
 
 # 줄 나눔 ---------------------------------------------------------------------
 # 한 줄에 6~8마디. 박자·조 변화를 줄 첫머리에 두면 학생이 변화 지점을 놓치지 않는다.
-ALIGNED_BREAKS = (9, 17, 25)        # 8+8+8+8 — 변화가 줄 첫머리
-MID_LINE_BREAKS = (8, 15, 21, 27)   # 7+7+6+6+6 — 변화가 줄 가운데 (변수 연습)
+ALIGNED_BREAKS = SYSTEM_BREAKS      # 9·17·25·33·41·49 — 모든 곡 7단 × 8마디
+MID_LINE_BREAKS = SYSTEM_BREAKS     # 줄 나눔은 같고, 박자·조 변화만 줄 중간에 둔다
 PAGE_MARGIN = 1000                  # 오선 양옆 여백(베로비오 내부 단위)
 TARGET_SVG_PX = 2000                # 곡마다 출력 PNG 가로 폭을 같게 맞춘다
 
 
 def line_breaks(cfg):
-    """곡별 줄 나눔 지점(줄이 시작하는 마디 번호)."""
+    """곡별 줄 나눔 지점(줄이 시작하는 마디 번호).
+
+    모든 곡이 7단 × 한 줄 8마디가 되도록 9·17·25·33·41·49 에서 줄을 바꾼다.
+    (박자·조 변화를 줄 중간에 두는 곡도 줄 나눔 자체는 같다.)
+    """
     if cfg.get('breaks'):
         return tuple(cfg['breaks'])
-    return MID_LINE_BREAKS if cfg.get('midline') else ALIGNED_BREAKS
+    return SYSTEM_BREAKS
 
 
 def line_counts(breaks_at):
     """줄 나눔 지점 -> 줄별 마디 수."""
     starts = [1] + sorted(breaks_at)
-    ends = sorted(breaks_at) + [33]
+    ends = sorted(breaks_at) + [TOTAL_MEASURES + 1]
     return [e - s for s, e in zip(starts, ends)]
 
 
@@ -1132,7 +1149,7 @@ def system_measure_counts(xml, layout=None):
     return [c[1] for c in counts]
 
 
-def spread_systems(svg, page_h, top=130, bottom=170):
+def spread_systems(svg, page_h, top=200, bottom=160):
     """줄(시스템)을 페이지 높이에 걸쳐 위아래 여백을 같게 두고 고르게 편다.
 
     베로비오의 세로 정당화는 페이지 아래쪽을 다 쓰지 않아 빈 공간이 남으므로,
@@ -1186,7 +1203,7 @@ def spread_systems(svg, page_h, top=130, bottom=170):
 
 def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
            footer='무단 복제 및 배포를 절대 금합니다.', font=None,
-           filename=None, layout=None):
+           filename=None, layout=None, total=TOTAL_MEASURES):
     tk = verovio.toolkit()
     opts = dict(LAYOUT)
     if layout:
@@ -1197,8 +1214,8 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
     tk.loadData(xml)
     svg = tk.renderToSVG(1)
     n_meas = svg.count('class="measure"')
-    if n_meas != 32:
-        raise RuntimeError(f'#{number}: 1페이지에 마디 {n_meas}개만 들어갔다 (32개여야 함)')
+    if n_meas != total:
+        raise RuntimeError(f'#{number}: 1페이지에 마디 {n_meas}개만 들어갔다 ({total}개여야 함)')
     svg = spread_systems(svg, opts['pageHeight'])
     svg = svg.replace('class="mNum"', 'class="mNum" fill="#888888" opacity="0.75"')
     svg = re.sub(r'<rect class="page-margin"[^>]*/>', '', svg)
@@ -1320,7 +1337,8 @@ def validate_xml(xml, cfg):
     root = ET.fromstring(xml.split('?>', 1)[1].replace('<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">', ''))
     part = root.find('part')
     measures = part.findall('measure')
-    assert len(measures) == 32, f"measure count {len(measures)}"
+    total = sum(s[0] for s in cfg['sections'])
+    assert len(measures) == total, f"measure count {len(measures)} != {total}"
     problems = []
     meter = None
     for idx, m in enumerate(measures, 1):
@@ -1354,7 +1372,7 @@ def validate_xml(xml, cfg):
 # 테스트 실행
 # ----------------------------------------------------------------------------
 if __name__ == '__main__':
-    cfg = dict(no=1, level='기초', key='Eb', seed=1, sections=[(32, (4, 4))],
+    cfg = dict(no=1, level='기초', key='Eb', seed=1, sections=[(TOTAL_MEASURES, (4, 4))],
                tempos={1: 72}, dynamics={1: 'mp'}, title='순차 진행과 기본 슬러')
     xml, b, mxs = build_piece(cfg)
     validate_xml(xml, cfg)

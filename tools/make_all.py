@@ -10,7 +10,7 @@ THUMBS = os.path.join(REPO, 'scores', 'thumb')
 os.makedirs(SCORES, exist_ok=True)
 os.makedirs(THUMBS, exist_ok=True)
 
-ASSET_VER = '2'   # 악보를 다시 조판할 때 올린다 (브라우저 캐시 무효화)
+ASSET_VER = '3'   # 악보를 다시 조판할 때 올린다 (브라우저 캐시 무효화)
 
 
 def meters_label(sections):
@@ -34,8 +34,10 @@ def main(only=None):
         counts = g.system_measure_counts(xml, g.LAYOUT)
         if counts != expect:
             raise RuntimeError(f"#{cfg['no']}: 줄 마디 수 {counts} != 계획 {expect}")
-        if any(c < 6 or c > 8 for c in counts):
-            raise RuntimeError(f"#{cfg['no']}: 한 줄 마디 수가 6~8을 벗쓰남 {counts}")
+        if counts != [g.MEASURES_PER_SYSTEM] * g.SYSTEMS_PER_PAGE:
+            raise RuntimeError(f"#{cfg['no']}: 7단 × 8마디가 아님 {counts}")
+        if len(br) != g.SYSTEMS_PER_PAGE - 1:
+            raise RuntimeError(f"#{cfg['no']}: 줄 나눔 지점이 {len(br)}개")
         png, pdf, size = g.render(xml, cfg['no'], SCORES, layout=dict(breaks='encoded'))
         im = Image.open(png)
         th = im.copy()
@@ -45,7 +47,7 @@ def main(only=None):
                     fifths=g.KEY_FIFTHS[cfg['key']], title=cfg['title'],
                     meters=meters_label(cfg['sections']),
                     tempos=[cfg['tempos'][k] for k in sorted(cfg['tempos'])],
-                    bars=32, lines=counts,
+                    bars=56, lines=counts,
                     midline=bool(cfg.get('midline')),
                     tags=cfg.get('tags', []),
                     image=f"scores/{cfg['no']:03d}.png?v={ASSET_VER}",

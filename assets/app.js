@@ -82,7 +82,7 @@
   function renderStats() {
     $('#heroStats').innerHTML = [
       `<span class="stat"><b>${pieces.length}</b>곡 공개</span>`,
-      `<span class="stat"><b>32</b>마디 · 한 줄 <b>6~8</b>마디</span>`,
+      `<span class="stat"><b>56</b>마디 · <b>7</b>단 × 한 줄 <b>8</b>마디</span>`,
       `<span class="stat">음역 <b>A3~C6</b></span>`,
       `<span class="stat">조표 <b>E♭·B♭·A♭·F·D♭</b></span>`
     ].join('');
@@ -154,7 +154,7 @@
     const p = state.list[state.index];
     $('#mNo').textContent = p.no;
     $('#mTitle').textContent = p.title;
-    $('#mMeta').textContent = [p.level, p.key, meterText(p), '32마디',
+    $('#mMeta').textContent = [p.level, p.key, meterText(p), '56마디',
       (p.lines ? p.lines.length + '단' : '')].filter(Boolean).join(' · ');
     $('#mPdf').href = p.pdf;
     $('#mPrint').href = p.pdf;

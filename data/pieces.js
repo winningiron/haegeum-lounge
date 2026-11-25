@@ -12,8 +12,11 @@ window.PIECES = [
   "tempos": [
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -24,9 +27,9 @@ window.PIECES = [
    "4/4",
    "순차 진행"
   ],
-  "image": "scores/001.png?v=2",
-  "pdf": "scores/001.pdf?v=2",
-  "thumb": "scores/thumb/001.jpg?v=2"
+  "image": "scores/001.png?v=3",
+  "pdf": "scores/001.pdf?v=3",
+  "thumb": "scores/thumb/001.jpg?v=3"
  },
  {
   "no": 2,
@@ -40,8 +43,11 @@ window.PIECES = [
   "tempos": [
    76
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -52,9 +58,9 @@ window.PIECES = [
    "3/4",
    "3도 도약"
   ],
-  "image": "scores/002.png?v=2",
-  "pdf": "scores/002.pdf?v=2",
-  "thumb": "scores/thumb/002.jpg?v=2"
+  "image": "scores/002.png?v=3",
+  "pdf": "scores/002.pdf?v=3",
+  "thumb": "scores/thumb/002.jpg?v=3"
  },
  {
   "no": 3,
@@ -68,8 +74,11 @@ window.PIECES = [
   "tempos": [
    80
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -80,9 +89,9 @@ window.PIECES = [
    "2/4",
    "기본 리듬"
   ],
-  "image": "scores/003.png?v=2",
-  "pdf": "scores/003.pdf?v=2",
-  "thumb": "scores/thumb/003.jpg?v=2"
+  "image": "scores/003.png?v=3",
+  "pdf": "scores/003.pdf?v=3",
+  "thumb": "scores/thumb/003.jpg?v=3"
  },
  {
   "no": 4,
@@ -96,8 +105,11 @@ window.PIECES = [
   "tempos": [
    69
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -108,9 +120,9 @@ window.PIECES = [
    "6/8",
    "셋잇단 흐름"
   ],
-  "image": "scores/004.png?v=2",
-  "pdf": "scores/004.pdf?v=2",
-  "thumb": "scores/thumb/004.jpg?v=2"
+  "image": "scores/004.png?v=3",
+  "pdf": "scores/004.pdf?v=3",
+  "thumb": "scores/thumb/004.jpg?v=3"
  },
  {
   "no": 5,
@@ -124,8 +136,11 @@ window.PIECES = [
   "tempos": [
    63
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -136,9 +151,9 @@ window.PIECES = [
    "12/8",
    "긴 프레이즈"
   ],
-  "image": "scores/005.png?v=2",
-  "pdf": "scores/005.pdf?v=2",
-  "thumb": "scores/thumb/005.jpg?v=2"
+  "image": "scores/005.png?v=3",
+  "pdf": "scores/005.pdf?v=3",
+  "thumb": "scores/thumb/005.jpg?v=3"
  },
  {
   "no": 6,
@@ -148,14 +163,18 @@ window.PIECES = [
   "title": "박자 변화 첫걸음",
   "meters": [
    "4/4",
-   "3/4"
+   "3/4",
+   "4/4"
   ],
   "tempos": [
    76,
    84
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -163,12 +182,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "4/4→3/4",
+   "4/4→3/4→4/4",
    "박자 변화"
   ],
-  "image": "scores/006.png?v=2",
-  "pdf": "scores/006.pdf?v=2",
-  "thumb": "scores/thumb/006.jpg?v=2"
+  "image": "scores/006.png?v=3",
+  "pdf": "scores/006.pdf?v=3",
+  "thumb": "scores/thumb/006.jpg?v=3"
  },
  {
   "no": 7,
@@ -178,14 +197,18 @@ window.PIECES = [
   "title": "쉼표와 호흡",
   "meters": [
    "3/4",
-   "4/4"
+   "4/4",
+   "3/4"
   ],
   "tempos": [
    72,
    80
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -193,12 +216,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "3/4→4/4",
+   "3/4→4/4→3/4",
    "중간 쉼표"
   ],
-  "image": "scores/007.png?v=2",
-  "pdf": "scores/007.pdf?v=2",
-  "thumb": "scores/thumb/007.jpg?v=2"
+  "image": "scores/007.png?v=3",
+  "pdf": "scores/007.pdf?v=3",
+  "thumb": "scores/thumb/007.jpg?v=3"
  },
  {
   "no": 8,
@@ -208,14 +231,18 @@ window.PIECES = [
   "title": "장식음 첫걸음",
   "meters": [
    "6/8",
-   "4/4"
+   "4/4",
+   "6/8"
   ],
   "tempos": [
    66,
    76
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -223,12 +250,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "6/8→4/4",
+   "6/8→4/4→6/8",
    "1음 장식음"
   ],
-  "image": "scores/008.png?v=2",
-  "pdf": "scores/008.pdf?v=2",
-  "thumb": "scores/thumb/008.jpg?v=2"
+  "image": "scores/008.png?v=3",
+  "pdf": "scores/008.pdf?v=3",
+  "thumb": "scores/thumb/008.jpg?v=3"
  },
  {
   "no": 9,
@@ -238,14 +265,18 @@ window.PIECES = [
   "title": "3도·4도 도약",
   "meters": [
    "2/4",
-   "3/4"
+   "3/4",
+   "2/4"
   ],
   "tempos": [
    84,
    76
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -253,12 +284,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "2/4→3/4",
+   "2/4→3/4→2/4",
    "도약"
   ],
-  "image": "scores/009.png?v=2",
-  "pdf": "scores/009.pdf?v=2",
-  "thumb": "scores/thumb/009.jpg?v=2"
+  "image": "scores/009.png?v=3",
+  "pdf": "scores/009.pdf?v=3",
+  "thumb": "scores/thumb/009.jpg?v=3"
  },
  {
   "no": 10,
@@ -268,14 +299,18 @@ window.PIECES = [
   "title": "짧은 프레이즈 만들기",
   "meters": [
    "12/8",
-   "6/8"
+   "6/8",
+   "12/8"
   ],
   "tempos": [
    60,
    69
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -283,12 +318,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "12/8→6/8",
+   "12/8→6/8→12/8",
    "프레이즈"
   ],
-  "image": "scores/010.png?v=2",
-  "pdf": "scores/010.pdf?v=2",
-  "thumb": "scores/thumb/010.jpg?v=2"
+  "image": "scores/010.png?v=3",
+  "pdf": "scores/010.pdf?v=3",
+  "thumb": "scores/thumb/010.jpg?v=3"
  },
  {
   "no": 51,
@@ -298,28 +333,33 @@ window.PIECES = [
   "title": "넓은 도약과 3연음",
   "meters": [
    "4/4",
-   "3/4"
+   "3/4",
+   "4/4",
+   "3/4",
+   "4/4"
   ],
   "tempos": [
    84,
    92
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
-   7,
-   7,
-   6,
-   6,
-   6
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
   ],
   "midline": true,
   "tags": [
-   "4/4→3/4",
+   "4/4·3/4",
    "3연음"
   ],
-  "image": "scores/051.png?v=2",
-  "pdf": "scores/051.pdf?v=2",
-  "thumb": "scores/thumb/051.jpg?v=2"
+  "image": "scores/051.png?v=3",
+  "pdf": "scores/051.pdf?v=3",
+  "thumb": "scores/thumb/051.jpg?v=3"
  },
  {
   "no": 52,
@@ -329,14 +369,18 @@ window.PIECES = [
   "title": "6/8 전환과 당김음",
   "meters": [
    "3/4",
-   "6/8"
+   "6/8",
+   "3/4"
   ],
   "tempos": [
    88,
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -344,12 +388,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "3/4→6/8",
+   "3/4→6/8→3/4",
    "당김음"
   ],
-  "image": "scores/052.png?v=2",
-  "pdf": "scores/052.pdf?v=2",
-  "thumb": "scores/thumb/052.jpg?v=2"
+  "image": "scores/052.png?v=3",
+  "pdf": "scores/052.pdf?v=3",
+  "thumb": "scores/thumb/052.jpg?v=3"
  },
  {
   "no": 53,
@@ -360,14 +404,20 @@ window.PIECES = [
   "meters": [
    "4/4",
    "12/8",
+   "4/4",
+   "12/8",
    "4/4"
   ],
   "tempos": [
    80,
-   63
+   63,
+   80
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -376,11 +426,11 @@ window.PIECES = [
   "midline": false,
   "tags": [
    "4/4→12/8→4/4",
-   "조바꿈 E♭→A♭"
+   "조바꿈 E♭↔A♭"
   ],
-  "image": "scores/053.png?v=2",
-  "pdf": "scores/053.pdf?v=2",
-  "thumb": "scores/thumb/053.jpg?v=2"
+  "image": "scores/053.png?v=3",
+  "pdf": "scores/053.pdf?v=3",
+  "thumb": "scores/thumb/053.jpg?v=3"
  },
  {
   "no": 54,
@@ -390,14 +440,18 @@ window.PIECES = [
   "title": "9/8박의 흐름",
   "meters": [
    "6/8",
-   "9/8"
+   "9/8",
+   "6/8"
   ],
   "tempos": [
    72,
    76
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -405,12 +459,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "6/8→9/8",
+   "6/8→9/8→6/8",
    "9/8"
   ],
-  "image": "scores/054.png?v=2",
-  "pdf": "scores/054.pdf?v=2",
-  "thumb": "scores/thumb/054.jpg?v=2"
+  "image": "scores/054.png?v=3",
+  "pdf": "scores/054.pdf?v=3",
+  "thumb": "scores/thumb/054.jpg?v=3"
  },
  {
   "no": 55,
@@ -420,14 +474,18 @@ window.PIECES = [
   "title": "2/4에서 4/4로",
   "meters": [
    "2/4",
-   "4/4"
+   "4/4",
+   "2/4"
   ],
   "tempos": [
    92,
    84
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -435,12 +493,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "2/4→4/4",
+   "2/4→4/4→2/4",
    "리듬 확장"
   ],
-  "image": "scores/055.png?v=2",
-  "pdf": "scores/055.pdf?v=2",
-  "thumb": "scores/thumb/055.jpg?v=2"
+  "image": "scores/055.png?v=3",
+  "pdf": "scores/055.pdf?v=3",
+  "thumb": "scores/thumb/055.jpg?v=3"
  },
  {
   "no": 56,
@@ -451,6 +509,8 @@ window.PIECES = [
   "meters": [
    "3/4",
    "2/4",
+   "3/4",
+   "2/4",
    "3/4"
   ],
   "tempos": [
@@ -458,8 +518,11 @@ window.PIECES = [
    92,
    84
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -467,12 +530,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "3/4→2/4→3/4",
+   "3/4·2/4",
    "리듬 대비"
   ],
-  "image": "scores/056.png?v=2",
-  "pdf": "scores/056.pdf?v=2",
-  "thumb": "scores/thumb/056.jpg?v=2"
+  "image": "scores/056.png?v=3",
+  "pdf": "scores/056.pdf?v=3",
+  "thumb": "scores/thumb/056.jpg?v=3"
  },
  {
   "no": 57,
@@ -482,14 +545,18 @@ window.PIECES = [
   "title": "9/8와 엇박 쉼표",
   "meters": [
    "4/4",
-   "9/8"
+   "9/8",
+   "4/4"
   ],
   "tempos": [
    80,
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -497,12 +564,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "4/4→9/8",
-   "조바꿈 E♭→B♭"
+   "4/4→9/8→4/4",
+   "조바꿈 E♭↔B♭"
   ],
-  "image": "scores/057.png?v=2",
-  "pdf": "scores/057.pdf?v=2",
-  "thumb": "scores/thumb/057.jpg?v=2"
+  "image": "scores/057.png?v=3",
+  "pdf": "scores/057.pdf?v=3",
+  "thumb": "scores/thumb/057.jpg?v=3"
  },
  {
   "no": 58,
@@ -512,28 +579,33 @@ window.PIECES = [
   "title": "12/8와 6/8의 결",
   "meters": [
    "12/8",
-   "6/8"
+   "6/8",
+   "12/8",
+   "6/8",
+   "12/8"
   ],
   "tempos": [
    63,
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
-   7,
-   7,
-   6,
-   6,
-   6
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
   ],
   "midline": true,
   "tags": [
-   "12/8→6/8",
+   "12/8·6/8",
    "셋잇단"
   ],
-  "image": "scores/058.png?v=2",
-  "pdf": "scores/058.pdf?v=2",
-  "thumb": "scores/thumb/058.jpg?v=2"
+  "image": "scores/058.png?v=3",
+  "pdf": "scores/058.pdf?v=3",
+  "thumb": "scores/thumb/058.jpg?v=3"
  },
  {
   "no": 59,
@@ -544,15 +616,20 @@ window.PIECES = [
   "meters": [
    "4/4",
    "3/4",
-   "2/4"
+   "2/4",
+   "3/4",
+   "4/4"
   ],
   "tempos": [
    88,
    84,
    92
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -560,12 +637,12 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "4/4→3/4→2/4",
+   "4/4·3/4·2/4",
    "박자 여행"
   ],
-  "image": "scores/059.png?v=2",
-  "pdf": "scores/059.pdf?v=2",
-  "thumb": "scores/thumb/059.jpg?v=2"
+  "image": "scores/059.png?v=3",
+  "pdf": "scores/059.pdf?v=3",
+  "thumb": "scores/thumb/059.jpg?v=3"
  },
  {
   "no": 60,
@@ -575,14 +652,18 @@ window.PIECES = [
   "title": "9/8 마무리와 농현",
   "meters": [
    "9/8",
-   "6/8"
+   "6/8",
+   "9/8"
   ],
   "tempos": [
    66,
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -590,13 +671,13 @@ window.PIECES = [
   ],
   "midline": false,
   "tags": [
-   "9/8→6/8",
-   "조바꿈 D♭→A♭",
+   "9/8→6/8→9/8",
+   "조바꿈 D♭↔A♭",
    "농현"
   ],
-  "image": "scores/060.png?v=2",
-  "pdf": "scores/060.pdf?v=2",
-  "thumb": "scores/thumb/060.jpg?v=2"
+  "image": "scores/060.png?v=3",
+  "pdf": "scores/060.pdf?v=3",
+  "thumb": "scores/thumb/060.jpg?v=3"
  },
  {
   "no": 101,
@@ -616,22 +697,24 @@ window.PIECES = [
    84,
    100
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
-   7,
-   7,
-   6,
-   6,
-   6
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
   ],
   "midline": true,
   "tags": [
    "5/8·3/4·4/4",
    "조바꿈 E♭→A♭"
   ],
-  "image": "scores/101.png?v=2",
-  "pdf": "scores/101.pdf?v=2",
-  "thumb": "scores/thumb/101.jpg?v=2"
+  "image": "scores/101.png?v=3",
+  "pdf": "scores/101.pdf?v=3",
+  "thumb": "scores/thumb/101.jpg?v=3"
  },
  {
   "no": 102,
@@ -642,14 +725,20 @@ window.PIECES = [
   "meters": [
    "7/8",
    "4/4",
+   "7/8",
+   "4/4",
    "7/8"
   ],
   "tempos": [
    72,
-   88
+   88,
+   72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -658,11 +747,11 @@ window.PIECES = [
   "midline": false,
   "tags": [
    "7/8·4/4",
-   "조바꿈 A♭→D♭"
+   "조바꿈 A♭↔D♭"
   ],
-  "image": "scores/102.png?v=2",
-  "pdf": "scores/102.pdf?v=2",
-  "thumb": "scores/thumb/102.jpg?v=2"
+  "image": "scores/102.png?v=3",
+  "pdf": "scores/102.pdf?v=3",
+  "thumb": "scores/thumb/102.jpg?v=3"
  },
  {
   "no": 103,
@@ -673,15 +762,21 @@ window.PIECES = [
   "meters": [
    "5/8",
    "7/8",
+   "12/8",
+   "5/8",
    "12/8"
   ],
   "tempos": [
    80,
    72,
-   63
+   63,
+   80
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -690,11 +785,11 @@ window.PIECES = [
   "midline": false,
   "tags": [
    "5/8→7/8→12/8",
-   "조바꿈 B♭→E♭"
+   "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/103.png?v=2",
-  "pdf": "scores/103.pdf?v=2",
-  "thumb": "scores/thumb/103.jpg?v=2"
+  "image": "scores/103.png?v=3",
+  "pdf": "scores/103.pdf?v=3",
+  "thumb": "scores/thumb/103.jpg?v=3"
  },
  {
   "no": 104,
@@ -714,22 +809,24 @@ window.PIECES = [
    108,
    92
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
-   7,
-   7,
-   6,
-   6,
-   6
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
   ],
   "midline": true,
   "tags": [
    "4/4·3/4·2/4",
    "조바꿈 E♭→B♭"
   ],
-  "image": "scores/104.png?v=2",
-  "pdf": "scores/104.pdf?v=2",
-  "thumb": "scores/thumb/104.jpg?v=2"
+  "image": "scores/104.png?v=3",
+  "pdf": "scores/104.pdf?v=3",
+  "thumb": "scores/thumb/104.jpg?v=3"
  },
  {
   "no": 105,
@@ -740,15 +837,21 @@ window.PIECES = [
   "meters": [
    "6/8",
    "9/8",
+   "4/4",
+   "6/8",
    "4/4"
   ],
   "tempos": [
    69,
    76,
-   88
+   88,
+   69
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -757,11 +860,11 @@ window.PIECES = [
   "midline": false,
   "tags": [
    "6/8→9/8→4/4",
-   "조바꿈 A♭→E♭"
+   "조바꿈 A♭↔E♭"
   ],
-  "image": "scores/105.png?v=2",
-  "pdf": "scores/105.pdf?v=2",
-  "thumb": "scores/thumb/105.jpg?v=2"
+  "image": "scores/105.png?v=3",
+  "pdf": "scores/105.pdf?v=3",
+  "thumb": "scores/thumb/105.jpg?v=3"
  },
  {
   "no": 106,
@@ -773,6 +876,9 @@ window.PIECES = [
    "7/8",
    "5/8",
    "12/8",
+   "6/8",
+   "7/8",
+   "5/8",
    "6/8"
   ],
   "tempos": [
@@ -781,8 +887,11 @@ window.PIECES = [
    63,
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -791,11 +900,11 @@ window.PIECES = [
   "midline": false,
   "tags": [
    "7/8·5/8·12/8·6/8",
-   "조바꿈 B♭→E♭"
+   "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/106.png?v=2",
-  "pdf": "scores/106.pdf?v=2",
-  "thumb": "scores/thumb/106.jpg?v=2"
+  "image": "scores/106.png?v=3",
+  "pdf": "scores/106.pdf?v=3",
+  "thumb": "scores/thumb/106.jpg?v=3"
  },
  {
   "no": 107,
@@ -806,15 +915,21 @@ window.PIECES = [
   "meters": [
    "4/4",
    "6/8",
+   "3/4",
+   "4/4",
    "3/4"
   ],
   "tempos": [
    96,
    72,
-   92
+   92,
+   96
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -824,11 +939,11 @@ window.PIECES = [
   "tags": [
    "4/4→6/8→3/4",
    "트릴",
-   "조바꿈 E♭→B♭"
+   "조바꿈 E♭↔B♭"
   ],
-  "image": "scores/107.png?v=2",
-  "pdf": "scores/107.pdf?v=2",
-  "thumb": "scores/thumb/107.jpg?v=2"
+  "image": "scores/107.png?v=3",
+  "pdf": "scores/107.pdf?v=3",
+  "thumb": "scores/thumb/107.jpg?v=3"
  },
  {
   "no": 108,
@@ -848,22 +963,24 @@ window.PIECES = [
    84,
    100
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
-   7,
-   7,
-   6,
-   6,
-   6
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
   ],
   "midline": true,
   "tags": [
    "3/4·5/8·7/8·4/4",
    "조바꿈 F→B♭"
   ],
-  "image": "scores/108.png?v=2",
-  "pdf": "scores/108.pdf?v=2",
-  "thumb": "scores/thumb/108.jpg?v=2"
+  "image": "scores/108.png?v=3",
+  "pdf": "scores/108.pdf?v=3",
+  "thumb": "scores/thumb/108.jpg?v=3"
  },
  {
   "no": 109,
@@ -874,15 +991,21 @@ window.PIECES = [
   "meters": [
    "4/4",
    "7/8",
+   "3/4",
+   "4/4",
    "3/4"
   ],
   "tempos": [
    84,
    92,
-   100
+   100,
+   84
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
+   8,
+   8,
+   8,
    8,
    8,
    8,
@@ -891,11 +1014,11 @@ window.PIECES = [
   "midline": false,
   "tags": [
    "4/4→7/8→3/4",
-   "조바꿈 D♭→A♭"
+   "조바꿈 D♭↔A♭"
   ],
-  "image": "scores/109.png?v=2",
-  "pdf": "scores/109.pdf?v=2",
-  "thumb": "scores/thumb/109.jpg?v=2"
+  "image": "scores/109.png?v=3",
+  "pdf": "scores/109.pdf?v=3",
+  "thumb": "scores/thumb/109.jpg?v=3"
  },
  {
   "no": 110,
@@ -915,21 +1038,23 @@ window.PIECES = [
    84,
    72
   ],
-  "bars": 32,
+  "bars": 56,
   "lines": [
-   7,
-   7,
-   6,
-   6,
-   6
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
   ],
   "midline": true,
   "tags": [
    "5/8·12/8·7/8·6/8",
    "조바꿈 D♭→A♭"
   ],
-  "image": "scores/110.png?v=2",
-  "pdf": "scores/110.pdf?v=2",
-  "thumb": "scores/thumb/110.jpg?v=2"
+  "image": "scores/110.png?v=3",
+  "pdf": "scores/110.pdf?v=3",
+  "thumb": "scores/thumb/110.jpg?v=3"
  }
 ];
