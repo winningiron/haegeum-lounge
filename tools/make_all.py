@@ -42,14 +42,14 @@ def main(only=None):
         out.append(meta)
         print(f"#{cfg['no']:3d} {cfg['level']} {meta['key']:2s} {'/'.join(meta['meters']):18s} "
               f"png {os.path.getsize(png)//1024}KB pdf {os.path.getsize(pdf)//1024}KB")
-    with open(os.path.join(REPO, 'pieces.json'), 'w', encoding='utf-8') as f:
-        # 기존 파일이 있으면 병합
-        old = []
-        if os.path.exists(os.path.join(REPO, 'pieces.json')):
-            try:
-                old = json.load(open(os.path.join(REPO, 'pieces.json'), encoding='utf-8'))
-            except Exception:
-                old = []
+    json_path = os.path.join(REPO, 'pieces.json')
+    old = []
+    if os.path.exists(json_path):
+        try:
+            old = json.load(open(json_path, encoding='utf-8'))
+        except Exception:
+            old = []
+    with open(json_path, 'w', encoding='utf-8') as f:
         merged = {p['no']: p for p in old}
         for p in out:
             merged[p['no']] = p
