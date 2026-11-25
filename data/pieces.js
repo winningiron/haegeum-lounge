@@ -23,6 +23,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "온음표·2분음표만으로 순차 진행",
   "tags": [
    "4/4",
    "온음표·2분음표"
@@ -54,6 +55,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "2분음표로 3도까지 차례로",
   "tags": [
    "4/4",
    "2분음표",
@@ -86,6 +88,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "점2분음표의 길이를 세며 4분음표로",
   "tags": [
    "4/4",
    "점2분음표·4분음표"
@@ -117,6 +120,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "3/4박에서 점2분음표로 한 마디를",
   "tags": [
    "3/4",
    "점2분음표"
@@ -148,6 +152,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "4분음표 사이에 4분쉼표 넣기",
   "tags": [
    "4/4",
    "4분음표·4분쉼표"
@@ -179,6 +184,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "3/4박에서 쉼표 자리 익히기",
   "tags": [
    "3/4",
    "4분음표·4분쉼표"
@@ -210,6 +216,7 @@ window.PIECES = [
    5
   ],
   "midline": false,
+  "focus": "12/8박 한 마디를 점4분음표 넷으로",
   "tags": [
    "12/8",
    "점4분음표"
@@ -241,6 +248,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "8분음표 두 개를 한 빔으로",
   "tags": [
    "4/4",
    "8분음표"
@@ -272,6 +280,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "3/4박에서 8분음표 두 개 잇기",
   "tags": [
    "3/4",
    "8분음표"
@@ -303,6 +312,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "6/8박 8분음표에 슬러 붙이기",
   "tags": [
    "6/8",
    "8분음표",
@@ -340,6 +350,7 @@ window.PIECES = [
    6
   ],
   "midline": true,
+  "focus": "",
   "tags": [
    "4/4·3/4",
    "3연음"
@@ -374,6 +385,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "3/4→6/8→3/4",
    "당김음"
@@ -413,6 +425,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "4/4→12/8→4/4",
    "조바꿈 E♭↔A♭"
@@ -447,6 +460,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "6/8→9/8→6/8",
    "9/8"
@@ -481,6 +495,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "2/4→4/4→2/4",
    "리듬 확장"
@@ -518,6 +533,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "3/4·2/4",
    "리듬 대비"
@@ -552,6 +568,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "4/4→9/8→4/4",
    "조바꿈 E♭↔B♭"
@@ -588,6 +605,7 @@ window.PIECES = [
    5
   ],
   "midline": true,
+  "focus": "",
   "tags": [
    "12/8·6/8",
    "셋잇단"
@@ -625,6 +643,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "4/4·3/4·2/4",
    "박자 여행"
@@ -659,6 +678,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "9/8→6/8→9/8",
    "조바꿈 D♭↔A♭",
@@ -697,6 +717,7 @@ window.PIECES = [
    6
   ],
   "midline": true,
+  "focus": "",
   "tags": [
    "5/8·3/4·4/4",
    "조바꿈 E♭→A♭"
@@ -734,6 +755,7 @@ window.PIECES = [
    7
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "7/8·4/4",
    "조바꿈 A♭↔D♭"
@@ -773,6 +795,7 @@ window.PIECES = [
    5
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "5/8→7/8→12/8",
    "조바꿈 B♭↔E♭"
@@ -810,6 +833,7 @@ window.PIECES = [
    6
   ],
   "midline": true,
+  "focus": "",
   "tags": [
    "4/4·3/4·2/4",
    "조바꿈 E♭→B♭"
@@ -848,6 +872,7 @@ window.PIECES = [
    6
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "6/8→9/8→4/4",
    "조바꿈 A♭↔E♭"
@@ -890,6 +915,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "7/8·5/8·12/8·6/8",
    "조바꿈 B♭↔E♭"
@@ -928,6 +954,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "4/4→6/8→3/4",
    "트릴",
@@ -966,6 +993,7 @@ window.PIECES = [
    6
   ],
   "midline": true,
+  "focus": "",
   "tags": [
    "3/4·5/8·7/8·4/4",
    "조바꿈 F→B♭"
@@ -1004,6 +1032,7 @@ window.PIECES = [
    8
   ],
   "midline": false,
+  "focus": "",
   "tags": [
    "4/4→7/8→3/4",
    "조바꿈 D♭↔A♭"
@@ -1041,6 +1070,7 @@ window.PIECES = [
    8
   ],
   "midline": true,
+  "focus": "",
   "tags": [
    "5/8·12/8·7/8·6/8",
    "조바꿈 D♭→A♭"

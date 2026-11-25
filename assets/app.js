@@ -166,7 +166,8 @@
       p.level, p.key, meterText(p),
       (p.bars ? p.bars + '마디' : ''),
       (p.lines ? p.lines.length + '단' + (new Set(p.lines).size > 1
-        ? ' (' + p.lines.join('·') + '마디)' : '') : '')
+        ? ' (' + p.lines.join('·') + '마디)' : '') : ''),
+      p.focus || ''
     ].filter(Boolean).join(' · ');
     $('#mPdf').href = p.pdf;
     $('#mPrint').href = p.pdf;

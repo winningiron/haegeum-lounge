@@ -52,6 +52,7 @@ def main(only=None):
                     tempos=[cfg['tempos'][k] for k in sorted(cfg['tempos'])],
                     bars=total, lines=counts,
                     midline=bool(cfg.get('midline')),
+                    focus=cfg.get('focus', ''),
                     tags=cfg.get('tags', []),
                     image=f"scores/{cfg['no']:03d}.png?v={ASSET_VER}",
                     pdf=f"scores/{cfg['no']:03d}.pdf?v={ASSET_VER}",
