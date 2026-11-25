@@ -94,15 +94,17 @@
     const grid = $('#grid');
     grid.innerHTML = state.list.map((p, i) => `
       <article class="card" data-i="${i}">
+        <div class="card-body top">
+          <div class="card-head">
+            <div class="no">${p.no}</div>
+            <div class="card-title">${p.title}</div>
+          </div>
+        </div>
         <button class="thumb" data-open="${i}" aria-label="${p.no}번 ${p.title} 악보 보기">
           <img src="${p.thumb}" alt="" loading="lazy" decoding="async">
           <span class="zoomhint">눌러서 크게 보기</span>
         </button>
         <div class="card-body">
-          <div class="card-head">
-            <div class="no">${p.no}</div>
-            <div class="card-title">${p.title}</div>
-          </div>
           <div class="badges">
             <span class="badge key">${p.key}</span>
             <span class="badge meter">${meterText(p)}</span>
