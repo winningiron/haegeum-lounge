@@ -6,7 +6,7 @@
 <title>해금 초견 라운지 · 시범 30곡</title>
 <meta name="description" content="해금 초견 교본 150곡 중 시범 30곡. 기초 1~10, 중급 51~60, 고급 101~110.">
 <meta name="theme-color" content="#f7f3ea">
-<link rel="stylesheet" href="assets/style.css?v=8">
+<link rel="stylesheet" href="assets/style.css?v=9">
 </head>
 <body>
 <header class="hero">
@@ -17,10 +17,45 @@
       <span class="byline-name">LEE SEUNG CHUL</span>
       <span class="byline-ai">(with AI)</span>
     </div>
-    <p class="lead">한 마디를 눈으로 먼저 읽고, 손이 따라오게.<br>한 페이지 7단, 박자에 맞춰 한 줄 5~8마디. A3~C6, 조표와 박자를 바꿔 가며 익히는 초견 연습곡.</p>
+    <p class="lead">한 마디를 눈으로 먼저 읽고, 손이 따라오게.<br>한 페이지 7단, 박자에 맞춰 한 줄 5~8마디. 해금 음역 A3~C6, 조표와 박자를 바꿔 가며 익히는 초견 연습곡.</p>
     <div class="hero-stats" id="heroStats"></div>
   </div>
 </header>
+
+<nav class="viewtabs" id="viewTabs" aria-label="보기 선택">
+  <button class="vtab is-active" data-view="scores">악보 라운지</button>
+  <button class="vtab" data-view="docs">해금 자료</button>
+</nav>
+
+<main id="viewDocs" class="docs is-hidden">
+  <section class="doc-head">
+    <h2>해금 자료실</h2>
+    <p>초견곡을 쓸 때 참고한 해금 안내서입니다. 음역과 조현, 활 쓰임과 시김새를 이 책의 설명에 맞춰 두었습니다.</p>
+  </section>
+
+  <article class="doc-card">
+    <div class="doc-meta">
+      <div class="doc-kicker">참고 자료 · 30쪽</div>
+      <h3>김성아, 《창작을 위한 국악기 이해와 활용》 — 6장 해금</h3>
+      <p class="doc-sub">Ⅱ. 해금의 기초 이해 · Ⅲ. 해금의 연주법 (pp. 237~266)</p>
+      <ul class="doc-points">
+        <li><b>조현</b> — 두 줄을 완전5도로 조율. 유현 개방현은 B♭4·B4·C5·C♯5 중에서 고르고, 중현은 그 아래 완전5도.</li>
+        <li><b>음역</b> — 약 3옥타브. 유현 개방현을 C4로 볼 때 중현 개방현은 G3, 위로는 C6까지.</li>
+        <li><b>활</b> — 당김활(↘)과 미는활(↗), 슬러로 잇기, 스타카토로 끊기, 트레몰로.</li>
+        <li><b>시김새</b> — 농현·전성·퇴성·꺾는음·꾸밈음(장식음).</li>
+      </ul>
+      <div class="doc-acts">
+        <a class="btn" href="docs/06_Chapter6_Haegeum_kor.pdf" target="_blank" rel="noopener">PDF 열기</a>
+        <a class="btn ghost" href="docs/06_Chapter6_Haegeum_kor.pdf" download>내려받기</a>
+      </div>
+      <p class="doc-credit">자료 출처: 김성아, 《창작을 위한 국악기 이해와 활용》(6장 해금). 학습용으로만 열람하며, 무단 복제·배포하지 않습니다.</p>
+    </div>
+    <div class="doc-frame">
+      <iframe src="docs/06_Chapter6_Haegeum_kor.pdf#view=FitH" title="김성아, 창작을 위한 국악기 이해와 활용 6장 해금 PDF" loading="lazy"></iframe>
+      <p class="doc-hint">휴대폰에서 화면이 비어 있으면 위의 <b>PDF 열기</b>를 눌러 주세요.</p>
+    </div>
+  </article>
+</main>
 
 <nav class="tabs" id="tabs" aria-label="난이도 선택">
   <button class="tab is-active" data-level="기초" role="tab">기초 <span>1~10</span></button>
@@ -28,7 +63,7 @@
   <button class="tab" data-level="고급" role="tab">고급 <span>101~110</span></button>
 </nav>
 
-<main>
+<main id="viewScores">
   <section class="level-head">
     <h2 id="levelTitle">기초</h2>
     <p id="levelDesc"></p>
@@ -52,8 +87,9 @@
       <li>모든 곡을 <strong>A4 세로 한 페이지</strong>(<strong>7단</strong>)에 담았습니다. 한 줄에 넣는 마디 수는 박자에 따라 다릅니다 — <strong>4/4는 6마디</strong>, <strong>12/8은 5마디</strong>, 그 밖의 박자는 6~8마디. 곡마다 <strong>35~56마디</strong>.</li>
       <li>음표 사이 간격을 박자에 비례해 고르게 폈습니다. 장식음 무리와 앞뒤 음표가 붙지 않도록 폭을 넉넉히 잡았습니다.</li>
       <li>박자·조표가 바뀌는 지점은 대부분 줄 첫머리에서 시작합니다. <strong>중급 2곡·고급 4곡</strong>은 줄 중간에서 바뀌어, 예상 밖의 변화에 익숙해지도록 했습니다.</li>
-      <li>음역은 해금의 실음역 <strong>A3~C6</strong> 안에서만 움직입니다. 조표는 E♭·B♭·A♭·F·D♭.</li>
-      <li>기초는 순차 진행과 기본 리듬, 중급은 박자 전환·3연음·농현, 고급은 5/8·7/8·잦은 박자 변화·트릴·조바꿈을 다룹니다.</li>
+      <li>음역은 해금의 실음역 <strong>A3~C6</strong> 안에서만 움직입니다(유현 개방현 C4 · 중현 G3 기준). 기초는 더 좁은 가운데 음역만 씁니다. 조표는 F·B♭·E♭·A♭·D♭.</li>
+      <li>기초는 <strong>음표 하나에서 시작</strong>합니다 — 1·2번 온음표와 2분음표, 3·4번 점2분음표와 4분음표, 5~7번 4분쉼표와 점4분음표, 8~10번 8분음표와 슬러.</li>
+      <li>중급은 박자 전환·3연음·농현, 고급은 5/8·7/8·잦은 박자 변화·트릴·조바꿈을 다룹니다. 음역과 활·시김새는 <strong>해금 자료</strong> 탭의 안내서(김성아, 《창작을 위한 국악기 이해와 활용》 6장)를 따랐습니다.</li>
       <li>악보는 Verovio + Leland(SIL OFL) 활자로 조판했고, 인쇄용 PDF는 <strong>A4 세로</strong> 한 장으로 내려받을 수 있습니다.</li>
     </ul>
   </section>
@@ -96,7 +132,7 @@
   <button class="nav next" id="nextBtn" aria-label="다음 곡">›</button>
 </div>
 
-<script src="data/pieces.js?v=7"></script>
-<script src="assets/app.js?v=9"></script>
+<script src="data/pieces.js?v=9"></script>
+<script src="assets/app.js?v=10"></script>
 </body>
 </html>

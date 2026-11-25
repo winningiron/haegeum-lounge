@@ -2,7 +2,7 @@
 (function () {
   const LEVELS = {
     '기초': {
-      desc: '순차 진행과 3도·4도 도약, 기본 슬러와 스타카토, 한 음 장식음. 4/4 · 3/4 · 2/4 · 6/8 · 12/8.',
+      desc: '온음표·2분음표에서 시작해 점2분음표·4분음표, 4분쉼표, 8분음표와 슬러까지 한 걸음씩. 4/4 · 3/4 · 6/8 · 12/8.',
       hint: '느리게, 소리보다 눈이 먼저'
     },
     '중급': {
@@ -19,7 +19,7 @@
     {
       part: '1부', title: '기초', sub: '1~50 · 한 마디씩 눈으로 읽는 힘',
       blocks: [
-        { range: '1~10', head: '조성과 박자의 기본', text: 'E♭·B♭·F·A♭, 4/4·3/4·2/4·6/8·12/8. 순차 진행, 3도 도약, 기본 슬러·스타카토, 한 음 장식음.', done: true },
+        { range: '1~10', head: '음표 하나에서 시작', text: '온음표·2분음표 → 점2분음표·4분음표 → 4분쉼표·점4분음표 → 8분음표와 슬러. 4/4·3/4·6/8·12/8.', done: true },
         { range: '11~20', head: '8분·16분의 확장', text: '16분 음표 연결, 붙임줄, 당김음의 첫걸음, 셋잇단의 기초, 두 옥타브 안의 음역.' },
         { range: '21~30', head: '복합 박자 첫 만남', text: '9/8과 5/8, 조표 3~4개, 농현과 퇴성의 기본 표기.' },
         { range: '31~40', head: '프레이즈와 호흡', text: '네 마디 프레이즈, 여섯잇단, 이명동음 읽기, 쉼표로 나누는 호흡.' },
@@ -358,6 +358,27 @@
   window.addEventListener('resize', () => {
     if (modal.classList.contains('is-open')) applyZoom();
   });
+
+  /* ---------------- 보기 전환 (악보 / 자료) ---------------- */
+  const views = { scores: $('#viewScores'), docs: $('#viewDocs') };
+  const levelTabs = $('#tabs');
+
+  function showView(name) {
+    if (!views[name]) name = 'scores';
+    Object.entries(views).forEach(([k, el]) => {
+      if (!el) return;
+      el.classList.toggle('is-hidden', k !== name);
+    });
+    if (levelTabs) levelTabs.classList.toggle('is-hidden', name !== 'scores');
+    $$('.vtab').forEach(t => t.classList.toggle('is-active', t.dataset.view === name));
+    document.body.dataset.view = name;
+    if (name === 'scores') render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (history.replaceState) history.replaceState(null, '', name === 'docs' ? '#docs' : '#scores');
+  }
+
+  $$('.vtab').forEach(t => t.addEventListener('click', () => showView(t.dataset.view)));
+  if (location.hash === '#docs') showView('docs');
 
   /* ---------------- tabs ---------------- */
   $$('.tab').forEach(tab => {

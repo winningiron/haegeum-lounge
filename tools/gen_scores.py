@@ -335,7 +335,8 @@ for _meter in ((6, 8), (9, 8), (12, 8), (5, 8), (7, 8)):
 # ----------------------------------------------------------------------------
 def note_xml(p, dur, ntype, dot=False, rest=False, beams=None, slurs=None, ties=None,
              acc=None, mordent=False, trill=False, stacc=False, accent=False,
-             tenuto=False, grace=False, grace_slash=True, tuplet=None, fermata=False):
+             tenuto=False, grace=False, grace_slash=True, tuplet=None, fermata=False,
+             bow=None):
     out = ["      <note>"]
     if grace:
         out.append('        <grace slash="yes"/>' if grace_slash else '        <grace/>')
@@ -385,6 +386,8 @@ def note_xml(p, dur, ntype, dot=False, rest=False, beams=None, slurs=None, ties=
         nots.append("          <articulations>\n" + "\n".join(arts) + "\n          </articulations>")
     if fermata:
         nots.append("          <fermata/>")
+    if bow:
+        nots.append(f"          <technical><{bow}-bow/></technical>")
     orns = []
     if mordent:
         orns.append("<inverted-mordent/>")
@@ -426,11 +429,13 @@ def wedge(w):
 # 선율 엔진
 # ----------------------------------------------------------------------------
 class Melody:
-    def __init__(self, fifths, level, rng):
+    def __init__(self, fifths, level, rng, lo=LOW_MIDI, hi=HIGH_MIDI, max_interval=None):
         self.fifths = fifths
         self.alters = key_alters(fifths)
         self.level = level
         self.rng = rng
+        self.lo, self.hi = lo, hi          # 연습 음역 (기초는 좁게)
+        self.max_interval = max_interval   # 기초: 1~2도, 1~3도처럼 제한
         self.dpos = 33          # A4 부근
         self.last_dir = 0
         self.same_dir = 0
@@ -449,7 +454,7 @@ class Melody:
         return midi_of(*p)
 
     def in_range(self, dpos):
-        return LOW_MIDI <= self.midi(dpos) <= HIGH_MIDI
+        return self.lo <= self.midi(dpos) <= self.hi
 
     def choose_interval(self):
         r = self.rng
@@ -460,6 +465,8 @@ class Melody:
             table = [(1, 0.34), (2, 0.26), (3, 0.20), (4, 0.12), (5, 0.08)]
         else:
             table = [(1, 0.24), (2, 0.20), (3, 0.20), (4, 0.16), (5, 0.10), (6, 0.06), (7, 0.04)]
+        if self.max_interval:
+            table = [(sp, w) for sp, w in table if sp <= self.max_interval] or [(1, 1.0)]
         x = r.random()
         acc = 0
         for span, w in table:
@@ -577,7 +584,9 @@ class PieceBuilder:
         self.cfg = cfg
         self.rng = random.Random(cfg['seed'])
         self.fifths = KEY_FIFTHS[cfg['key']]
-        self.mel = Melody(self.fifths, cfg['level'], self.rng)
+        lo, hi = cfg.get('midi_range', (LOW_MIDI, HIGH_MIDI))
+        self.mel = Melody(self.fifths, cfg['level'], self.rng, lo=lo, hi=hi,
+                          max_interval=cfg.get('max_interval'))
         self.measures = []
         self.features = set()
         self.prev_pattern = None
@@ -590,7 +599,16 @@ class PieceBuilder:
     # --- 리듬 선택 -------------------------------------------------------
     def pick_pattern(self, meter, pref_tags, cadence=False):
         if cadence:
-            return CADENCE[meter]
+            cad = self.cfg.get('cadence') or {}
+            return cad.get(meter) or CADENCE[meter]
+        # 기초 곡은 그 곡에서 배운 리듬만 쓴다 (cfg['pools']).
+        own = (self.cfg.get('pools') or {}).get(meter)
+        if own:
+            cands = [p[0] != self.prev_pattern for p in own]
+            pick = [p for p, ok in zip(own, cands) if ok] or own
+            txt = self.rng.choice(pick)
+            self.prev_pattern = txt
+            return txt
         pool = POOLS[meter]
         cands = [p for p in pool if p[1] in pref_tags]
         if not cands:
@@ -667,7 +685,7 @@ class PieceBuilder:
             last['pitch'] = self.mel.pitch_of(self.mel.dpos)
 
         # --- 임시표 ---
-        p_chrom = {'기초': 0.03, '중급': 0.09, '고급': 0.14}[lv]
+        p_chrom = 0.0 if self.cfg.get('no_acc') else {'기초': 0.03, '중급': 0.09, '고급': 0.14}[lv]
         # 조성의 으뜸음 letter
         t_pc = tonic_pc(self.fifths)
         _ka = key_alters(self.fifths)
@@ -707,6 +725,8 @@ class PieceBuilder:
                 continue
             if id(it) in grace_targets:
                 continue
+            if self.cfg.get('plain'):        # 기초: 꾸밈표 없이 소리만
+                continue
             if lv == '기초':
                 if it['ntype'] == 'eighth' and r.random() < 0.12:
                     it['stacc'] = True
@@ -741,11 +761,24 @@ class PieceBuilder:
                 self.pending_tie = last['pitch']
                 self.tie_src = last
 
+        # --- 활 방향: 프레이즈 첫 음은 당김활(내활) ---
+        # (꾸밈표·악센트가 이미 붙은 음은 표시가 겹치므로 건너뛴다)
+        if self.cfg.get('bowing') and mnum % 4 == 1:
+            for it in items:
+                if it['rest'] or it.get('grace'):
+                    continue
+                if any(it.get(k) for k in ('mordent', 'trill', 'accent', 'tenuto', 'stacc')):
+                    break
+                it['bow'] = 'down'
+                break
+
         # --- 빔 ---
         apply_beams(items, meter)
         return items
 
     def add_graces(self, items, lv, meter):
+        if self.cfg.get('no_grace'):
+            return
         r = self.rng
         if lv == '기초':
             p_slot, sizes = 0.28, [1]
@@ -809,12 +842,18 @@ class PieceBuilder:
                       pitch=self.mel.pitch_of(gd),
                       grace_slash=(size == 1))
             items.insert(pos + j, gi)
-        # 2~3음 무리는 16분음표로 두되 빔은 잇지 않는다.
-        # 베로비오는 장식음 무리에 고정 폭만 주므로, 빔을 이으면 그 폭 안에서
-        # 음두가 뒤 음두에 닿는다 (간격이 0~4px). 빔 없이 두면 8~11px 벌어진다.
+        # 2~3음 무리는 16분음표로 잇는다 (1음은 사선 깃발 그대로).
+        # 장식음은 graceFactor(0.56) 만큼 작게 그려지므로 빔으로 묶어도
+        # 음두끼리 닿지 않는다. GRACE_BEAM=False 로 두면 빔 없이 비교할 수 있다.
+        if GRACE_BEAM and size >= 2:
+            for j in range(size):
+                val = 'begin' if j == 0 else ('end' if j == size - 1 else 'continue')
+                items[pos + j]['beams'] = [(1, val), (2, val)]
         self.features.add('장식음')
 
     def add_slurs(self, items, lv):
+        if self.cfg.get('no_slur'):
+            return
         r = self.rng
         # 장식음이 앞에 붙은 음은 슬러 구간에서 뺀다 (장식음 슬러와 겹쳐 엉킨다)
         plain = [i for i, it in enumerate(items)
@@ -826,7 +865,8 @@ class PieceBuilder:
         if r.random() > p:
             return
         start_idx = plain[r.randrange(1, len(plain) - 1)]
-        length = r.choice([2, 2, 3, 3, 4]) if lv != '기초' else r.choice([2, 2, 3])
+        choices = self.cfg.get('slur_len') or ([2, 2, 3, 3, 4] if lv != '기초' else [2, 2, 3])
+        length = r.choice(choices)
         # 장식음 무리를 가로지르는 슬러는 만들지 않는다
         group = []
         for i in range(start_idx, len(items)):
@@ -1066,7 +1106,8 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
                                          acc=it.get('acc'), mordent=it.get('mordent', False),
                                          trill=it.get('trill', False), stacc=it.get('stacc', False),
                                          accent=it.get('accent', False), tenuto=it.get('tenuto', False),
-                                         tuplet=it.get('tuplet'), fermata=is_final and it is items[-1]))
+                                         tuplet=it.get('tuplet'), fermata=is_final and it is items[-1],
+                                         bow=it.get('bow')))
 
             # --- attributes / barline ---
             attrs = ''
@@ -1121,6 +1162,26 @@ def sections_meter(sections, mnum):
     return sections[-1][1]
 
 
+def check_pools(cfg):
+    """곡별 리듬 묶음(cfg['pools'])이 박자 합과 박 묶음 규칙을 지키는지 검사한다."""
+    problems = []
+    for meter, pats in (cfg.get('pools') or {}).items():
+        for txt in pats:
+            items, tot = expand(txt)
+            if tot != METER_TOTAL[meter]:
+                problems.append(f"{METER_LABEL[meter]} '{txt}' 합 {tot} != {METER_TOTAL[meter]}")
+                continue
+            if meter in ((6, 8), (9, 8), (12, 8), (5, 8), (7, 8)):
+                bad = staff_group_violations(txt, meter)
+                if bad:
+                    problems.append(f"{METER_LABEL[meter]} '{txt}' 박 묶음 {bad}")
+    for meter, txt in (cfg.get('cadence') or {}).items():
+        _items, tot = expand(txt)
+        if tot != METER_TOTAL[meter]:
+            problems.append(f"마침꼴 {METER_LABEL[meter]} '{txt}' 합 {tot}")
+    return problems
+
+
 def check_line_plan(cfg):
     """줄마다 마디 수·박자가 조판 규칙을 지키는지 검사한다."""
     total = piece_total(cfg)
@@ -1129,6 +1190,7 @@ def check_line_plan(cfg):
     problems = []
     if sum(c for c, _ in cfg['sections']) != total:
         problems.append('sections 합계 오류')
+    problems += check_pools(cfg)
     if len(spans) != SYSTEMS_PER_PAGE:
         problems.append(f"줄이 {len(spans)}개 ( {SYSTEMS_PER_PAGE}개여야 함)")
     for i, (s, e) in enumerate(spans, 1):
@@ -1153,13 +1215,15 @@ def check_line_plan(cfg):
 # spacingLinear 를 키우면 음 길이에 비례해 좌우 간격이 벌어지고, 마디가 화면 폭을
 # 거의 채우게 되어 Verovio 의 '남는 폭 배분' 이 개입할 여지가 줄어든다.
 # (기본값 0.25 대비) 남는 폭이 크면 장식음 무리 앞에 빈틈이 몰리는 현상이 생긴다.
+GRACE_BEAM = True          # 2~3음 장식음 무리를 16분 겹빔으로 잇는다
+
 LAYOUT = {
     "pageWidth": 2100,        # A4 세로형 폭 (Verovio 기본값과 같은 2100x2970 = 1:1.414)
     "pageHeight": 2970,
     "scale": 31,               # 출력 해상도 (PNG 가로 약 2000px)
     "unit": 7.0,               # 오선 한 칸 크기. 키우면 음표가 커지고 한 줄 마디 수가 줄어든다
     "font": "Leland",          # SIL OFL 오픈소스 악보 활자
-    "graceFactor": 1.0,        # 장식음 무리에 최대한 폭을 준다 (기본 0.75, 최대 1.0)
+    "graceFactor": 0.56,       # 장식음 크기 비율 (1.0 = 기본음과 같은 크기, 여기서는 작게)
     "beamMaxSlope": 20,        # 기본 10°로는 계단처럼 끊기던 장식음 겹빔을 곧게 잇는다
     "breaks": "encoded",       # 줄 나눔은 악보별 breaks_at 으로 고정
     "minLastJustification": 0.0,   # 마지막 줄도 오른쪽 여백까지 꽉 채운다
@@ -1173,6 +1237,7 @@ LAYOUT = {
     "adjustPageHeight": False,
     "pageMarginTop": 50,
     "pageMarginBottom": 50,
+    "leftMarginNote": 2.0,     # 음 앞 여백. 장식음 무리와 주음 사이가 붙지 않게 넓힌다
     "pageMarginLeft": 50,
     "pageMarginRight": 50,
     "svgViewBox": True,
