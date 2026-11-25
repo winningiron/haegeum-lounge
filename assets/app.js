@@ -154,7 +154,7 @@
     const p = state.list[state.index];
     $('#mNo').textContent = p.no;
     $('#mTitle').textContent = p.title;
-    $('#mMeta').textContent = [p.level, p.key, meterText(p), '8단 32마디'].join(' · ');
+    $('#mMeta').textContent = [p.level, p.key, meterText(p), '32마디'].join(' · ');
     $('#mPdf').href = p.pdf;
     $('#mPrint').href = p.pdf;
     $('#mLoading').classList.remove('is-hidden');
