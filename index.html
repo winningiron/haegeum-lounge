@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>해금 초견 라운지 · 시범 30곡</title>
+<meta name="description" content="해금 초견 교본 150곡 중 시범 30곡. 기초 1~10, 중급 51~60, 고급 101~110.">
+<meta name="theme-color" content="#f7f3ea">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">해금 초견 교본 · 150곡 프로젝트</div>
+    <h1>해금 초견 라운지</h1>
+    <p class="lead">한 마디를 눈으로 먼저 읽고, 손이 따라오게.<br>8단 32마디, A3~C6, 조표와 박자를 바꿔 가며 익히는 초견 연습곡.</p>
+    <div class="hero-stats" id="heroStats"></div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs" aria-label="난이도 선택">
+  <button class="tab is-active" data-level="기초" role="tab">기초 <span>1~10</span></button>
+  <button class="tab" data-level="중급" role="tab">중급 <span>51~60</span></button>
+  <button class="tab" data-level="고급" role="tab">고급 <span>101~110</span></button>
+</nav>
+
+<main>
+  <section class="level-head">
+    <h2 id="levelTitle">기초</h2>
+    <p id="levelDesc"></p>
+  </section>
+
+  <section class="grid" id="grid" aria-live="polite"></section>
+
+  <section class="roadmap">
+    <details id="roadmapDetails">
+      <summary>
+        <span class="rm-title">전체 150곡 교본 목차</span>
+        <span class="rm-sub">3부 × 50곡 · 지금 30곡 공개</span>
+      </summary>
+      <div class="rm-body" id="roadmap"></div>
+    </details>
+  </section>
+
+  <section class="notice">
+    <h2>이 라운지에 대하여</h2>
+    <ul>
+      <li>모든 곡은 <strong>32마디 · 8단 · 4마디 1단</strong>으로, 한 페이지에 담았습니다.</li>
+      <li>음역은 해금의 실음역 <strong>A3~C6</strong> 안에서만 움직입니다. 조표는 E♭·B♭·A♭·F·D♭.</li>
+      <li>기초는 순차 진행과 기본 리듬, 중급은 박자 전환·3연음·농현, 고급은 5/8·7/8·잦은 박자 변화·트릴·조바꿈을 다룹니다.</li>
+      <li>악보는 Verovio(Bravura)로 조판했고, 인쇄용 PDF는 A4 한 장으로 내려받을 수 있습니다.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div>LEE SEUNG CHUL (with AI)</div>
+  <div class="foot-warn">무단 복제 및 배포를 절대 금합니다.</div>
+</footer>
+
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-top">
+    <div class="m-info">
+      <span class="m-no" id="mNo">1</span>
+      <div>
+        <div class="m-title" id="mTitle">순차 진행과 기본 슬러</div>
+        <div class="m-meta" id="mMeta"></div>
+      </div>
+    </div>
+    <button class="m-close" id="mClose" aria-label="닫기">✕</button>
+  </div>
+  <div class="stage" id="stage">
+    <img id="mImg" alt="악보" draggable="false">
+    <div class="stage-loading" id="mLoading">악보를 불러오는 중…</div>
+  </div>
+  <div class="modal-bar">
+    <div class="zoom">
+      <button id="zOut" aria-label="축소">−</button>
+      <span id="zLevel">100%</span>
+      <button id="zIn" aria-label="확대">＋</button>
+      <button id="zFit" class="wide">화면 맞춤</button>
+    </div>
+    <div class="acts">
+      <a id="mPdf" class="btn" href="#" target="_blank" rel="noopener">PDF 열기</a>
+      <a id="mPrint" class="btn ghost" href="#" target="_blank" rel="noopener">인쇄</a>
+    </div>
+  </div>
+  <button class="nav prev" id="prevBtn" aria-label="이전 곡">‹</button>
+  <button class="nav next" id="nextBtn" aria-label="다음 곡">›</button>
+</div>
+
+<script src="data/pieces.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
