@@ -21,8 +21,8 @@ IDX_LETTER = 'CDEFGAB'
 FLAT_ORDER = 'BEADGCF'
 SHARP_ORDER = 'FCGDAEB'
 
-KEY_FIFTHS = {'F': -1, 'Bb': -2, 'Eb': -3, 'Ab': -4, 'Db': -5}
-KEY_LABEL = {'F': 'F', 'Bb': 'B♭', 'Eb': 'E♭', 'Ab': 'A♭', 'Db': 'D♭'}
+KEY_FIFTHS = {'F': -1, 'Bb': -2, 'Eb': -3, 'Ab': -4, 'Db': -5, 'Gb': -6}
+KEY_LABEL = {'F': 'F', 'Bb': 'B♭', 'Eb': 'E♭', 'Ab': 'A♭', 'Db': 'D♭', 'Gb': 'G♭'}
 
 
 def key_alters(fifths):
@@ -440,6 +440,12 @@ class Melody:
         self.last_dir = 0
         self.same_dir = 0
         self.last_interval = 0
+        self.set_key(fifths)
+
+    def set_key(self, fifths):
+        """곡 중간 조바꿈: 그 마디부터 새 조의 임시표·으뜸음으로 표기한다."""
+        self.fifths = fifths
+        self.alters = key_alters(fifths)
         self.tpc = tonic_pc(fifths)
         self.chord_pcs = [(self.tpc + x) % 12 for x in (0, 4, 7)]
         self.dom_pcs = [(self.tpc + 7 + x) % 12 for x in (0, 4, 7)]
@@ -583,7 +589,8 @@ class PieceBuilder:
     def __init__(self, cfg):
         self.cfg = cfg
         self.rng = random.Random(cfg['seed'])
-        self.fifths = KEY_FIFTHS[cfg['key']]
+        self.base_fifths = KEY_FIFTHS[cfg['key']]
+        self.fifths = self.base_fifths      # 마디마다 조바꿈에 따라 바뀐다
         lo, hi = cfg.get('midi_range', (LOW_MIDI, HIGH_MIDI))
         self.mel = Melody(self.fifths, cfg['level'], self.rng, lo=lo, hi=hi,
                           max_interval=cfg.get('max_interval'))
@@ -595,6 +602,10 @@ class PieceBuilder:
         self.last_dyn = None
         self.wedge_open = False
         self.wedge_end = 0
+
+    def set_key(self, key):
+        self.fifths = KEY_FIFTHS[key]
+        self.mel.set_key(self.fifths)
 
     # --- 리듬 선택 -------------------------------------------------------
     def pick_pattern(self, meter, pref_tags, cadence=False):
@@ -684,6 +695,10 @@ class PieceBuilder:
             last['dpos'] = self.mel.dpos
             last['pitch'] = self.mel.pitch_of(self.mel.dpos)
 
+        # --- 장식음 ---
+        # 임시표 계산보다 먼저 넣어, 같은 마디 앞 음의 임시표 영향을 장식음에도 반영한다.
+        self.add_graces(items, lv, meter)
+
         # --- 임시표 ---
         p_chrom = 0.0 if self.cfg.get('no_acc') else {'기초': 0.03, '중급': 0.09, '고급': 0.14}[lv]
         # 조성의 으뜸음 letter
@@ -697,12 +712,17 @@ class PieceBuilder:
                          deg_letters[7]: -1, deg_letters[5]: +1}
         accidentals = {}
         keyacc = key_alters(self.fifths)
-        for it in note_items:
+        for it in items:
+            if it['rest']:
+                continue
             letter, octv, base_alter = it['pitch']
             alt = base_alter
-            if letter in chrom_choices and r.random() < p_chrom and 'stop' not in (it.get('tie') or []):
+            # 장식음은 조표 그대로의 음을 쓰고, 앞 음의 임시표만 이어받는다
+            if (not it.get('grace')) and letter in chrom_choices and r.random() < p_chrom \
+                    and 'stop' not in (it.get('tie') or []):
                 cand_alt = base_alter + chrom_choices[letter]
-                if cand_alt in (-2, -1, 0, 1) and LOW_MIDI <= midi_of(letter, octv, cand_alt) <= HIGH_MIDI:
+                # 겹내림표·겹올림표는 쓰지 않는다 (조표에 이미 내림표가 있는 음은 그대로 둔다)
+                if cand_alt in (-1, 0, 1) and LOW_MIDI <= midi_of(letter, octv, cand_alt) <= HIGH_MIDI:
                     alt = cand_alt
                     self.features.add('임시표')
             it['pitch'] = (letter, octv, alt)
@@ -710,9 +730,6 @@ class PieceBuilder:
             if alt != cur:
                 it['acc'] = {-2: 'flat', -1: 'flat', 0: 'natural', 1: 'sharp'}[alt]
                 accidentals[(letter, octv)] = alt
-
-        # --- 장식음 ---
-        self.add_graces(items, lv, meter)
 
         # --- 아티큘레이션 / 꾸밈음 ---
         # 장식음이 앞에 붙은 음에는 농현·트릴을 겹치지 않는다 (무늬가 엉킨다)
@@ -1020,12 +1037,17 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
             k = _pl['k']; si = _pl['si']
             is_phrase_end = (line_of[mnum][2] == mnum)
             is_final = (mnum == total)
+            if mnum in key_changes:
+                # 이 마디부터 새 조표로 표기하고, 선율도 새 조의 임시표로 적는다
+                b.set_key(key_changes[mnum])
             if mnum % 4 == 1 and mnum > 1:
                 b.mel.phrase_start()
             tie_ok_next = False
             if _idx + 1 < len(plans):
                 _nxt, _ = expand(plans[_idx + 1]['pat'])
                 tie_ok_next = len(_nxt) > 0 and not _nxt[0]['rest']
+                if plans[_idx + 1]['mnum'] in key_changes:
+                    tie_ok_next = False      # 조표가 바뀌는 마디로는 타이를 넘기지 않는다
             items = b.make_measure(meter, pat, mnum, is_phrase_end, is_final, tie_ok_next=tie_ok_next)
 
             # --- 방향 요소 ---
@@ -1090,7 +1112,7 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
                     gsl = None if prev_grace else [('start', 2)]
                     body.append(note_xml(it['pitch'], 0, it['ntype'], beams=it.get('beams'),
                                          grace=True, grace_slash=it.get('grace_slash', True),
-                                         slurs=gsl))
+                                         slurs=gsl, acc=it.get('acc')))
                     prev_grace = True
                 elif it['rest']:
                     prev_grace = False
@@ -1113,7 +1135,7 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
             attrs = ''
             if mnum == 1:
                 attrs = (f"      <attributes>\n        <divisions>12</divisions>\n"
-                         f"        <key><fifths>{b.fifths}</fifths></key>\n"
+                         f"        <key><fifths>{b.base_fifths}</fifths></key>\n"
                          f"        <time><beats>{meter[0]}</beats><beat-type>{meter[1]}</beat-type></time>\n"
                          f"        <clef><sign>G</sign><line>2</line></clef>\n      </attributes>")
             else:

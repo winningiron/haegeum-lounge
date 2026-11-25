@@ -2,7 +2,7 @@
 (function () {
   const LEVELS = {
     '기초': {
-      desc: '온음표·2분음표에서 시작해 점2분음표·4분음표, 4분쉼표, 8분음표와 슬러까지 한 걸음씩. 4/4 · 3/4 · 6/8 · 12/8.',
+      desc: '온음표·2분음표에서 시작해 점2분음표·4분음표, 4분쉼표, 8분음표와 슬러까지 한 걸음씩. 4/4 · 3/4 · 6/8 · 12/8. 조표는 해금에 가장 편한 E♭(♭3)에서 시작해 A♭(♭4)까지.',
       hint: '느리게, 소리보다 눈이 먼저'
     },
     '중급': {
@@ -19,7 +19,7 @@
     {
       part: '1부', title: '기초', sub: '1~50 · 한 마디씩 눈으로 읽는 힘',
       blocks: [
-        { range: '1~10', head: '음표 하나에서 시작', text: '온음표·2분음표 → 점2분음표·4분음표 → 4분쉼표·점4분음표 → 8분음표와 슬러. 4/4·3/4·6/8·12/8.', done: true },
+        { range: '1~10', head: '음표 하나에서 시작', text: '온음표·2분음표 → 점2분음표·4분음표 → 4분쉼표·점4분음표 → 8분음표와 슬러. 4/4·3/4·6/8·12/8. 조표는 E♭(1~7번) → A♭(8~10번).', done: true },
         { range: '11~20', head: '8분·16분의 확장', text: '16분 음표 연결, 붙임줄, 당김음의 첫걸음, 셋잇단의 기초, 두 옥타브 안의 음역.' },
         { range: '21~30', head: '복합 박자 첫 만남', text: '9/8과 5/8, 조표 3~4개, 농현과 퇴성의 기본 표기.' },
         { range: '31~40', head: '프레이즈와 호흡', text: '네 마디 프레이즈, 여섯잇단, 이명동음 읽기, 쉼표로 나누는 호흡.' },
@@ -29,7 +29,7 @@
     {
       part: '2부', title: '중급', sub: '51~100 · 박자가 흔들리는 악보를 버티는 힘',
       blocks: [
-        { range: '51~60', head: '박자 전환과 3연음', text: '4/4·3/4·2/4·6/8·9/8·12/8 전환, 넓은 도약, 두 음 장식음, 농현, 세 곡의 조바꿈.', done: true },
+        { range: '51~60', head: '박자 전환과 3연음', text: '4/4·3/4·2/4·6/8·9/8·12/8 전환, 넓은 도약, 두 음 장식음, 농현, 세 곡의 조바꿈. 조표는 E♭·A♭에서 B♭·D♭으로.', done: true },
         { range: '61~70', head: '비대칭 박자', text: '5/8과 7/8의 묶음 감각, 엇박 쉼표, 16분 연결.' },
         { range: '71~80', head: '꾸밈음과 반음계', text: '2~3음 장식음, 트릴의 기초, 반음계적 진행과 임시표 정리.' },
         { range: '81~90', head: '조바꿈 두 번', text: '한 곡 안의 두 번 조바꿈, 빠른 템포, 리듬 변형.' },
@@ -39,7 +39,7 @@
     {
       part: '3부', title: '고급', sub: '101~150 · 처음 보는 악보를 즉시 통과하는 힘',
       blocks: [
-        { range: '101~110', head: '복합 박자와 조바꿈', text: '5/8·7/8·12/8·6/8·4/4·3/4의 잦은 전환, 트릴, subito p, 조바꿈.', done: true },
+        { range: '101~110', head: '복합 박자와 조바꿈', text: '5/8·7/8·12/8·6/8·4/4·3/4의 잦은 전환, 트릴, subito p, 조바꿈. 조표는 E♭에서 F(♭1)·G♭(♭6)까지.', done: true },
         { range: '111~120', head: '잦은 변화', text: '3~4회 박자 변화, 잦은 임시표, 넓은 음역 도약.' },
         { range: '121~130', head: '자유 리듬', text: '무박자·카덴차적 프레이즈, 지시어 읽기.' },
         { range: '131~140', head: '창작 초견', text: '현대 국악 어법, 특수 주법 표기, 비정형 리듬.' },
@@ -88,11 +88,15 @@
     const sysText = staggers.length
       ? (Math.min(...staggers) === Math.max(...staggers) ? `${Math.min(...staggers)}` : `${Math.min(...staggers)}~${Math.max(...staggers)}`)
       : '7';
+    const keyOrder = ['E♭', 'A♭', 'B♭', 'D♭', 'F', 'G♭'];
+    const kc = {};
+    pieces.forEach(p => { if (p.key) kc[p.key] = (kc[p.key] || 0) + 1; });
+    const keyText = keyOrder.filter(k => kc[k]).map(k => `${k} ${kc[k]}`).join(' · ') || 'E♭·A♭·B♭·D♭·F·G♭';
     $('#heroStats').innerHTML = [
       `<span class="stat"><b>${pieces.length}</b>곡 공개</span>`,
       `<span class="stat"><b>${barText}</b>마디 · <b>${sysText}</b>단</span>`,
       `<span class="stat">음역 <b>A3~C6</b></span>`,
-      `<span class="stat">조표 <b>E♭·B♭·A♭·F·D♭</b></span>`
+      `<span class="stat">조표 <b>${keyText}</b></span>`
     ].join('');
   }
 
