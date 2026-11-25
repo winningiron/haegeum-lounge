@@ -847,7 +847,7 @@ def build_piece(cfg):
             # --- 방향 요소 ---
             dirs = []
             if mnum in tempos:
-                unit = 'dotted-quarter' if meter[1] == 8 else 'quarter'
+                unit = 'dotted-quarter' if meter in ((6, 8), (9, 8), (12, 8)) else 'quarter'
                 dirs.append(tempo_xml(unit, tempos[mnum]))
                 b.last_dyn = None
             if mnum in dyn_plan:
