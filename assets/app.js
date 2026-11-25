@@ -57,6 +57,9 @@
     index: 0,
     zoom: 1,
     fitW: 0,
+    fs: false,
+    fsNative: false,
+    fsExitAt: 0,
     dragging: false
   };
 
@@ -175,6 +178,7 @@
   }
 
   function closeModal() {
+    if (state.fs) exitFs(false);
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
@@ -187,8 +191,16 @@
 
   function applyZoom() {
     if (!img.naturalWidth) return;
-    const w = Math.round(stageWidth() * state.zoom);
-    img.style.width = w + 'px';
+    const availW = Math.max(240, stage.clientWidth - 36);
+    let w;
+    if (state.fs) {
+      const availH = Math.max(160, stage.clientHeight - 36);
+      const ratio = img.naturalWidth / img.naturalHeight;
+      w = Math.min(availW, availH * ratio) * state.zoom;
+    } else {
+      w = availW * state.zoom;
+    }
+    img.style.width = Math.round(w) + 'px';
     $('#zLevel').textContent = Math.round(state.zoom * 100) + '%';
   }
 
@@ -202,6 +214,66 @@
   $('#zOut').addEventListener('click', () => setZoom(state.zoom / 1.25));
   $('#zFit').addEventListener('click', () => setZoom(1, true));
   $('#mClose').addEventListener('click', closeModal);
+
+  /* ---------------- 전체 화면 ---------------- */
+  const fsBtn = $('#fsBtn');
+
+  function fsActive() {
+    return !!(document.fullscreenElement === modal ||
+              document.webkitFullscreenElement === modal ||
+              modal.classList.contains('is-fs'));
+  }
+
+  function setFsUI(on) {
+    fsBtn.textContent = on ? '전체 화면 종료' : '전체 화면';
+    fsBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+
+  function enterFs() {
+    state.fs = true;
+    modal.classList.add('is-fs');
+    setFsUI(true);
+    const req = modal.requestFullscreen || modal.webkitRequestFullscreen;
+    if (req) {
+      state.fsNative = true;
+      try {
+        const p = req.call(modal, { navigationUI: 'hide' });
+        if (p && p.catch) p.catch(() => {});
+      } catch (e) { /* iPadOS Safari 등: CSS 전체 화면으로 대신 */ }
+    }
+    setZoom(1, true);
+  }
+
+  function exitFs(restoreZoom) {
+    state.fs = false;
+    modal.classList.remove('is-fs');
+    setFsUI(false);
+    state.fsExitAt = Date.now();
+    if (document.fullscreenElement && document.exitFullscreen) {
+      try { const p = document.exitFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+    } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+      try { document.webkitExitFullscreen(); } catch (e) {}
+    }
+    state.fsNative = false;
+    if (restoreZoom !== false) setZoom(1, true);
+  }
+
+  fsBtn.addEventListener('click', () => {
+    if (fsActive()) exitFs(); else enterFs();
+  });
+
+  function onFsChange() {
+    const native = document.fullscreenElement === modal ||
+                   document.webkitFullscreenElement === modal;
+    if (!native && state.fs && state.fsNative) {
+      // 사용자가 Esc/브라우저 버튼으로 나간 경우
+      exitFs();
+    } else if (native) {
+      applyZoom();   // 전체화면 크기가 잡힌 뒤 한 장이 화면에 맞게
+    }
+  }
+  document.addEventListener('fullscreenchange', onFsChange);
+  document.addEventListener('webkitfullscreenchange', onFsChange);
 
   $('#prevBtn').addEventListener('click', () => openModal(state.index - 1));
   $('#nextBtn').addEventListener('click', () => openModal(state.index + 1));
@@ -252,11 +324,22 @@
 
   window.addEventListener('keydown', (e) => {
     if (!modal.classList.contains('is-open')) return;
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') {
+      if (state.fs) {
+        if (Date.now() - state.fsExitAt < 350) return;   // 네이티브 전체화면 종료와 겹침
+        exitFs();
+      } else if (Date.now() - state.fsExitAt >= 350) {
+        closeModal();
+      }
+      return;
+    }
     if (e.key === 'ArrowLeft') openModal(state.index - 1);
     if (e.key === 'ArrowRight') openModal(state.index + 1);
     if (e.key === '+' || e.key === '=') setZoom(state.zoom * 1.25);
     if (e.key === '-') setZoom(state.zoom / 1.25);
+    if (e.key === 'f' || e.key === 'F') {
+      if (fsActive()) exitFs(); else enterFs();
+    }
   });
 
   window.addEventListener('resize', () => {

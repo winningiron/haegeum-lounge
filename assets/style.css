@@ -39,6 +39,25 @@ a{color:inherit}
   margin:0 0 10px;font-size:clamp(30px,5.6vw,46px);letter-spacing:-.03em;line-height:1.12;
   font-weight:800
 }
+/* ---------- creator byline ---------- */
+.byline{
+  display:inline-flex;align-items:center;gap:9px;margin:0 0 16px;
+  padding:6px 15px 6px 13px;border:1px solid var(--line);border-radius:999px;
+  background:linear-gradient(180deg,#fffdf8,#f7f1e4);
+  box-shadow:0 1px 0 rgba(28,26,23,.03)
+}
+.byline::before{
+  content:"";width:7px;height:7px;border-radius:50%;flex:0 0 auto;
+  background:var(--accent);box-shadow:0 0 0 3px rgba(156,61,46,.10)
+}
+.byline-name{
+  font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--ink);text-transform:uppercase
+}
+.byline-ai{font-size:11.5px;font-weight:650;letter-spacing:.05em;color:var(--ink-3)}
+@media(max-width:480px){
+  .byline-name{font-size:11px;letter-spacing:.14em}
+  .byline{padding:5px 12px 5px 11px;margin-bottom:14px}
+}
 .lead{margin:0;color:var(--ink-2);font-size:15px;max-width:56ch}
 .hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .stat{
@@ -180,6 +199,13 @@ details[open] summary::before{transform:rotate(90deg)}
   position:relative;overflow:auto;background:#141310;display:flex;align-items:flex-start;justify-content:center;
   -webkit-overflow-scrolling:touch
 }
+/* 전체 화면: 화면 안에 한 장이 통째로 들어오도록 (비율 유지, 잘림·늘어남 없음) */
+.modal.is-fs .stage{align-items:center}
+.modal.is-fs .stage img{max-width:calc(100% - 36px);margin:18px auto;object-fit:contain}
+.modal:fullscreen .stage{align-items:center}
+.modal:fullscreen .stage img{max-width:calc(100% - 36px);margin:18px auto;object-fit:contain}
+.modal:-webkit-full-screen .stage{align-items:center}
+.modal:-webkit-full-screen .stage img{max-width:calc(100% - 36px);margin:18px auto;object-fit:contain}
 .stage img{
   display:block;max-width:none;height:auto;transform-origin:top center;
   margin:18px auto;box-shadow:0 10px 40px rgba(0,0,0,.5);background:#fff;cursor:grab
