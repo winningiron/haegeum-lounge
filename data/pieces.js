@@ -13,6 +13,13 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4",
    "순차 진행"
@@ -34,6 +41,13 @@ window.PIECES = [
    76
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "3/4",
    "3도 도약"
@@ -55,6 +69,13 @@ window.PIECES = [
    80
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "2/4",
    "기본 리듬"
@@ -76,6 +97,13 @@ window.PIECES = [
    69
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "6/8",
    "셋잇단 흐름"
@@ -97,6 +125,13 @@ window.PIECES = [
    63
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "12/8",
    "긴 프레이즈"
@@ -120,6 +155,13 @@ window.PIECES = [
    84
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4→3/4",
    "박자 변화"
@@ -143,6 +185,13 @@ window.PIECES = [
    80
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "3/4→4/4",
    "중간 쉼표"
@@ -166,6 +215,13 @@ window.PIECES = [
    76
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "6/8→4/4",
    "1음 장식음"
@@ -189,6 +245,13 @@ window.PIECES = [
    76
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "2/4→3/4",
    "도약"
@@ -212,6 +275,13 @@ window.PIECES = [
    69
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "12/8→6/8",
    "프레이즈"
@@ -235,6 +305,14 @@ window.PIECES = [
    92
   ],
   "bars": 32,
+  "lines": [
+   7,
+   7,
+   6,
+   6,
+   6
+  ],
+  "midline": true,
   "tags": [
    "4/4→3/4",
    "3연음"
@@ -258,6 +336,13 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "3/4→6/8",
    "당김음"
@@ -282,6 +367,13 @@ window.PIECES = [
    63
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4→12/8→4/4",
    "조바꿈 E♭→A♭"
@@ -305,6 +397,13 @@ window.PIECES = [
    76
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "6/8→9/8",
    "9/8"
@@ -328,6 +427,13 @@ window.PIECES = [
    84
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "2/4→4/4",
    "리듬 확장"
@@ -353,6 +459,13 @@ window.PIECES = [
    84
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "3/4→2/4→3/4",
    "리듬 대비"
@@ -376,6 +489,13 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4→9/8",
    "조바꿈 E♭→B♭"
@@ -399,6 +519,14 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   7,
+   7,
+   6,
+   6,
+   6
+  ],
+  "midline": true,
   "tags": [
    "12/8→6/8",
    "셋잇단"
@@ -424,6 +552,13 @@ window.PIECES = [
    92
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4→3/4→2/4",
    "박자 여행"
@@ -447,6 +582,13 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "9/8→6/8",
    "조바꿈 D♭→A♭",
@@ -475,6 +617,14 @@ window.PIECES = [
    100
   ],
   "bars": 32,
+  "lines": [
+   7,
+   7,
+   6,
+   6,
+   6
+  ],
+  "midline": true,
   "tags": [
    "5/8·3/4·4/4",
    "조바꿈 E♭→A♭"
@@ -499,6 +649,13 @@ window.PIECES = [
    88
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "7/8·4/4",
    "조바꿈 A♭→D♭"
@@ -524,6 +681,13 @@ window.PIECES = [
    63
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "5/8→7/8→12/8",
    "조바꿈 B♭→E♭"
@@ -551,6 +715,14 @@ window.PIECES = [
    92
   ],
   "bars": 32,
+  "lines": [
+   7,
+   7,
+   6,
+   6,
+   6
+  ],
+  "midline": true,
   "tags": [
    "4/4·3/4·2/4",
    "조바꿈 E♭→B♭"
@@ -576,6 +748,13 @@ window.PIECES = [
    88
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "6/8→9/8→4/4",
    "조바꿈 A♭→E♭"
@@ -603,6 +782,13 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "7/8·5/8·12/8·6/8",
    "조바꿈 B♭→E♭"
@@ -628,6 +814,13 @@ window.PIECES = [
    92
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4→6/8→3/4",
    "트릴",
@@ -656,6 +849,14 @@ window.PIECES = [
    100
   ],
   "bars": 32,
+  "lines": [
+   7,
+   7,
+   6,
+   6,
+   6
+  ],
+  "midline": true,
   "tags": [
    "3/4·5/8·7/8·4/4",
    "조바꿈 F→B♭"
@@ -681,6 +882,13 @@ window.PIECES = [
    100
   ],
   "bars": 32,
+  "lines": [
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
   "tags": [
    "4/4→7/8→3/4",
    "조바꿈 D♭→A♭"
@@ -708,6 +916,14 @@ window.PIECES = [
    72
   ],
   "bars": 32,
+  "lines": [
+   7,
+   7,
+   6,
+   6,
+   6
+  ],
+  "midline": true,
   "tags": [
    "5/8·12/8·7/8·6/8",
    "조바꿈 D♭→A♭"

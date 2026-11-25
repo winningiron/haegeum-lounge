@@ -40,7 +40,7 @@ PIECES = [
          title='짧은 프레이즈 만들기', tags=['12/8→6/8', '프레이즈']),
 
     # ---------------- 중급 51~60 ----------------
-    dict(no=51, level='중급', key='Eb', seed=201,
+    dict(no=51, midline=True, level='중급', key='Eb', seed=201,
          sections=[(16, (4, 4)), (16, (3, 4))], tempos={1: 84, 17: 92},
          dynamics={1: 'mf', 17: 'f'},
          title='넓은 도약과 3연음', tags=['4/4→3/4', '3연음']),
@@ -69,7 +69,7 @@ PIECES = [
          sections=[(16, (4, 4)), (16, (9, 8))], tempos={1: 80, 17: 72},
          dynamics={1: 'mf'}, key_changes={17: 'Bb'},
          title='9/8와 엇박 쉼표', tags=['4/4→9/8', '조바꿈 E♭→B♭']),
-    dict(no=58, level='중급', key='Bb', seed=208,
+    dict(no=58, midline=True, level='중급', key='Bb', seed=208,
          sections=[(16, (12, 8)), (16, (6, 8))], tempos={1: 63, 17: 72},
          dynamics={1: 'mp'},
          title='12/8와 6/8의 결', tags=['12/8→6/8', '셋잇단']),
@@ -83,7 +83,7 @@ PIECES = [
          title='9/8 마무리와 농현', tags=['9/8→6/8', '조바꿈 D♭→A♭', '농현']),
 
     # ---------------- 고급 101~110 ----------------
-    dict(no=101, level='고급', key='Eb', seed=301,
+    dict(no=101, midline=True, level='고급', key='Eb', seed=301,
          sections=[(8, (5, 8)), (8, (3, 4)), (8, (5, 8)), (8, (4, 4))],
          tempos={1: 84, 9: 96, 17: 84, 25: 100}, dynamics={1: 'mf'},
          key_changes={17: 'Ab'}, subito=[21, 29],
@@ -98,7 +98,7 @@ PIECES = [
          tempos={1: 80, 9: 72, 17: 63}, dynamics={1: 'mf'},
          key_changes={17: 'Eb'}, subito=[11, 25],
          title='5/8·7/8 넘나들기', tags=['5/8→7/8→12/8', '조바꿈 B♭→E♭']),
-    dict(no=104, level='고급', key='Eb', seed=304,
+    dict(no=104, midline=True, level='고급', key='Eb', seed=304,
          sections=[(8, (4, 4)), (8, (3, 4)), (8, (2, 4)), (8, (4, 4))],
          tempos={1: 92, 9: 100, 17: 108, 25: 92}, dynamics={1: 'f'},
          key_changes={25: 'Bb'}, subito=[15, 27],
@@ -118,7 +118,7 @@ PIECES = [
          tempos={1: 96, 9: 72, 17: 92}, dynamics={1: 'f'},
          key_changes={17: 'Bb'}, subito=[10, 26],
          title='트릴과 꾸밈음', tags=['4/4→6/8→3/4', '트릴', '조바꿈 E♭→B♭']),
-    dict(no=108, level='고급', key='F', seed=308,
+    dict(no=108, midline=True, level='고급', key='F', seed=308,
          sections=[(8, (3, 4)), (8, (5, 8)), (8, (7, 8)), (8, (4, 4))],
          tempos={1: 88, 9: 96, 17: 84, 25: 100}, dynamics={1: 'mp'},
          key_changes={25: 'Bb'}, subito=[11, 27],
@@ -128,7 +128,7 @@ PIECES = [
          tempos={1: 84, 9: 92, 17: 100}, dynamics={1: 'f'},
          key_changes={17: 'Ab'}, subito=[12, 28],
          title='D♭의 무게', tags=['4/4→7/8→3/4', '조바꿈 D♭→A♭']),
-    dict(no=110, level='고급', key='Db', seed=310,
+    dict(no=110, midline=True, level='고급', key='Db', seed=310,
          sections=[(8, (5, 8)), (8, (12, 8)), (8, (7, 8)), (8, (6, 8))],
          tempos={1: 80, 9: 63, 17: 84, 25: 72}, dynamics={1: 'mf'},
          key_changes={25: 'Ab'}, subito=[13, 29],

@@ -4,7 +4,7 @@
 해금 초견 웹 라운지 - 시범 30곡 악보 생성기
 Verovio(Leland) + resvg_py + PyMuPDF, work/make_haegeum_v6_sample42.py 의 조판 규칙을 그대로 따른다.
 """
-import os, io, re, json, random, sys
+import os, io, re, json, math, random, sys
 import xml.etree.ElementTree as ET
 
 import verovio, resvg_py, fitz
@@ -984,7 +984,7 @@ def sections_meter(sections, mnum):
 # 거의 채우게 되어 Verovio 의 '남는 폭 배분' 이 개입할 여지가 줄어든다.
 # (기본값 0.25 대비) 남는 폭이 크면 장식음 무리 앞에 빈틈이 몰리는 현상이 생긴다.
 LAYOUT = {
-    "pageWidth": 1800,
+    "pageWidth": 1800,        # 곡마다 fit_layout() 이 자연 폭에 맞춰 다시 정한다
     "pageHeight": 4000,        # adjustPageHeight 로 내용 높이에 맞춰 잘라 쓴다
     "scale": 37,               # 출력 해상도
     "unit": 10.5,              # 오선 한 칸 크기(기본 9.0). 키우면 음표가 커진다
@@ -1005,6 +1005,69 @@ LAYOUT = {
     "footer": "none",
     "header": "none",
 }
+
+
+# 줄 나눔 ---------------------------------------------------------------------
+# 한 줄에 6~8마디. 박자·조 변화를 줄 첫머리에 두면 학생이 변화 지점을 놓치지 않는다.
+ALIGNED_BREAKS = (9, 17, 25)        # 8+8+8+8 — 변화가 줄 첫머리
+MID_LINE_BREAKS = (8, 15, 21, 27)   # 7+7+6+6+6 — 변화가 줄 가운데 (변수 연습)
+PAGE_MARGIN = 1000                  # 오선 양옆 여백(베로비오 내부 단위)
+TARGET_SVG_PX = 2000                # 곡마다 출력 PNG 가로 폭을 같게 맞춘다
+
+
+def line_breaks(cfg):
+    """곡별 줄 나눔 지점(줄이 시작하는 마디 번호)."""
+    if cfg.get('breaks'):
+        return tuple(cfg['breaks'])
+    return MID_LINE_BREAKS if cfg.get('midline') else ALIGNED_BREAKS
+
+
+def line_counts(breaks_at):
+    """줄 나눔 지점 -> 줄별 마디 수."""
+    starts = [1] + sorted(breaks_at)
+    ends = sorted(breaks_at) + [33]
+    return [e - s for s, e in zip(starts, ends)]
+
+
+def system_ink_widths(svg):
+    """줄마다 실제로 그려진 가로 폭(음표·쉼표·조표·마디선 기준)."""
+    ns = '{http://www.w3.org/2000/svg}'
+    root = ET.fromstring(svg)
+    widths = []
+    for g_el in root.iter(f'{ns}g'):
+        if g_el.attrib.get('class') != 'system':
+            continue
+        xs = []
+        for el in g_el.iter():
+            if el.attrib.get('class') not in ('notehead', 'rest', 'meterSig', 'clef',
+                                              'barLine', 'barline'):
+                continue
+            for u in el.iter(f'{ns}use'):
+                m = re.match(r'translate\(([-0-9.]+)[, ]+([-0-9.]+)\)',
+                             u.attrib.get('transform', ''))
+                if m:
+                    xs.append(float(m.group(1)))
+        if xs:
+            widths.append(max(xs) - min(xs))
+    return widths
+
+
+def fit_layout(xml, base=None):
+    """정당화 없이 조판해 가장 넓은 줄이 눌리지 않을 pageWidth 를 구한다.
+    좁은 줄은 자연스럽게 늘어나 여백이 생기고, 넓은 줄은 간격이 그대로 유지된다."""
+    opts = dict(LAYOUT)
+    if base:
+        opts.update(base)
+    tk = verovio.toolkit()
+    probe = dict(opts)
+    probe.update(dict(breaks='encoded', noJustification=True,
+                      pageWidth=9000, pageHeight=9000, adjustPageHeight=False))
+    tk.setOptions(probe)
+    tk.loadData(xml)
+    widths = system_ink_widths(tk.renderToSVG(1))
+    page_w = int(math.ceil((max(widths) + PAGE_MARGIN) / 10.0 * 1.01))
+    scale = round(100.0 * TARGET_SVG_PX / (3 * page_w), 2)
+    return dict(pageWidth=page_w, scale=scale), widths
 
 
 def system_measure_counts(xml, layout=None):
@@ -1152,12 +1215,18 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
     canvas.save(png_out, optimize=True)
 
     doc = fitz.open()
-    page = doc.new_page(width=595, height=842)
+    # 악보가 가로로 넓으면 A4 가로로 담는다 (인쇄했을 때 음표가 작아지지 않도록)
+    if canvas.width >= canvas.height:
+        page_w, page_h = 842, 595
+    else:
+        page_w, page_h = 595, 842
+    page = doc.new_page(width=page_w, height=page_h)
     buf = io.BytesIO()
     canvas.save(buf, format="JPEG", quality=92, subsampling=0, optimize=True)
-    scale = min((595 - 24) / canvas.width, (842 - 24) / canvas.height)
+    scale = min((page_w - 24) / canvas.width, (page_h - 24) / canvas.height)
     w, h = canvas.width * scale, canvas.height * scale
-    page.insert_image(fitz.Rect((595 - w) / 2, (842 - h) / 2, (595 + w) / 2, (842 + h) / 2),
+    page.insert_image(fitz.Rect((page_w - w) / 2, (page_h - h) / 2,
+                                (page_w + w) / 2, (page_h + h) / 2),
                       stream=buf.getvalue())
     doc.save(pdf_out, deflate=True, garbage=4, clean=True)
     doc.close()

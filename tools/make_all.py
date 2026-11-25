@@ -24,20 +24,17 @@ def main(only=None):
     for cfg in PIECES:
         if only and cfg['no'] not in only:
             continue
-        xml, b, mxs = g.build_piece(cfg)
+        br = g.line_breaks(cfg)
+        xml, b, mxs = g.build_piece(cfg, breaks_at=br)
         g.validate_xml(xml, cfg)
-        layout = None
-        # 마지막 줄에 마디 하나만 남으면 앞줄에서 하나를 내려 균형을 맞춘다
-        counts = g.system_measure_counts(xml)
-        if len(counts) > 1 and counts[-1] == 1 and counts[-2] > 1 and sum(counts) == 32:
-            starts = [1]
-            for c in counts[:-1]:
-                starts.append(starts[-1] + c)
-            breaks_at = set(starts[1:])          # 각 줄의 첫 마디 번호
-            breaks_at.discard(starts[-1])
-            breaks_at.add(starts[-1] - 1)
-            xml, b, mxs = g.build_piece(cfg, breaks_at=breaks_at)
-            layout = {'breaks': 'encoded'}
+        fit, widths = g.fit_layout(xml)
+        layout = dict(fit, breaks='encoded')
+        counts = g.system_measure_counts(xml, layout)
+        expect = g.line_counts(br)
+        if counts != expect:
+            raise RuntimeError(f"#{cfg['no']}: 줄 마디 수 {counts} != 계획 {expect}")
+        if any(c < 6 or c > 8 for c in counts):
+            raise RuntimeError(f"#{cfg['no']}: 한 줄 마디 수가 6~8을 벗쓰남 {counts}")
         png, pdf, size = g.render(xml, cfg['no'], SCORES, layout=layout)
         im = Image.open(png)
         th = im.copy()
@@ -47,12 +44,15 @@ def main(only=None):
                     fifths=g.KEY_FIFTHS[cfg['key']], title=cfg['title'],
                     meters=meters_label(cfg['sections']),
                     tempos=[cfg['tempos'][k] for k in sorted(cfg['tempos'])],
-                    bars=32, tags=cfg.get('tags', []),
+                    bars=32, lines=counts,
+                    midline=bool(cfg.get('midline')),
+                    tags=cfg.get('tags', []),
                     image=f"scores/{cfg['no']:03d}.png",
                     pdf=f"scores/{cfg['no']:03d}.pdf",
                     thumb=f"scores/thumb/{cfg['no']:03d}.jpg")
         out.append(meta)
         print(f"#{cfg['no']:3d} {cfg['level']} {meta['key']:2s} {'/'.join(meta['meters']):18s} "
+              f"{'x'.join(map(str, counts))} w{fit['pageWidth']} "
               f"png {os.path.getsize(png)//1024}KB pdf {os.path.getsize(pdf)//1024}KB")
     json_path = os.path.join(REPO, 'pieces.json')
     old = []
@@ -61,11 +61,17 @@ def main(only=None):
             old = json.load(open(json_path, encoding='utf-8'))
         except Exception:
             old = []
+    merged = {p['no']: p for p in old}
+    for p in out:
+        merged[p['no']] = p
+    rows = [merged[k] for k in sorted(merged)]
     with open(json_path, 'w', encoding='utf-8') as f:
-        merged = {p['no']: p for p in old}
-        for p in out:
-            merged[p['no']] = p
-        json.dump([merged[k] for k in sorted(merged)], f, ensure_ascii=False, indent=1)
+        json.dump(rows, f, ensure_ascii=False, indent=1)
+    js_path = os.path.join(REPO, 'data', 'pieces.js')
+    with open(js_path, 'w', encoding='utf-8') as f:
+        f.write('/* 자동 생성: tools/make_all.py */\nwindow.PIECES = ')
+        json.dump(rows, f, ensure_ascii=False, indent=1)
+        f.write(';\n')
     print('elapsed', round(time.time() - t0, 1), 's')
 
 if __name__ == '__main__':
