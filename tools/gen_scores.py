@@ -500,6 +500,7 @@ class PieceBuilder:
         self.features = set()
         self.prev_pattern = None
         self.pending_tie = None
+        self.tie_src = None
         self.last_dyn = None
         self.wedge_open = False
 
@@ -543,7 +544,7 @@ class PieceBuilder:
         return ["", "dot16"]
 
     # --- 한 마디 ---------------------------------------------------------
-    def make_measure(self, meter, pattern_txt, mnum, is_phrase_end, is_final):
+    def make_measure(self, meter, pattern_txt, mnum, is_phrase_end, is_final, tie_ok_next=True):
         items, total = expand(pattern_txt)
         assert total == METER_TOTAL[meter], (meter, pattern_txt, total)
         lv = self.cfg['level']
@@ -552,12 +553,16 @@ class PieceBuilder:
         # --- 피치 배정 ---
         note_items = [it for it in items if not it['rest']]
         # 마디 첫 음이 이전 마디에서 타이로 이어지면 처리
-        if self.pending_tie and note_items:
-            first = note_items[0]
-            first['tie'] = ['stop']
-            first['pitch'] = self.pending_tie
-            # 선율 상태 동기화
+        if self.pending_tie:
+            first = items[0] if items else None
+            if first is not None and not first['rest'] and not first.get('grace'):
+                first['tie'] = ['stop']
+                first['pitch'] = self.pending_tie
+            elif self.tie_src is not None:
+                # 쉼표로 시작하면 타이를 취소
+                self.tie_src.pop('tie', None)
             self.pending_tie = None
+            self.tie_src = None
         for idx_it, it in enumerate(items):
             if it['rest']:
                 it['pitch'] = None
@@ -638,12 +643,13 @@ class PieceBuilder:
         self.add_slurs(items, lv)
 
         # --- 마디 사이 타이 ---
-        if not self.cfg.get('no_tie') and note_items and not is_final:
-            last = [it for it in items if not it['rest']][-1]
-            if last is note_items[-1] and last['dur'] >= 6 and r.random() < 0.13:
+        if not self.cfg.get('no_tie') and note_items and not is_final and tie_ok_next:
+            last = items[-1]
+            if (not last['rest']) and (not last.get('grace')) and last['dur'] >= 6 and r.random() < 0.13:
                 # 다음 마디 첫 음에 이어 붙임
                 last['tie'] = ['start']
                 self.pending_tie = last['pitch']
+                self.tie_src = last
 
         # --- 빔 ---
         apply_beams(items, meter)
@@ -811,22 +817,32 @@ def build_piece(cfg):
     key_changes = cfg.get('key_changes', {})   # {마디번호: key}
     tempos = cfg.get('tempos', {1: 80})
 
-    mnum = 0
     dyn_plan = cfg.get('dynamics', {})
     measure_xmls = []
     meta_meters = []
-    for si, (count, meter) in enumerate(sections):
-        section_start = mnum + 1
-        for k in range(count):
-            mnum += 1
+
+    # 1) 마디별 리듬 패턴을 먼저 정한다 (타이 여부를 다음 마디로 판단하기 위해)
+    plans = []
+    _n = 0
+    for _si, (_count, _meter) in enumerate(sections):
+        for _k in range(_count):
+            _n += 1
+            _prefs = b.tags_for(cfg['level'], _k % 8)
+            _pat = b.pick_pattern(_meter, _prefs, cadence=(_n == 32))
+            plans.append(dict(mnum=_n, meter=_meter, pat=_pat, k=_k, si=_si))
+
+    for _idx, _pl in enumerate(plans):
+            mnum = _pl['mnum']; meter = _pl['meter']; pat = _pl['pat']
+            k = _pl['k']; si = _pl['si']
             is_phrase_end = (mnum % 8 == 0) or (mnum == 32)
             is_final = (mnum == 32)
-            tagIdx = k % 8
-            prefs = b.tags_for(cfg['level'], tagIdx)
             if mnum % 4 == 1 and mnum > 1:
                 b.mel.phrase_start()
-            pat = b.pick_pattern(meter, prefs, cadence=is_final)
-            items = b.make_measure(meter, pat, mnum, is_phrase_end, is_final)
+            tie_ok_next = False
+            if _idx + 1 < len(plans):
+                _nxt, _ = expand(plans[_idx + 1]['pat'])
+                tie_ok_next = len(_nxt) > 0 and not _nxt[0]['rest']
+            items = b.make_measure(meter, pat, mnum, is_phrase_end, is_final, tie_ok_next=tie_ok_next)
 
             # --- 방향 요소 ---
             dirs = []
