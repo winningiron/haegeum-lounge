@@ -716,6 +716,11 @@ class PieceBuilder:
                       pitch=self.mel.pitch_of(gd),
                       grace_slash=(size == 1))
             items.insert(pos + j, gi)
+        # 2~3음 장식음 무리는 16분 겹빔으로 잇는다 (1음은 사선 깃발 그대로)
+        if size >= 2:
+            for j in range(size):
+                val = 'begin' if j == 0 else ('end' if j == size - 1 else 'continue')
+                items[pos + j]['beams'] = [(1, val), (2, val)]
         self.features.add('장식음')
 
     def add_slurs(self, items, lv):
@@ -971,14 +976,16 @@ def sections_meter(sections, mnum):
 # 렌더링
 # ----------------------------------------------------------------------------
 def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
-           footer='무단 복제 및 배포를 절대 금합니다.'):
+           footer='무단 복제 및 배포를 절대 금합니다.', font='Bravura',
+           filename=None):
     tk = verovio.toolkit()
     tk.setOptions({
         "pageWidth": 1800,
         "pageHeight": 2900,
         "scale": 37,
-        "font": "Bravura",
+        "font": font,
         "graceFactor": 0.58,
+        "beamMaxSlope": 20,        # 기본 10°로는 계단처럼 끊기던 장식음 겹빔을 곧게 잇는다
         "breaks": "encoded",
         "minLastJustification": 0.0,
         "spacingLinear": 0.42,
@@ -1084,8 +1091,8 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
 
     canvas.paste(score_img, (pad_side, pad_top))
 
-    png_out = os.path.join(outdir, f"{number:03d}.png")
-    pdf_out = os.path.join(outdir, f"{number:03d}.pdf")
+    png_out = os.path.join(outdir, f"{filename or f'{number:03d}'}.png")
+    pdf_out = os.path.join(outdir, f"{filename or f'{number:03d}'}.pdf")
     canvas.save(png_out, optimize=True)
 
     doc = fitz.open()
