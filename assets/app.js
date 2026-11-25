@@ -379,6 +379,9 @@
 
   $$('.vtab').forEach(t => t.addEventListener('click', () => showView(t.dataset.view)));
   if (location.hash === '#docs') showView('docs');
+  window.addEventListener('hashchange', () => {
+    showView(location.hash === '#docs' ? 'docs' : 'scores');
+  });
 
   /* ---------------- tabs ---------------- */
   $$('.tab').forEach(tab => {
