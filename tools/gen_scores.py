@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 해금 초견 웹 라운지 - 시범 30곡 악보 생성기
-Verovio(Bravura) + resvg_py + PyMuPDF, work/make_haegeum_v6_sample42.py 의 조판 규칙을 그대로 따른다.
+Verovio(Leland) + resvg_py + PyMuPDF, work/make_haegeum_v6_sample42.py 의 조판 규칙을 그대로 따른다.
 """
 import os, io, re, json, random, sys
 import xml.etree.ElementTree as ET
@@ -815,7 +815,7 @@ def apply_beams(items, meter):
 # ----------------------------------------------------------------------------
 # 곡 구성
 # ----------------------------------------------------------------------------
-def build_piece(cfg):
+def build_piece(cfg, per_system=4, breaks_at=None):
     b = PieceBuilder(cfg)
     sections = cfg['sections']            # [(마디수, meter), ...]
     assert sum(s[0] for s in sections) == 32
@@ -939,7 +939,11 @@ def build_piece(cfg):
                 if parts:
                     attrs = "      <attributes>\n" + "\n".join(parts) + "\n      </attributes>"
 
-            sys_break = '      <print new-system="yes"/>' if mnum in {5, 9, 13, 17, 21, 25, 29} else ""
+            if breaks_at is None:
+                sys_break = ('      <print new-system="yes"/>'
+                             if (per_system and mnum % per_system == 1 and mnum > 1) else "")
+            else:
+                sys_break = '      <print new-system="yes"/>' if mnum in breaks_at else ""
             barline = ''
             if mnum == 32:
                 barline = '      <barline location="right"><bar-style>light-heavy</bar-style></barline>'
@@ -975,32 +979,84 @@ def sections_meter(sections, mnum):
 # ----------------------------------------------------------------------------
 # 렌더링
 # ----------------------------------------------------------------------------
-def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
-           footer='무단 복제 및 배포를 절대 금합니다.', font='Bravura',
-           filename=None):
+# 조판 옵션 ------------------------------------------------------------------
+# spacingLinear 를 키우면 음 길이에 비례해 좌우 간격이 벌어지고, 마디가 화면 폭을
+# 거의 채우게 되어 Verovio 의 '남는 폭 배분' 이 개입할 여지가 줄어든다.
+# (기본값 0.25 대비) 남는 폭이 크면 장식음 무리 앞에 빈틈이 몰리는 현상이 생긴다.
+LAYOUT = {
+    "pageWidth": 1800,
+    "pageHeight": 4000,        # adjustPageHeight 로 내용 높이에 맞춰 잘라 쓴다
+    "scale": 37,               # 출력 해상도
+    "unit": 10.5,              # 오선 한 칸 크기(기본 9.0). 키우면 음표가 커진다
+    "font": "Leland",          # SIL OFL 오픈소스 악보 활자
+    "graceFactor": 0.58,
+    "beamMaxSlope": 20,        # 기본 10°로는 계단처럼 끊기던 장식음 겹빔을 곧게 잇는다
+    "breaks": "auto",          # 마디 폭에 맞춰 줄바꿈 → 줄이 가득 차 간격이 고르다
+    "minLastJustification": 0.8,
+    "breaksNoWidow": True,   # 마지막 줄에 마디 하나만 남지 않게
+    "spacingLinear": 1.0,
+    "spacingNonLinear": 0.34,
+    "spacingSystem": 14,
+    "justifyVertically": False,
+    "mnumInterval": 0,
+    "adjustPageHeight": True,
+    "svgViewBox": True,
+    "svgRemoveXlink": True,
+    "footer": "none",
+    "header": "none",
+}
+
+
+def system_measure_counts(xml, layout=None):
+    """한 페이지에서 줄(system)별 마디 수를 센다."""
     tk = verovio.toolkit()
-    tk.setOptions({
-        "pageWidth": 1800,
-        "pageHeight": 2900,
-        "scale": 37,
-        "font": font,
-        "graceFactor": 0.58,
-        "beamMaxSlope": 20,        # 기본 10°로는 계단처럼 끊기던 장식음 겹빔을 곧게 잇는다
-        "breaks": "encoded",
-        "minLastJustification": 0.0,
-        "spacingLinear": 0.42,
-        "spacingNonLinear": 0.34,
-        "spacingSystem": 14,
-        "justifyVertically": True,
-        "mnumInterval": 0,
-        "adjustPageHeight": False,
-        "svgViewBox": True,
-        "svgRemoveXlink": True,
-        "footer": "none",
-        "header": "none",
-    })
+    opts = dict(LAYOUT)
+    if layout:
+        opts.update(layout)
+    tk.setOptions(opts)
     tk.loadData(xml)
     svg = tk.renderToSVG(1)
+    root = ET.fromstring(svg)
+    ns = '{http://www.w3.org/2000/svg}'
+    tops = []
+    for g_el in root.iter(f'{ns}g'):
+        if g_el.attrib.get('class') != 'measure':
+            continue
+        y = None
+        for p in g_el.iter(f'{ns}path'):
+            d = p.attrib.get('d', '')
+            if d.startswith('M'):
+                try:
+                    y = float(d.split()[1])
+                except (IndexError, ValueError):
+                    y = None
+                break
+        if y is not None:
+            tops.append(y)
+    counts = []
+    for y in tops:
+        if counts and abs(y - counts[-1][0]) < 50:
+            counts[-1][1] += 1
+        else:
+            counts.append([y, 1])
+    return [c[1] for c in counts]
+
+
+def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
+           footer='무단 복제 및 배포를 절대 금합니다.', font=None,
+           filename=None, layout=None):
+    tk = verovio.toolkit()
+    opts = dict(LAYOUT)
+    if layout:
+        opts.update(layout)
+    if font:
+        opts["font"] = font
+    tk.setOptions(opts)
+    tk.loadData(xml)
+    svg = tk.renderToSVG(1)
+    n_meas = svg.count('class="measure"')
+    if n_meas != 32:
+        raise RuntimeError(f'#{number}: 1페이지에 마디 {n_meas}개만 들어갔다 (32개여야 함)')
     svg = svg.replace('class="mNum"', 'class="mNum" fill="#888888" opacity="0.75"')
     svg = re.sub(r'<rect class="page-margin"[^>]*/>', '', svg)
 

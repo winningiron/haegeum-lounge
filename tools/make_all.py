@@ -26,7 +26,19 @@ def main(only=None):
             continue
         xml, b, mxs = g.build_piece(cfg)
         g.validate_xml(xml, cfg)
-        png, pdf, size = g.render(xml, cfg['no'], SCORES)
+        layout = None
+        # 마지막 줄에 마디 하나만 남으면 앞줄에서 하나를 내려 균형을 맞춘다
+        counts = g.system_measure_counts(xml)
+        if len(counts) > 1 and counts[-1] == 1 and counts[-2] > 1 and sum(counts) == 32:
+            starts = [1]
+            for c in counts[:-1]:
+                starts.append(starts[-1] + c)
+            breaks_at = set(starts[1:])          # 각 줄의 첫 마디 번호
+            breaks_at.discard(starts[-1])
+            breaks_at.add(starts[-1] - 1)
+            xml, b, mxs = g.build_piece(cfg, breaks_at=breaks_at)
+            layout = {'breaks': 'encoded'}
+        png, pdf, size = g.render(xml, cfg['no'], SCORES, layout=layout)
         im = Image.open(png)
         th = im.copy()
         th.thumbnail((620, 1000), Image.LANCZOS)

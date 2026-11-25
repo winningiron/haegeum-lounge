@@ -23,7 +23,7 @@ tools/                악보 생성기 (Python)
 
 ## 악보 제작 방식
 
-`tools/gen_scores.py`가 MusicXML을 만들고, Verovio(Bravura)로 조판한 뒤 resvg_py로 래스터화하고
+`tools/gen_scores.py`가 MusicXML을 만들고, Verovio(Leland, SIL OFL)로 조판한 뒤 resvg_py로 래스터화하고
 PyMuPDF로 PDF를 씁니다. 조판 규칙:
 
 - 여백 테두리 없음, 좌상단 번호 박스
