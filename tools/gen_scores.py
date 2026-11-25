@@ -42,10 +42,14 @@ def midi_of(letter, octv, alter):
 
 LOW_MIDI, HIGH_MIDI = 57, 84          # A3 ~ C6
 
-# 한 곡 = 7단 × 한 줄 8마디 = 56마디 (A4 세로 한 페이지)
-TOTAL_MEASURES = 56
+# 한 곡 = 7단, A4 세로 한 페이지.
+# 12/8 마디가 들어간 줄은 한 줄 5마디까지만 (음표가 빽빽해지지 않게),
+# 나머지 줄은 한 줄 8마디. 그래서 곡마다 마디 수와 줄 나눔이 달라진다.
+TOTAL_MEASURES = 56                        # 12/8 이 없는 곡의 기본값
 MEASURES_PER_SYSTEM = 8
 SYSTEMS_PER_PAGE = 7
+MAX_TWELVE_EIGHT_PER_SYSTEM = 5            # 12/8 마디가 있는 줄의 최대 마디 수
+MAX_FOUR_FOUR_PER_SYSTEM = 6               # 4/4 마디가 들어간 줄의 4/4 마디 수
 SYSTEM_BREAKS = tuple(1 + i * MEASURES_PER_SYSTEM for i in range(1, SYSTEMS_PER_PAGE))
 
 
@@ -170,6 +174,9 @@ POOLS = {
         ("rs s e q", "rest_mid"),
         ("q rq", "rest_mid"),
     ],
+    # 복합 박자(6/8·9/8·12/8): 한 박(3/8 = 점4분음표)마다 리듬 덩어리가
+    # 스스로 완결되도록 짠다. [8분+8분쉼표+8분] 처럼 깃발이 따로 떨어진
+    # 모양은 쓰지 않는다 (staff_group_ok 가 검사한다).
     (12, 8): [
         ("dq dq dq dq", ""),
         ("q e q e q e q e", ""),
@@ -178,55 +185,78 @@ POOLS = {
         ("q e e e e dq dq", ""),
         ("dq re e e dq dq", "rest_mid"),
         ("de s e dq dq dq", "dot16"),
-        ("dq rq e dq dq", "rest_mid"),
-        ("e e e q e dq dq", ""),
+        ("de s e de s e dq dq", "dot16"),
+        ("q e de s e dq dq", "dot16"),
+        ("e e e q e dq dq", "run"),
+        ("q e q e dq dq", ""),
+        ("dq dq q e q e", "long"),
+        ("re e e dq dq dq", "rest_start"),
+        ("dq q e q e dq", "long"),
+        ("dq rdq dq dq", "rest_mid"),
     ],
     (6, 8): [
         ("dq dq", ""),
         ("q e q e", ""),
         ("e e e e e e", "run"),
         ("q e e e e", ""),
-        ("e e e q e", ""),
-        ("de s e dq", "dot16"),
-        ("dq re e e", "rest_mid"),
-        ("q re e e e", "rest_mid"),
-        ("e re e dq", "rest_mid"),
-        ("dq e re e", "rest_mid"),
+        ("e e e q e", "run"),
         ("q e dq", ""),
-        ("q e e e e", ""),
+        ("dq q e", ""),
+        ("de s e dq", "dot16"),
+        ("de s e q e", "dot16"),
+        ("q e de s e", "dot16"),
+        ("e e e de s e", "dot16"),
+        ("de s e re e e", "dot16"),
+        ("dq re e e", "rest_mid"),
+        ("re e e dq", "rest_start"),
+        ("q e re e e", "rest_mid"),
+        ("dq e e e", "long"),
+        ("e e e dq", "long"),
+        ("rdq e e e", "rest_start"),
     ],
     (9, 8): [
         ("dq dq dq", ""),
         ("q e q e q e", ""),
         ("e e e e e e e e e", "run"),
         ("de s e dq dq", "dot16"),
-        ("dq rq e dq", "rest_mid"),
-        ("dq e re e dq", "rest_mid"),
-        ("e e e e e e dq", ""),
-        ("dq dq q e", ""),
+        ("de s e de s e dq", "dot16"),
+        ("q e de s e dq", "dot16"),
+        ("dq re e e dq", "rest_mid"),
+        ("re e e dq dq", "rest_start"),
+        ("e e e q e dq", "run"),
+        ("dq dq q e", "long"),
         ("q e dq dq", ""),
         ("q e q e dq", ""),
+        ("dq rdq dq", "rest_mid"),
     ],
+    # 5/8 = 3+2, 7/8 = 3+2+2 로 묶는다.
     (5, 8): [
         ("dq q", ""),
-        ("q dq", ""),
-        ("e e e q", ""),
+        ("dq e e", ""),
+        ("q e q", ""),
         ("q e e e", ""),
+        ("e e e q", "run"),
         ("e e e e e", "run"),
+        ("re e e q", "rest_start"),
+        ("re e e e e", "rest_start"),
         ("de s e q", "dot16"),
-        ("de s dq", "dot16"),
-        ("rq dq", "rest_start"),
+        ("de s e e e", "dot16"),
+        ("rdq q", "rest_start"),
     ],
     (7, 8): [
         ("dq q q", ""),
-        ("q q dq", ""),
-        ("e e e q q", ""),
-        ("q q e e e", ""),
+        ("dq q e e", ""),
+        ("q e q q", ""),
+        ("q e q e e", ""),
+        ("q e e e q", ""),
+        ("e e e q q", "run"),
+        ("e e e q e e", "run"),
         ("e e e e e e e", "run"),
         ("de s e q q", "dot16"),
-        ("q de s dq", "dot16"),
-        ("q rq dq", "rest_mid"),
+        ("de s e q e e", "dot16"),
+        ("e e e rq q", "rest_mid"),
         ("dq rq q", "rest_mid"),
+        ("rdq q q", "rest_start"),
     ],
 }
 
@@ -234,6 +264,47 @@ for _meter, _pool in POOLS.items():
     for _txt, _tag in _pool:
         _items, _tot = expand(_txt)
         assert _tot == METER_TOTAL[_meter], (_meter, _txt, _tot)
+
+
+# 복합·비대칭 박자에서 한 박 안에 들어와야 하는 리듬 덩어리.
+# 한 음이 박 경계를 넘거나, 쉼표에 끼어 깃발만 남은 8분음표가 생기면
+# 초견이 어려워지므로 아예 규칙으로 막는다.
+BEAT_GROUP_OK = {
+    18: {('dq',), ('q', 'e'), ('e', 'e', 'e'), ('re', 'e', 'e'),
+         ('de', 's', 'e'), ('rdq',)},
+    12: {('q',), ('dq',), ('e', 'e'), ('re', 'e'), ('rq',), ('de', 's')},
+}
+
+
+def staff_group_violations(txt, meter):
+    """패턴이 박마다 완결된 덩어리로 나뉘는지 검사한다 (위반 목록 반환)."""
+    items, _ = expand(txt)
+    bounds = beat_bounds(meter)
+    toks = tokens(txt)
+    starts = []
+    t = 0
+    for it in items:
+        starts.append(t)
+        t += it['dur']
+    per_beat = {}
+    for tok, st, it in zip(toks, starts, items):
+        bi = None
+        for i in range(len(bounds) - 1):
+            if bounds[i] <= st < bounds[i + 1]:
+                bi = i
+                break
+        if bi is None:
+            return [f"{tok}@{st} 박 없음"]
+        if st + it['dur'] > bounds[bi + 1]:
+            return [f"{tok}@{st} 박 경계를 넘음"]
+        per_beat.setdefault(bi, []).append(tok)
+    bad = []
+    for bi, seq in per_beat.items():
+        ln = bounds[bi + 1] - bounds[bi]
+        if tuple(seq) not in BEAT_GROUP_OK[ln]:
+            bad.append(f"{bi + 1}번째 박 {' '.join(seq)}")
+    return bad
+
 
 CADENCE = {(4, 4): "q q h", (3, 4): "q h", (2, 4): "q q",
            (12, 8): "dq dq dq dq", (9, 8): "dq dq dq",
@@ -252,6 +323,11 @@ def beat_bounds(meter):
         if b == 7:
             return [0, 18, 30, 42]
     raise ValueError(meter)
+
+for _meter in ((6, 8), (9, 8), (12, 8), (5, 8), (7, 8)):
+    for _txt, _tag in POOLS[_meter]:
+        _bad = staff_group_violations(_txt, _meter)
+        assert not _bad, (METER_LABEL[_meter], _txt, _bad)
 
 
 # ----------------------------------------------------------------------------
@@ -618,11 +694,18 @@ class PieceBuilder:
                 accidentals[(letter, octv)] = alt
 
         # --- 장식음 ---
-        self.add_graces(items, lv)
+        self.add_graces(items, lv, meter)
 
         # --- 아티큘레이션 / 꾸밈음 ---
+        # 장식음이 앞에 붙은 음에는 농현·트릴을 겹치지 않는다 (무늬가 엉킨다)
+        grace_targets = set()
+        for i, it in enumerate(items):
+            if i > 0 and items[i - 1].get('grace') and not it.get('grace'):
+                grace_targets.add(id(it))
         for it in note_items:
             if it.get('grace'):
+                continue
+            if id(it) in grace_targets:
                 continue
             if lv == '기초':
                 if it['ntype'] == 'eighth' and r.random() < 0.12:
@@ -662,7 +745,7 @@ class PieceBuilder:
         apply_beams(items, meter)
         return items
 
-    def add_graces(self, items, lv):
+    def add_graces(self, items, lv, meter):
         r = self.rng
         if lv == '기초':
             p_slot, sizes = 0.28, [1]
@@ -670,32 +753,35 @@ class PieceBuilder:
             p_slot, sizes = 0.40, [1, 2]
         else:
             p_slot, sizes = 0.55, [2, 3]
-        meter_total = sum(it['dur'] for it in items)
-        beats = set()
-        # 마디 박 경계: 4분/8분 계열 모두 12 또는 18 단위
-        t = 0
-        beat_unit = 12 if meter_total % 12 == 0 and meter_total in (24, 36, 48) else 18
-        while t < meter_total:
-            beats.add(t)
-            t += beat_unit
-        # 각 음의 시작 시간
+        # 박 경계는 박자표에서 직접 구한다 (6/8 은 점4분음표 = 18 단위).
+        beats = set(beat_bounds(meter)[:-1])
+        # 각 음의 시작 시간, 바로 앞의 (장식음이 아닌) 음이 쉼표인지
         starts = []
+        prev_rest = []
         t = 0
+        prev_is_rest = False
         for it in items:
             starts.append(t)
+            prev_rest.append(prev_is_rest)
             if not it.get('grace'):
                 t += it['dur']
+                prev_is_rest = it['rest']
         cands = []
         first_note_idx = None
         for i, it in enumerate(items):
-            if it['rest']:
+            if it['rest'] or it.get('grace'):
                 continue
             if first_note_idx is None:
                 first_note_idx = i
                 continue
             if i == first_note_idx:
                 continue
-            if it['dur'] >= 6 and starts[i] in beats:
+            # 장식음은 4분음표 이상 긴 음에만 붙인다. 8분음표에 붙이면
+            # 장식음 무리와 뒤따르는 빔이 서로 붙어 보인다.
+            if it['dur'] >= 12 and starts[i] in beats:
+                # 쉼표 바로 뒤 음에 붙이면 장식음이 쉼표와 겹쳐 보인다 → 건너뛴다
+                if prev_rest[i]:
+                    continue
                 cands.append(i)
         if not cands:
             return
@@ -723,16 +809,17 @@ class PieceBuilder:
                       pitch=self.mel.pitch_of(gd),
                       grace_slash=(size == 1))
             items.insert(pos + j, gi)
-        # 2~3음 장식음 무리는 16분 겹빔으로 잇는다 (1음은 사선 깃발 그대로)
-        if size >= 2:
-            for j in range(size):
-                val = 'begin' if j == 0 else ('end' if j == size - 1 else 'continue')
-                items[pos + j]['beams'] = [(1, val), (2, val)]
+        # 2~3음 무리는 16분음표로 두되 빔은 잇지 않는다.
+        # 베로비오는 장식음 무리에 고정 폭만 주므로, 빔을 이으면 그 폭 안에서
+        # 음두가 뒤 음두에 닿는다 (간격이 0~4px). 빔 없이 두면 8~11px 벌어진다.
         self.features.add('장식음')
 
     def add_slurs(self, items, lv):
         r = self.rng
-        plain = [i for i, it in enumerate(items) if not it['rest'] and not it.get('grace')]
+        # 장식음이 앞에 붙은 음은 슬러 구간에서 뺀다 (장식음 슬러와 겹쳐 엉킨다)
+        plain = [i for i, it in enumerate(items)
+                 if not it['rest'] and not it.get('grace')
+                 and not (i > 0 and items[i - 1].get('grace'))]
         if len(plain) < 3:
             return
         p = {'기초': 0.55, '중급': 0.65, '고급': 0.5}[lv]
@@ -740,7 +827,15 @@ class PieceBuilder:
             return
         start_idx = plain[r.randrange(1, len(plain) - 1)]
         length = r.choice([2, 2, 3, 3, 4]) if lv != '기초' else r.choice([2, 2, 3])
-        group = [i for i in plain if i >= start_idx][:length]
+        # 장식음 무리를 가로지르는 슬러는 만들지 않는다
+        group = []
+        for i in range(start_idx, len(items)):
+            if items[i].get('grace'):
+                break
+            if not items[i]['rest']:
+                group.append(i)
+            if len(group) >= length:
+                break
         if len(group) < 2:
             return
         items[group[0]]['slur'] = ['start']
@@ -845,14 +940,27 @@ def apply_beams(items, meter):
 # ----------------------------------------------------------------------------
 # 곡 구성
 # ----------------------------------------------------------------------------
+def line_spans(total, breaks_at):
+    """줄 나눔 지점 -> [(첫 마디, 끝 마디), ...]"""
+    starts = [1] + sorted(breaks_at)
+    ends = sorted(breaks_at) + [total + 1]
+    return [(s, e - 1) for s, e in zip(starts, ends)]
+
+
 def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
     b = PieceBuilder(cfg)
     sections = cfg['sections']            # [(마디수, meter), ...]
     total = sum(s[0] for s in sections)
-    assert total == TOTAL_MEASURES, f"#{cfg['no']}: 마디 합계 {total} != {TOTAL_MEASURES}"
+    if breaks_at is None:
+        breaks_at = tuple(range(1 + per_system, total, per_system)) if per_system else ()
+    spans = line_spans(total, breaks_at)
+    line_of = {}
+    for li, (s, e) in enumerate(spans):
+        for m in range(s, e + 1):
+            line_of[m] = (li, m - s, e)
+
     key_changes = cfg.get('key_changes', {})   # {마디번호: key}
     tempos = cfg.get('tempos', {1: 80})
-
     dyn_plan = cfg.get('dynamics', {})
     measure_xmls = []
     meta_meters = []
@@ -870,7 +978,7 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
     for _idx, _pl in enumerate(plans):
             mnum = _pl['mnum']; meter = _pl['meter']; pat = _pl['pat']
             k = _pl['k']; si = _pl['si']
-            is_phrase_end = (mnum % MEASURES_PER_SYSTEM == 0) or (mnum == total)
+            is_phrase_end = (line_of[mnum][2] == mnum)
             is_final = (mnum == total)
             if mnum % 4 == 1 and mnum > 1:
                 b.mel.phrase_start()
@@ -894,15 +1002,16 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
                 dirs.append(dyn(d))
                 b.last_dyn = d
             # 고급: subito p (프레이즈 안에서 짧게)
-            pos = (mnum - 1) % MEASURES_PER_SYSTEM        # 프레이즈 안 위치
-            phrase = (mnum - 1) // MEASURES_PER_SYSTEM
+            pos = line_of[mnum][1]                        # 줄 안에서의 위치
+            phrase = line_of[mnum][0]
+            line_end = line_of[mnum][2]
             if cfg['level'] == '고급' and mnum in cfg.get('subito', []):
                 dirs.append(words_below('subito p'))
                 if not b.wedge_open:
                     dirs.append(wedge('crescendo'))
                     b.wedge_open = True
                     # 줄을 넘지 않게: 세 마디 뒤 또는 이 줄 끝에서 닫는다
-                    b.wedge_end = min(mnum + 2, (phrase + 1) * MEASURES_PER_SYSTEM)
+                    b.wedge_end = min(mnum + 2, line_end)
                 b.features.add('subito p')
             # 크레셴도: 홀수 번째 프레이즈 둘째 마디에서 시작해 세 마디 뒤에 닫는다
             # (줄을 넘지 않게 해서 긴 직선 모양의 헤어핀이 생기지 않도록)
@@ -987,7 +1096,7 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
                 barline = '      <barline location="right"><bar-style>light-light</bar-style></barline>'
 
             measure_xmls.append(dict(number=mnum, body=body, attrs=attrs, sys=sys_break,
-                                     barline=barline, meter=meter, dirs=dirs))
+                                     barline=barline, meter=meter, dirs=dirs, items=items))
 
     # --- 최종 XML ---
     blocks = []
@@ -1012,6 +1121,31 @@ def sections_meter(sections, mnum):
     return sections[-1][1]
 
 
+def check_line_plan(cfg):
+    """줄마다 마디 수·박자가 조판 규칙을 지키는지 검사한다."""
+    total = piece_total(cfg)
+    br = line_breaks(cfg)
+    spans = line_spans(total, br)
+    problems = []
+    if sum(c for c, _ in cfg['sections']) != total:
+        problems.append('sections 합계 오류')
+    if len(spans) != SYSTEMS_PER_PAGE:
+        problems.append(f"줄이 {len(spans)}개 ( {SYSTEMS_PER_PAGE}개여야 함)")
+    for i, (s, e) in enumerate(spans, 1):
+        n = e - s + 1
+        meters = [sections_meter(cfg['sections'], m) for m in range(s, e + 1)]
+        if (12, 8) in meters and n > MAX_TWELVE_EIGHT_PER_SYSTEM:
+            problems.append(f"{i}번째 줄 {n}마디에 12/8 이 들어감")
+        if (4, 4) in meters and meters.count((4, 4)) > MAX_FOUR_FOUR_PER_SYSTEM:
+            problems.append(f"{i}번째 줄 4/4 {meters.count((4, 4))}마디")
+        if n > MEASURES_PER_SYSTEM:
+            problems.append(f"{i}번째 줄 {n}마디 (한 줄 최대 {MEASURES_PER_SYSTEM})")
+    lines = cfg.get('lines')
+    if lines and sum(lines) != total:
+        problems.append(f"lines 합계 {sum(lines)} != 마디 수 {total}")
+    return problems
+
+
 # ----------------------------------------------------------------------------
 # 렌더링
 # ----------------------------------------------------------------------------
@@ -1025,13 +1159,14 @@ LAYOUT = {
     "scale": 31,               # 출력 해상도 (PNG 가로 약 2000px)
     "unit": 7.0,               # 오선 한 칸 크기. 키우면 음표가 커지고 한 줄 마디 수가 줄어든다
     "font": "Leland",          # SIL OFL 오픈소스 악보 활자
-    "graceFactor": 0.58,
+    "graceFactor": 1.0,        # 장식음 무리에 최대한 폭을 준다 (기본 0.75, 최대 1.0)
     "beamMaxSlope": 20,        # 기본 10°로는 계단처럼 끊기던 장식음 겹빔을 곧게 잇는다
     "breaks": "encoded",       # 줄 나눔은 악보별 breaks_at 으로 고정
     "minLastJustification": 0.0,   # 마지막 줄도 오른쪽 여백까지 꽉 채운다
     "breaksNoWidow": True,   # 마지막 줄에 마디 하나만 남지 않게
-    "spacingLinear": 0.5,       # 한 줄 8마디를 눌러 담아도 음표끼리 붙지 않게 조절
-    "spacingNonLinear": 0.32,
+    "spacingLinear": 0.55,     # 음 길이에 비례한 간격 (박 비례가 고르게 보이는 값)
+    "spacingNonLinear": 0.35,  # 짧은 음(8분·16분)에도 최소한의 숨 쉴 틈을 준다
+    "hairpinSize": 4.5,         # 긴 줄에서도 크레셴도 헤어핀이 실선처럼 보이지 않게
     "spacingSystem": 14,
     "justifyVertically": False,   # 세로 배치는 spread_systems() 가 직접 고르게 편다
     "mnumInterval": 0,
@@ -1058,19 +1193,30 @@ TARGET_SVG_PX = 2000                # 곡마다 출력 PNG 가로 폭을 같게 
 def line_breaks(cfg):
     """곡별 줄 나눔 지점(줄이 시작하는 마디 번호).
 
-    모든 곡이 7단 × 한 줄 8마디가 되도록 9·17·25·33·41·49 에서 줄을 바꾼다.
-    (박자·조 변화를 줄 중간에 두는 곡도 줄 나눔 자체는 같다.)
+    cfg['lines'] 에 줄별 마디 수를 적으면 그것을 그대로 쓰고(12/8 곡처럼 마디 수가
+    다른 곡), 없으면 9·17·25·33·41·49 에서 줄을 바꾼다(56마디 = 7단 × 8마디).
     """
     if cfg.get('breaks'):
         return tuple(cfg['breaks'])
+    lines = cfg.get('lines')
+    if lines:
+        out, acc = [], 0
+        for n in lines[:-1]:
+            acc += n
+            out.append(acc + 1)
+        return tuple(out)
     return SYSTEM_BREAKS
 
 
-def line_counts(breaks_at):
+def piece_total(cfg):
+    return sum(c for c, _m in cfg['sections'])
+
+
+def line_counts(breaks_at, total=None):
     """줄 나눔 지점 -> 줄별 마디 수."""
-    starts = [1] + sorted(breaks_at)
-    ends = sorted(breaks_at) + [TOTAL_MEASURES + 1]
-    return [e - s for s, e in zip(starts, ends)]
+    if total is None:
+        total = TOTAL_MEASURES
+    return [e - s + 1 for s, e in line_spans(total, breaks_at)]
 
 
 def system_ink_widths(svg):
@@ -1203,7 +1349,7 @@ def spread_systems(svg, page_h, top=200, bottom=160):
 
 def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
            footer='무단 복제 및 배포를 절대 금합니다.', font=None,
-           filename=None, layout=None, total=TOTAL_MEASURES):
+           filename=None, layout=None, total=TOTAL_MEASURES, want_svg=False):
     tk = verovio.toolkit()
     opts = dict(LAYOUT)
     if layout:
@@ -1327,6 +1473,8 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
                       stream=buf.getvalue())
     doc.save(pdf_out, deflate=True, garbage=4, clean=True)
     doc.close()
+    if want_svg:
+        return png_out, pdf_out, canvas.size, svg
     return png_out, pdf_out, canvas.size
 
 

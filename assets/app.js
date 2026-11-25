@@ -80,9 +80,17 @@
 
   /* ---------------- render ---------------- */
   function renderStats() {
+    const bars = pieces.map(p => p.bars).filter(Boolean);
+    const staggers = pieces.map(p => (p.lines ? p.lines.length : 0)).filter(Boolean);
+    const barText = bars.length
+      ? (Math.min(...bars) === Math.max(...bars) ? `${Math.min(...bars)}` : `${Math.min(...bars)}~${Math.max(...bars)}`)
+      : '35~56';
+    const sysText = staggers.length
+      ? (Math.min(...staggers) === Math.max(...staggers) ? `${Math.min(...staggers)}` : `${Math.min(...staggers)}~${Math.max(...staggers)}`)
+      : '7';
     $('#heroStats').innerHTML = [
       `<span class="stat"><b>${pieces.length}</b>곡 공개</span>`,
-      `<span class="stat"><b>56</b>마디 · <b>7</b>단 × 한 줄 <b>8</b>마디</span>`,
+      `<span class="stat"><b>${barText}</b>마디 · <b>${sysText}</b>단</span>`,
       `<span class="stat">음역 <b>A3~C6</b></span>`,
       `<span class="stat">조표 <b>E♭·B♭·A♭·F·D♭</b></span>`
     ].join('');
@@ -154,8 +162,12 @@
     const p = state.list[state.index];
     $('#mNo').textContent = p.no;
     $('#mTitle').textContent = p.title;
-    $('#mMeta').textContent = [p.level, p.key, meterText(p), '56마디',
-      (p.lines ? p.lines.length + '단' : '')].filter(Boolean).join(' · ');
+    $('#mMeta').textContent = [
+      p.level, p.key, meterText(p),
+      (p.bars ? p.bars + '마디' : ''),
+      (p.lines ? p.lines.length + '단' + (new Set(p.lines).size > 1
+        ? ' (' + p.lines.join('·') + '마디)' : '') : '')
+    ].filter(Boolean).join(' · ');
     $('#mPdf').href = p.pdf;
     $('#mPrint').href = p.pdf;
     $('#mLoading').classList.remove('is-hidden');
