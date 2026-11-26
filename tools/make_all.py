@@ -10,7 +10,7 @@ THUMBS = os.path.join(REPO, 'scores', 'thumb')
 os.makedirs(SCORES, exist_ok=True)
 os.makedirs(THUMBS, exist_ok=True)
 
-ASSET_VER = '7'   # 악보를 다시 조판할 때 올린다 (브라우저 캐시 무효화)
+ASSET_VER = '8'   # 악보를 다시 조판할 때 올린다 (브라우저 캐시 무효화)
 
 
 def meters_label(sections):

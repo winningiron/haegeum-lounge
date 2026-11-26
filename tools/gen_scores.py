@@ -922,13 +922,16 @@ class PieceBuilder:
         start_idx = plain[r.randrange(1, len(plain) - 1)]
         choices = self.cfg.get('slur_len') or ([2, 2, 3, 3, 4] if lv != '기초' else [2, 2, 3])
         length = r.choice(choices)
-        # 장식음 무리를 가로지르는 슬러는 만들지 않는다
+        # 장식음 무리를 가로지르는 슬러는 만들지 않고, 쉼표를 가로지르는 슬러도 만들지 않는다.
+        # (쉼표를 건너뛰고 앞뒤 음을 이으면 쉼표 위를 이음줄이 지나가 초견에 잘못 읽힌다.
+        #  쉼표를 만나면 거기서 끊고, 그 앞의 인접한 음들끼리만 잇는다.)
         group = []
         for i in range(start_idx, len(items)):
             if items[i].get('grace'):
                 break
-            if not items[i]['rest']:
-                group.append(i)
+            if items[i]['rest']:
+                break
+            group.append(i)
             if len(group) >= length:
                 break
         if len(group) < 2:
@@ -1562,14 +1565,18 @@ def render(xml, number, outdir, credit='LEE SEUNG CHUL (with AI)',
     draw = ImageDraw.Draw(canvas)
 
     # 좌상단 번호 박스
+    # 숫자는 상자 테두리 안의 정중앙에 둔다. textbbox 는 (0,0) 기준으로 그린 글자의
+    # 잉크 사각형을 돌려주므로, 그 원점 오프셋(nb[0], nb[1])을 빼야 잉크 자체가
+    # 상자 가운데에 온다 (오프셋을 빼지 않으면 폰트의 윗 여백만큼 아래로 처진다).
     label = str(number)
     nb = draw.textbbox((0, 0), label, font=font_box)
     tw = nb[2] - nb[0]
+    th = nb[3] - nb[1]
     box_w = max(72, tw + 34)
     box_h = 52
     box_x, box_y = pad_side + 20, 55
     draw.rectangle([box_x, box_y, box_x + box_w, box_y + box_h], outline="#111111", width=3)
-    draw.text((box_x + (box_w - tw) // 2, box_y + (box_h - (nb[3] - nb[1])) // 2 - 6),
+    draw.text((box_x + (box_w - tw) / 2 - nb[0], box_y + (box_h - th) / 2 - nb[1]),
               label, fill="#111111", font=font_box)
 
     # 우상단 크레딧
