@@ -557,8 +557,22 @@ class Melody:
                     return c
         return dpos
 
-    def phrase_start(self):
+    def phrase_start(self, near=False):
         r = self.rng
+        if near:
+            # 기초: 프레이즈를 시작할 때도 지금 자리에서 몇 음 안쪽으로만 움직인다
+            # (한 옥타브가 넘는 도약이 프레이즈 경계에 생기지 않게)
+            span = r.choice([-3, -2, -1, 1, 2, 3])
+            cand = self.dpos + span
+            step = -1 if span > 0 else 1
+            while not self.in_range(cand) and cand != self.dpos:
+                cand += step
+            if self.in_range(cand):
+                self.dpos = cand
+            self.last_dir = 0
+            self.same_dir = 0
+            self.last_interval = 0
+            return
         target = r.choice([31, 32, 33, 34, 35, 36])
         if self.in_range(target):
             self.dpos = target
@@ -1065,7 +1079,7 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
                 # 이 마디부터 새 조표로 표기하고, 선율도 새 조의 임시표로 적는다
                 b.set_key(key_changes[mnum])
             if mnum % 4 == 1 and mnum > 1:
-                b.mel.phrase_start()
+                b.mel.phrase_start(near=bool(cfg.get('phrase_near')))
             tie_ok_next = False
             if _idx + 1 < len(plans):
                 _nxt, _ = expand(plans[_idx + 1]['pat'])
