@@ -322,6 +322,1319 @@
   "thumb": "scores/thumb/010.jpg?v=7"
  },
  {
+  "no": 11,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "8분음표의 흐름",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   72
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "8분음표 두 개와 4분음표를 번갈아 읽기",
+  "tags": [
+   "4/4",
+   "8분음표"
+  ],
+  "image": "scores/011.png?v=7",
+  "pdf": "scores/011.pdf?v=7",
+  "thumb": "scores/thumb/011.jpg?v=7"
+ },
+ {
+  "no": 12,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "3/4박의 8분음표 연결",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   76
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "3/4박에서 8분음표를 두 개·네 개로 잇기",
+  "tags": [
+   "3/4",
+   "8분음표"
+  ],
+  "image": "scores/012.png?v=7",
+  "pdf": "scores/012.pdf?v=7",
+  "thumb": "scores/thumb/012.jpg?v=7"
+ },
+ {
+  "no": 13,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "6/8박 한 박씩 읽기",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   66
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "6/8박을 점4분음표 두 박으로 나눠 읽기",
+  "tags": [
+   "6/8",
+   "8분음표"
+  ],
+  "image": "scores/013.png?v=7",
+  "pdf": "scores/013.pdf?v=7",
+  "thumb": "scores/thumb/013.jpg?v=7"
+ },
+ {
+  "no": 14,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "8분쉼표 자리",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   76
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "8분음표 사이에 8분쉼표 넣기",
+  "tags": [
+   "4/4",
+   "8분쉼표"
+  ],
+  "image": "scores/014.png?v=7",
+  "pdf": "scores/014.pdf?v=7",
+  "thumb": "scores/thumb/014.jpg?v=7"
+ },
+ {
+  "no": 15,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "8분음표 네 개 잇기",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   80
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "8분음표 네 개를 한 빔으로 읽기",
+  "tags": [
+   "4/4",
+   "8분음표 연결"
+  ],
+  "image": "scores/015.png?v=7",
+  "pdf": "scores/015.pdf?v=7",
+  "thumb": "scores/thumb/015.jpg?v=7"
+ },
+ {
+  "no": 16,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "3/4박의 8분음표 연속",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   84
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "한 마디를 8분음표 여섯 개로 채우기",
+  "tags": [
+   "3/4",
+   "8분음표",
+   "쉼표"
+  ],
+  "image": "scores/016.png?v=7",
+  "pdf": "scores/016.pdf?v=7",
+  "thumb": "scores/thumb/016.jpg?v=7"
+ },
+ {
+  "no": 17,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "6/8박의 8분쉼표",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   69
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "6/8박 한 박 안에서 쉼표 뒤 두 음 읽기",
+  "tags": [
+   "6/8",
+   "8분쉼표"
+  ],
+  "image": "scores/017.png?v=7",
+  "pdf": "scores/017.pdf?v=7",
+  "thumb": "scores/thumb/017.jpg?v=7"
+ },
+ {
+  "no": 18,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "2/4박의 8분음표",
+  "meters": [
+   "2/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "짧은 두 박 안에서 8분음표 세기",
+  "tags": [
+   "2/4",
+   "8분음표"
+  ],
+  "image": "scores/018.png?v=7",
+  "pdf": "scores/018.pdf?v=7",
+  "thumb": "scores/thumb/018.jpg?v=7"
+ },
+ {
+  "no": 19,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "긴 음과 8분음표",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   84
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "2분음표·4분음표와 8분음표의 비율",
+  "tags": [
+   "4/4",
+   "2분음표·8분음표"
+  ],
+  "image": "scores/019.png?v=7",
+  "pdf": "scores/019.pdf?v=7",
+  "thumb": "scores/thumb/019.jpg?v=7"
+ },
+ {
+  "no": 20,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "8분음표와 붙임줄",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "마디를 넘어 이어지는 붙임줄 읽기",
+  "tags": [
+   "4/4",
+   "8분음표",
+   "붙임줄"
+  ],
+  "image": "scores/020.png?v=7",
+  "pdf": "scores/020.pdf?v=7",
+  "thumb": "scores/thumb/020.jpg?v=7"
+ },
+ {
+  "no": 21,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "엇박의 첫걸음",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   84
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "4분쉼표로 만드는 엇박에 붙는 8분음표",
+  "tags": [
+   "4/4",
+   "엇박"
+  ],
+  "image": "scores/021.png?v=7",
+  "pdf": "scores/021.pdf?v=7",
+  "thumb": "scores/thumb/021.jpg?v=7"
+ },
+ {
+  "no": 22,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "3/4박의 엇박",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "3/4박 첫 박을 쉬고 들어오기",
+  "tags": [
+   "3/4",
+   "엇박"
+  ],
+  "image": "scores/022.png?v=7",
+  "pdf": "scores/022.pdf?v=7",
+  "thumb": "scores/thumb/022.jpg?v=7"
+ },
+ {
+  "no": 23,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "6/8박의 8분음표 연속",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   72
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "6/8박 두 박을 모두 8분음표로",
+  "tags": [
+   "6/8",
+   "8분음표",
+   "쉼표"
+  ],
+  "image": "scores/023.png?v=7",
+  "pdf": "scores/023.pdf?v=7",
+  "thumb": "scores/thumb/023.jpg?v=7"
+ },
+ {
+  "no": 24,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "앞꾸밈음 첫걸음",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "긴 음 앞에 한 음 꾸밈음 붙이기",
+  "tags": [
+   "4/4",
+   "꾸밈음"
+  ],
+  "image": "scores/024.png?v=7",
+  "pdf": "scores/024.pdf?v=7",
+  "thumb": "scores/thumb/024.jpg?v=7"
+ },
+ {
+  "no": 25,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "12/8박의 흐름",
+  "meters": [
+   "12/8"
+  ],
+  "tempos": [
+   60
+  ],
+  "bars": 35,
+  "lines": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "midline": false,
+  "focus": "12/8박 네 박을 점4분음표로 세며 읽기",
+  "tags": [
+   "12/8",
+   "8분음표"
+  ],
+  "image": "scores/025.png?v=7",
+  "pdf": "scores/025.pdf?v=7",
+  "thumb": "scores/thumb/025.jpg?v=7"
+ },
+ {
+  "no": 26,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "농현 첫걸음",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   84
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "긴 음에 농현(~) 얹어 소리 흔들기",
+  "tags": [
+   "3/4",
+   "농현"
+  ],
+  "image": "scores/026.png?v=7",
+  "pdf": "scores/026.pdf?v=7",
+  "thumb": "scores/thumb/026.jpg?v=7"
+ },
+ {
+  "no": 27,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "6/8박의 꾸밈음",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   72
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "6/8박에서 꾸밈음과 농현 구분해 읽기",
+  "tags": [
+   "6/8",
+   "꾸밈음",
+   "농현"
+  ],
+  "image": "scores/027.png?v=7",
+  "pdf": "scores/027.pdf?v=7",
+  "thumb": "scores/thumb/027.jpg?v=7"
+ },
+ {
+  "no": 28,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "2/4박 8분음표 달리기",
+  "meters": [
+   "2/4"
+  ],
+  "tempos": [
+   92
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "2/4박에서 8분음표를 빠르게 이어 읽기",
+  "tags": [
+   "2/4",
+   "8분음표"
+  ],
+  "image": "scores/028.png?v=7",
+  "pdf": "scores/028.pdf?v=7",
+  "thumb": "scores/thumb/028.jpg?v=7"
+ },
+ {
+  "no": 29,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "엇박과 8분음표 연속",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   92
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "8분음표 연속 안에서 엇박 세기",
+  "tags": [
+   "4/4",
+   "엇박",
+   "8분음표"
+  ],
+  "image": "scores/029.png?v=7",
+  "pdf": "scores/029.pdf?v=7",
+  "thumb": "scores/thumb/029.jpg?v=7"
+ },
+ {
+  "no": 30,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "6/8박 마무리",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   76
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "한 박 두 음·세 음을 바꿔 가며 읽기",
+  "tags": [
+   "6/8",
+   "8분음표",
+   "농현"
+  ],
+  "image": "scores/030.png?v=7",
+  "pdf": "scores/030.pdf?v=7",
+  "thumb": "scores/thumb/030.jpg?v=7"
+ },
+ {
+  "no": 31,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "긴 음과 짧은 음",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "2분음표 뒤에 8분음표가 붙는 흐름",
+  "tags": [
+   "4/4",
+   "농현",
+   "꾸밈음"
+  ],
+  "image": "scores/031.png?v=7",
+  "pdf": "scores/031.pdf?v=7",
+  "thumb": "scores/thumb/031.jpg?v=7"
+ },
+ {
+  "no": 32,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "3/4박의 긴 음",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   92
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "2분음표를 끝까지 세고 이어 가기",
+  "tags": [
+   "3/4",
+   "2분음표",
+   "농현"
+  ],
+  "image": "scores/032.png?v=7",
+  "pdf": "scores/032.pdf?v=7",
+  "thumb": "scores/thumb/032.jpg?v=7"
+ },
+ {
+  "no": 33,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "12/8박의 넓은 흐름",
+  "meters": [
+   "12/8"
+  ],
+  "tempos": [
+   63
+  ],
+  "bars": 35,
+  "lines": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "midline": false,
+  "focus": "12/8박에서 긴 음과 8분음표 엮기",
+  "tags": [
+   "12/8",
+   "농현"
+  ],
+  "image": "scores/033.png?v=7",
+  "pdf": "scores/033.pdf?v=7",
+  "thumb": "scores/thumb/033.jpg?v=7"
+ },
+ {
+  "no": 34,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "6/8박의 농현과 쉼표",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   76
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "쉼표 뒤 농현으로 다시 들어오기",
+  "tags": [
+   "6/8",
+   "농현",
+   "쉼표"
+  ],
+  "image": "scores/034.png?v=7",
+  "pdf": "scores/034.pdf?v=7",
+  "thumb": "scores/thumb/034.jpg?v=7"
+ },
+ {
+  "no": 35,
+  "level": "기초",
+  "key": "B♭",
+  "fifths": -2,
+  "title": "B♭ 첫 만남",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "내림표 두 개(B♭) 조표에 익숙해지기",
+  "tags": [
+   "4/4",
+   "B♭ 조표"
+  ],
+  "image": "scores/035.png?v=7",
+  "pdf": "scores/035.pdf?v=7",
+  "thumb": "scores/thumb/035.jpg?v=7"
+ },
+ {
+  "no": 36,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "점8분음표와 16분음표",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "점8분음표+16분음표 짝을 한 빔으로",
+  "tags": [
+   "4/4",
+   "점8분+16분",
+   "당김활"
+  ],
+  "image": "scores/036.png?v=7",
+  "pdf": "scores/036.pdf?v=7",
+  "thumb": "scores/thumb/036.jpg?v=7"
+ },
+ {
+  "no": 37,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "3/4박의 점8분+16분",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "3/4박에서 점8분음표 짝 읽기",
+  "tags": [
+   "3/4",
+   "점8분+16분",
+   "당김활"
+  ],
+  "image": "scores/037.png?v=7",
+  "pdf": "scores/037.pdf?v=7",
+  "thumb": "scores/thumb/037.jpg?v=7"
+ },
+ {
+  "no": 38,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "6/8박의 점8분+16분",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   72
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "6/8박 한 박 안의 점8분음표 짝",
+  "tags": [
+   "6/8",
+   "점8분+16분",
+   "당김활"
+  ],
+  "image": "scores/038.png?v=7",
+  "pdf": "scores/038.pdf?v=7",
+  "thumb": "scores/thumb/038.jpg?v=7"
+ },
+ {
+  "no": 39,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "점8분 리듬의 흐름",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   92
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "점8분음표가 마디 안에서 움직이는 자리",
+  "tags": [
+   "4/4",
+   "점8분+16분"
+  ],
+  "image": "scores/039.png?v=7",
+  "pdf": "scores/039.pdf?v=7",
+  "thumb": "scores/thumb/039.jpg?v=7"
+ },
+ {
+  "no": 40,
+  "level": "기초",
+  "key": "B♭",
+  "fifths": -2,
+  "title": "B♭의 점8분 리듬",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   88
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "B♭ 조표에서 점8분+16분 읽기",
+  "tags": [
+   "4/4",
+   "B♭ 조표",
+   "점8분+16분"
+  ],
+  "image": "scores/040.png?v=7",
+  "pdf": "scores/040.pdf?v=7",
+  "thumb": "scores/thumb/040.jpg?v=7"
+ },
+ {
+  "no": 41,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "12/8박의 점8분+16분",
+  "meters": [
+   "12/8"
+  ],
+  "tempos": [
+   63
+  ],
+  "bars": 35,
+  "lines": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "midline": false,
+  "focus": "12/8박에서 점8분음표 짝 세기",
+  "tags": [
+   "12/8",
+   "점8분+16분",
+   "당김활"
+  ],
+  "image": "scores/041.png?v=7",
+  "pdf": "scores/041.pdf?v=7",
+  "thumb": "scores/thumb/041.jpg?v=7"
+ },
+ {
+  "no": 42,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "3/4에서 6/8로",
+  "meters": [
+   "3/4",
+   "6/8"
+  ],
+  "tempos": [
+   84,
+   72
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "한 곡에서 박자가 한 번 바뀌는 지점 읽기",
+  "tags": [
+   "3/4→6/8",
+   "박자 바뀜",
+   "당김활"
+  ],
+  "image": "scores/042.png?v=7",
+  "pdf": "scores/042.pdf?v=7",
+  "thumb": "scores/thumb/042.jpg?v=7"
+ },
+ {
+  "no": 43,
+  "level": "기초",
+  "key": "D♭",
+  "fifths": -5,
+  "title": "D♭ 첫 만남",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   84
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "내림표 다섯 개(D♭) 조표에 익숙해지기",
+  "tags": [
+   "4/4",
+   "D♭ 조표"
+  ],
+  "image": "scores/043.png?v=7",
+  "pdf": "scores/043.pdf?v=7",
+  "thumb": "scores/thumb/043.jpg?v=7"
+ },
+ {
+  "no": 44,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "4/4에서 3/4로",
+  "meters": [
+   "4/4",
+   "3/4"
+  ],
+  "tempos": [
+   88,
+   80
+  ],
+  "bars": 50,
+  "lines": [
+   6,
+   6,
+   6,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "4/4에서 3/4로 줄어드는 박자 감각",
+  "tags": [
+   "4/4→3/4",
+   "박자 바뀜",
+   "당김활"
+  ],
+  "image": "scores/044.png?v=7",
+  "pdf": "scores/044.pdf?v=7",
+  "thumb": "scores/thumb/044.jpg?v=7"
+ },
+ {
+  "no": 45,
+  "level": "기초",
+  "key": "A♭",
+  "fifths": -4,
+  "title": "6/8박의 꾸밈음과 점8분",
+  "meters": [
+   "6/8"
+  ],
+  "tempos": [
+   76
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "꾸밈음이 붙은 점8분음표 짝 읽기",
+  "tags": [
+   "6/8",
+   "꾸밈음",
+   "점8분+16분"
+  ],
+  "image": "scores/045.png?v=7",
+  "pdf": "scores/045.pdf?v=7",
+  "thumb": "scores/thumb/045.jpg?v=7"
+ },
+ {
+  "no": 46,
+  "level": "기초",
+  "key": "B♭",
+  "fifths": -2,
+  "title": "B♭에서 박자 바뀜",
+  "meters": [
+   "4/4",
+   "3/4"
+  ],
+  "tempos": [
+   84,
+   80
+  ],
+  "bars": 50,
+  "lines": [
+   6,
+   6,
+   6,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "B♭ 조표로 4/4에서 3/4까지",
+  "tags": [
+   "4/4→3/4",
+   "B♭ 조표",
+   "박자 바뀜"
+  ],
+  "image": "scores/046.png?v=7",
+  "pdf": "scores/046.pdf?v=7",
+  "thumb": "scores/thumb/046.jpg?v=7"
+ },
+ {
+  "no": 47,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "2/4에서 4/4로",
+  "meters": [
+   "2/4",
+   "4/4"
+  ],
+  "tempos": [
+   92,
+   84
+  ],
+  "bars": 48,
+  "lines": [
+   8,
+   8,
+   8,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "두 박에서 네 박으로 늘어나는 박자",
+  "tags": [
+   "2/4→4/4",
+   "박자 바뀜",
+   "당김활"
+  ],
+  "image": "scores/047.png?v=7",
+  "pdf": "scores/047.pdf?v=7",
+  "thumb": "scores/thumb/047.jpg?v=7"
+ },
+ {
+  "no": 48,
+  "level": "기초",
+  "key": "D♭",
+  "fifths": -5,
+  "title": "D♭의 3/4박",
+  "meters": [
+   "3/4"
+  ],
+  "tempos": [
+   84
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "D♭ 조표로 3/4박 점8분 리듬",
+  "tags": [
+   "3/4",
+   "D♭ 조표",
+   "점8분+16분"
+  ],
+  "image": "scores/048.png?v=7",
+  "pdf": "scores/048.pdf?v=7",
+  "thumb": "scores/thumb/048.jpg?v=7"
+ },
+ {
+  "no": 49,
+  "level": "기초",
+  "key": "E♭",
+  "fifths": -3,
+  "title": "기초 종합: 엇박과 점8분",
+  "meters": [
+   "4/4"
+  ],
+  "tempos": [
+   96
+  ],
+  "bars": 42,
+  "lines": [
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "midline": false,
+  "focus": "엇박·8분음표 연속·점8분을 한 곡에",
+  "tags": [
+   "4/4",
+   "엇박",
+   "점8분+16분",
+   "당김활"
+  ],
+  "image": "scores/049.png?v=7",
+  "pdf": "scores/049.pdf?v=7",
+  "thumb": "scores/thumb/049.jpg?v=7"
+ },
+ {
+  "no": 50,
+  "level": "기초",
+  "key": "D♭",
+  "fifths": -5,
+  "title": "기초 마무리",
+  "meters": [
+   "3/4",
+   "6/8"
+  ],
+  "tempos": [
+   84,
+   66
+  ],
+  "bars": 56,
+  "lines": [
+   8,
+   8,
+   8,
+   8,
+   8,
+   8,
+   8
+  ],
+  "midline": false,
+  "focus": "D♭ 조표로 박자 바뀜까지 마무리",
+  "tags": [
+   "3/4→6/8",
+   "D♭ 조표",
+   "기초 종합"
+  ],
+  "image": "scores/050.png?v=7",
+  "pdf": "scores/050.pdf?v=7",
+  "thumb": "scores/thumb/050.jpg?v=7"
+ },
+ {
   "no": 51,
   "level": "중급",
   "key": "E♭",

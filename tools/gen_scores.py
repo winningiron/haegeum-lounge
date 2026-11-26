@@ -602,6 +602,8 @@ class PieceBuilder:
         self.last_dyn = None
         self.wedge_open = False
         self.wedge_end = 0
+        self._mtargets = list(cfg.get('mordent_measures') or ()) if cfg['level'] == '기초' else []
+        self._mi = 0
 
     def set_key(self, key):
         self.fifths = KEY_FIFTHS[key]
@@ -766,6 +768,28 @@ class PieceBuilder:
                 it['trill'] = True
                 self.features.add('트릴')
 
+        # 기초 후반의 농현: 곡마다 정한 마디(cfg['mordent_measures']) 근처에서 그 마디의
+        # 가장 긴 음에 붙인다 (plain=True 인 곡에서도 농현만은 붙일 수 있게 따로 둔다).
+        # 정한 마디에 긴 음이 없으면 3마디 안에서 찾고, 그래도 없으면 쉬어 간다.
+        while self._mi < len(self._mtargets):
+            t = self._mtargets[self._mi]
+            if mnum < t:
+                break
+            picks = [n for n in note_items
+                     if n['dur'] >= 18 and not n.get('mordent') and id(n) not in grace_targets]
+            if not picks:
+                picks = [n for n in note_items
+                         if n['dur'] >= 12 and not n.get('mordent') and id(n) not in grace_targets]
+            if picks and mnum <= t + 3:
+                max(picks, key=lambda n: n['dur'])['mordent'] = True
+                self.features.add('농현')
+                self._mi += 1
+                break
+            if mnum > t + 3:
+                self._mi += 1
+                continue
+            break
+
         # --- 슬러 ---
         self.add_slurs(items, lv)
 
@@ -798,7 +822,7 @@ class PieceBuilder:
             return
         r = self.rng
         if lv == '기초':
-            p_slot, sizes = 0.28, [1]
+            p_slot, sizes = self.cfg.get('grace_p', 0.28), [1]
         elif lv == '중급':
             p_slot, sizes = 0.40, [1, 2]
         else:
