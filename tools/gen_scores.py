@@ -597,6 +597,61 @@ class Melody:
 
 
 # ----------------------------------------------------------------------------
+# 슬러 시작 자리 (빔·박 중간 시작 금지)
+# ----------------------------------------------------------------------------
+def beam_attaches_back(items, i):
+    """i번 음이 앞 박의 점8분+16분 짝에 붙어 빔의 끝이 되는지.
+
+    apply_beams 는 점8분+16분 짝을 박 경계를 넘어도 한 빔으로 묶으므로,
+    박 첫 음이라도 이 경우에는 빔의 두 번째 음이 된다.
+    """
+    it = items[i]
+    if it.get('grace') or it['rest'] or it['ntype'] != '16th':
+        return False
+    j = i - 1
+    while j >= 0 and items[j].get('grace'):
+        j -= 1
+    if j < 0:
+        return False
+    p = items[j]
+    return (not p['rest']) and p['ntype'] == 'eighth' and bool(p.get('dot'))
+
+
+def enforce_slur_starts(items, meter):
+    """빔·박 중간에서 시작하는 슬러를 지운다 (apply_beams 뒤에 호출).
+
+    add_slurs 가 이미 박 첫 음에서만 시작하게 만들지만, 빔 모양은 apply_beams 가
+    정하므로 결과를 다시 확인해 위반 0건을 보장한다.
+    """
+    starts, t = [], 0
+    for it in items:
+        if it.get('grace'):
+            starts.append(None)
+            continue
+        starts.append(t)
+        t += it['dur']
+    beats = set(beat_bounds(meter)[:-1])
+    for i, it in enumerate(items):
+        if it.get('grace') or it['rest']:
+            continue
+        if 'start' not in (it.get('slur') or []):
+            continue
+        b1 = None
+        for num, val in (it.get('beams') or []):
+            if num == 1:
+                b1 = val
+        if starts[i] in beats and b1 not in ('continue', 'end', 'forward hook', 'backward hook'):
+            continue
+        # 슬러 시작/끝 짝을 함께 지운다
+        it['slur'] = [x for x in it['slur'] if x != 'start'] or None
+        for j in range(i + 1, len(items)):
+            sj = items[j].get('slur')
+            if sj and 'stop' in sj:
+                items[j]['slur'] = [x for x in sj if x != 'stop'] or None
+                break
+
+
+# ----------------------------------------------------------------------------
 # 한 곡 조성
 # ----------------------------------------------------------------------------
 class PieceBuilder:
@@ -805,7 +860,7 @@ class PieceBuilder:
             break
 
         # --- 슬러 ---
-        self.add_slurs(items, lv)
+        self.add_slurs(items, lv, meter)
 
         # --- 마디 사이 타이 ---
         if not self.cfg.get('no_tie') and note_items and not is_final and tie_ok_next:
@@ -829,6 +884,7 @@ class PieceBuilder:
 
         # --- 빔 ---
         apply_beams(items, meter)
+        enforce_slur_starts(items, meter)
         return items
 
     def add_graces(self, items, lv, meter):
@@ -906,7 +962,7 @@ class PieceBuilder:
                 items[pos + j]['beams'] = [(1, val), (2, val)]
         self.features.add('장식음')
 
-    def add_slurs(self, items, lv):
+    def add_slurs(self, items, lv, meter):
         if self.cfg.get('no_slur'):
             return
         r = self.rng
@@ -919,9 +975,27 @@ class PieceBuilder:
         p = {'기초': 0.55, '중급': 0.65, '고급': 0.5}[lv]
         if r.random() > p:
             return
-        start_idx = plain[r.randrange(1, len(plain) - 1)]
+        # 슬러는 박의 첫 음에서만 시작한다.
+        # 8분음표 빔(묶음)의 두 번째 음이나 약박 중간에서 시작하는 슬러는
+        # 프레이즈의 시작을 잘못 읽게 만든다 (2026-11-27 지시).
+        # 난수 소비는 예전과 똑같이 유지하고(같은 곡의 선율이 바뀌지 않도록),
+        # 뽑힌 위치 이하에서 가장 가까운 박 첫 음으로 시작점을 옮긴다.
+        starts, t = [], 0
+        for it in items:
+            if it.get('grace'):
+                starts.append(None)
+                continue
+            starts.append(t)
+            t += it['dur']
+        beats = set(beat_bounds(meter)[:-1])
+        cands = [i for i in plain if starts[i] in beats and not beam_attaches_back(items, i)]
+        pick = plain[r.randrange(1, len(plain) - 1)]
         choices = self.cfg.get('slur_len') or ([2, 2, 3, 3, 4] if lv != '기초' else [2, 2, 3])
         length = r.choice(choices)
+        if not cands:
+            return
+        before = [i for i in cands if i <= pick]
+        start_idx = before[-1] if before else cands[0]
         # 장식음 무리를 가로지르는 슬러는 만들지 않고, 쉼표를 가로지르는 슬러도 만들지 않는다.
         # (쉼표를 건너뛰고 앞뒤 음을 이으면 쉼표 위를 이음줄이 지나가 초견에 잘못 읽힌다.
         #  쉼표를 만나면 거기서 끊고, 그 앞의 인접한 음들끼리만 잇는다.)
