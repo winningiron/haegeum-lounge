@@ -10,6 +10,12 @@
   2) 조판에 쓴 SVG(tools/gen_scores.py 와 같은 경로로 다시 만든 것 — PNG 와 픽셀 단위로 같다)에서
      단 안의 마디별 가로 위치를 문서 단위로 얻는다.
   3) 단마다 1)의 왼·오른 끝에 맞춰 선형으로 환산한다 (세로는 오선 위치를 그대로 사용).
+
+커서 시작점(마디 상자 왼쪽 끝):
+  단 첫머리나 박자·조가 바뀌는 마디는 높은음자리표·조표·박자표가 마디 앞머리를 차지한다.
+  그런 마디의 상자 왼쪽 끝은 마디줄이 아니라 layer(음표·쉼표·빔)의 가장 왼쪽 잉크에서
+  반 칸 남짓 앞으로 잡는다. 그래야 커서가 기호 위를 지나가지 않고 첫 음표/쉼표에서 시작한다.
+  앞머리 기호가 없는 마디는 예전처럼 마디줄 바로 뒤부터 시작한다. 마디 오른쪽 끝(세로줄)은 그대로.
 결과는 이미지 크기로 나눈 비율(fx, fy, fw, fh)이라 화면 배율과 무관하다.
 """
 import os, sys, json, re
@@ -29,8 +35,41 @@ COMPOUND = ((6, 8), (9, 8), (12, 8))
 
 
 # ------------------------------------------------------------------ SVG
+# 커서 시작점을 앞머리 기호(음자리표·조표·박자표) 뒤로 미는 여백 — 오선 한 칸의 비율
+HEAD_PAD_SPACES = 0.45
+
+
+def _nums(s):
+    return [float(v) for v in re.findall(r'-?\d+\.?\d*', s)]
+
+
+def _ink_x(el, acc):
+    """요소와 자손이 실제로 그려지는 x 좌표를 acc 에 모은다."""
+    for e in el.iter():
+        _ink_x_one(e, acc)
+
+
+def _ink_x_one(el, acc):
+    tag = el.tag.split('}')[-1]
+    if tag == 'path':
+        acc.extend(_nums(el.attrib.get('d', ''))[0::2])
+    elif tag == 'ellipse':
+        cx, rx = float(el.attrib.get('cx', 0)), float(el.attrib.get('rx', 0))
+        acc.extend([cx - rx, cx + rx])
+    elif tag == 'circle':
+        cx, r = float(el.attrib.get('cx', 0)), float(el.attrib.get('r', 0))
+        acc.extend([cx - r, cx + r])
+    elif tag == 'rect':
+        x, w = float(el.attrib.get('x', 0)), float(el.attrib.get('width', 0))
+        acc.extend([x, x + w])
+    elif tag == 'use':
+        m = re.search(r'translate\(\s*(-?\d+\.?\d*)', el.attrib.get('transform', ''))
+        if m:
+            acc.append(float(m.group(1)))
+
+
 def svg_systems(cfg):
-    """마디별 (x0, x1) 문서 단위 + 오선 y. render() 안의 SVG 생성 부분과 같은 경로."""
+    """마디별 (x0, x1, 커서 시작점) 문서 단위 + 오선 y. render() 안의 SVG 생성 부분과 같은 경로."""
     br = g.line_breaks(cfg)
     total = g.piece_total(cfg)
     xml, builder, mxs = g.build_piece(cfg, breaks_at=br)
@@ -51,25 +90,46 @@ def svg_systems(cfg):
     pm = [c for c in ds.iter(NS + 'g') if c.attrib.get('class') == 'page-margin'][0]
     out = []
     for sysg in [c for c in pm.iter(NS + 'g') if c.attrib.get('class') == 'system']:
-        measures, ys = [], []
+        measures, ys, line_ys = [], [], []
         for m in [c for c in sysg.iter(NS + 'g') if c.attrib.get('class') == 'measure']:
-            xs, yv = [], []
+            xs, yv, content, head_x = [], [], [], []
             for st in [c for c in m if c.attrib.get('class') == 'staff']:
                 for p in st.iter(NS + 'path'):
                     nums = [float(v) for v in re.findall(r'-?\d+\.?\d*', p.attrib.get('d', ''))]
                     if len(nums) >= 4:
                         xs.extend([nums[0], nums[2]])
                         yv.extend([nums[1], nums[3]])
+                # staff 바로 아래: 오선(5줄) · clef/keySig/meterSig · layer
+                for c in st:
+                    cls = (c.attrib.get('class') or '').split()
+                    if cls and cls[0] in ('clef', 'keySig', 'meterSig'):
+                        acc = []
+                        _ink_x(c, acc)                   # 마디 앞머리 기호의 오른끝
+                        if acc:
+                            head_x.append(max(acc))
+                    elif cls and cls[0] == 'layer':
+                        acc = []
+                        _ink_x(c, acc)
+                        if acc:
+                            content.append(min(acc))
+                    elif c.tag == NS + 'path' and not cls:
+                        n = _nums(c.attrib.get('d', ''))
+                        if len(n) == 4 and n[1] == n[3]:
+                            line_ys.append(n[1])
             if xs:
-                measures.append((min(xs), max(xs)))
+                measures.append(dict(a=min(xs), b=max(xs),
+                                     cx=(min(content) if content else None),
+                                     head=(max(head_x) if head_x else None)))
                 ys.extend(yv)
         # 마디줄 폭(2~10단위)이 겹치지 않게 이어 붙인다
         for i in range(len(measures) - 1):
-            a = measures[i]
-            b = measures[i + 1]
-            if b[0] < a[1] - 20:
-                measures[i] = (a[0], max(a[1], b[0]))
-        out.append(dict(measures=measures, y0=min(ys), y1=max(ys)))
+            a, b = measures[i], measures[i + 1]
+            if b['a'] < a['b'] - 20:
+                measures[i]['b'] = max(a['b'], b['a'])
+        lv = sorted(set(line_ys))
+        gaps = [y1 - y0 for y0, y1 in zip(lv, lv[1:]) if 20 < y1 - y0 < 400]
+        space = float(np.median(gaps)) if gaps else 140.0
+        out.append(dict(measures=measures, space=space, y0=min(ys), y1=max(ys)))
     return out, mxs, total
 
 
@@ -124,11 +184,16 @@ def measure_boxes(cfg, svg_sys, png_sys, W, H, expect):
         ms = sv['measures']
         if len(ms) != expect[si]:
             raise RuntimeError(f"#{cfg['no']}: {si + 1}단 마디 {len(ms)}개 (계획 {expect[si]})")
-        d0, d1 = ms[0][0], ms[-1][1]
+        d0, d1 = ms[0]['a'], ms[-1]['b']
         scale = (pn['x1'] - pn['x0']) / (d1 - d0)
         pad_top, pad_bot = 9, 10
         sysinfo.append(dict(y0=pn['y0'] - pad_top, y1=pn['y1'] + pad_bot))
-        for (a, b) in ms:
+        for mm in ms:
+            a, b = mm['a'], mm['b']
+            # 앞머리에 음자리표·조표·박자표가 있는 마디: 첫 음표/쉼표 잉크 앞에서 시작
+            if (mm['head'] is not None and mm['cx'] is not None
+                    and mm['head'] < mm['cx'] - sv['space'] * 0.5):
+                a = max(a, mm['cx'] - sv['space'] * HEAD_PAD_SPACES)
             x0 = pn['x0'] + (a - d0) * scale
             x1 = pn['x0'] + (b - d0) * scale
             boxes.append(dict(s=si,

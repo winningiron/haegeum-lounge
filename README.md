@@ -63,8 +63,9 @@ python3 extract_timeline.py        # 70곡 data/tl/*.json 생성 (악보 PNG 는
 
 `extract_timeline.py` 는 `gen_scores.build_piece()` 의 음표·쉼표·붙임줄·장식음·템포·박자에서
 연주 타임라인을 만들고, 마디 좌표는 배포된 `scores/NNN.png` 의 오선과 마디줄, 조판 SVG 의
-마디 위치를 맞춰 잽니다. 마디줄을 넘는 붙임줄은 길이를 이어 붙이고, 장식음은 본음 직전에
-짧게 선행 타격하도록 시간을 잡습니다.
+마디 위치를 맞춰 잽니다. 단 첫머리나 박자·조가 바뀌는 마디는 상자 왼쪽 끝을 마디줄이 아니라
+첫 음표/쉼표 앞으로 잡아, 커서가 높은음자리표·조표·박자표 위를 지나가지 않게 합니다.
+마디줄을 넘는 붙임줄은 길이를 이어 붙이고, 장식음은 본음 직전에 짧게 선행 타격하도록 시간을 잡습니다.
 
 > 피아노 음원: [Salamander Grand Piano](https://archive.org/details/SalamanderGrandPianoV3)
 > (Alexander Holm, CC BY 3.0) — `assets/piano/` 에 10개 음만 담았습니다.
