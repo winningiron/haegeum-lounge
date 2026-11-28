@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>해금 초견 라운지 · 200곡</title>
-<meta name="description" content="해금 초견 교본 200곡(기초 1~50 · 중급 51~150 · 고급 151~200). 악보마다 피아노 가이드 연주, 메트로놈, 노래방식 커서, 마이크 음정 체크로 초견을 연습합니다.">
+<meta name="description" content="해금 초견 교본 200곡(기초 1~50 · 중급 51~150 · 고급 151~200). 악보마다 피아노 가이드 연주, 메트로놈, 마디 배경 하이라이트, 마이크 음정 체크로 초견을 연습합니다.">
 <meta name="theme-color" content="#f7f3ea">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎻</text></svg>">
-<link rel="stylesheet" href="assets/style.css?v=18">
+<link rel="stylesheet" href="assets/style.css?v=19">
 </head>
 <body>
 <header class="hero">
@@ -69,7 +69,7 @@
     <option value="level">현재 난이도에서</option>
     <option value="all">전체 200곡에서</option>
   </select>
-  <span class="exam-note" id="examNote">30초 읽고, 소리·커서 없이 제한 시간 안에 연주</span>
+  <span class="exam-note" id="examNote">30초 읽고, 소리·마디 표시 없이 제한 시간 안에 연주</span>
 </div>
 
 <main id="viewScores">
@@ -93,22 +93,21 @@
   <section class="notice">
     <h2>이 라운지에 대하여</h2>
     <ul>
-      <li>모든 곡을 <strong>A4 세로 한 페이지</strong>(<strong>7단</strong>)에 담았습니다. 한 줄에 넣는 마디 수는 박자에 따라 다릅니다 — <strong>4/4는 6마디</strong>, <strong>12/8은 5마디</strong>, 그 밖의 박자는 6~8마디. 곡마다 <strong>35~56마디</strong>.</li>
-      <li>음표 사이 간격을 박자에 비례해 고르게 폈습니다. 장식음 무리와 앞뒤 음표가 붙지 않도록 폭을 넉넉히 잡았습니다.</li>
-      <li>박자·조표가 바뀌는 지점은 대부분 줄 첫머리에서 시작합니다. <strong>기초 5곡(42·44·46·47·50)</strong>은 한 곡에 한 번 박자가 바뀌고, <strong>중급 16곡·고급 44곡</strong>은 줄 중간에서도 바뀌어, 예상 밖의 변화에 익숙해지도록 했습니다.</li>
+      <li>모든 곡을 <strong>A4 세로 한 페이지</strong>(<strong>7단</strong>)에 담았습니다. 한 줄에 넣는 마디 수는 박자에 따라 다릅니다 — <strong>4/4는 6마디</strong>, <strong>12/8은 5마디</strong>, 그 밖의 박자는 6~8마디. 곡마다 <strong>35~56마디</strong>.</li>      <li>음표 사이 간격을 박자에 비례해 고르게 폈습니다. 장식음 무리와 앞뒤 음표가 붙지 않도록 폭을 넉넉히 잡았습니다.</li>
+      <li>박자·조표가 바뀌는 지점은 되도록 줄 첫머리에 맞췄습니다. <strong>기초 5곡(42·44·46·47·50)</strong>은 한 곡에 한 번만 박자가 바뀌고, <strong>중급 100곡·고급 50곡</strong>은 모두 곡마다 2~5구간으로 박자가 바뀝니다(그중 중급 79곡·고급 44곡은 줄 중간에서도 바뀜). 예상 밖의 변화에 익숙해지도록 했습니다.</li>
       <li>음역은 해금의 실음역 <strong>A3~C6</strong> 안에서만 움직입니다(유현 개방현 C4 · 중현 G3 기준). 기초는 가운데 음역에서 시작해 곡이 갈수록 조금씩 넓어집니다. 조표는 <strong>해금에서 가장 편한 E♭(♭3)</strong>에서 시작해 <strong>A♭(♭4) → B♭(♭2)·D♭(♭5) → F(♭1)·G♭(♭6)</strong> 차례로 어려워집니다.</li>
       <li>기초 50곡의 조표는 <strong>E♭ 27 · A♭ 17 · B♭ 3 · D♭ 3</strong>입니다. 1~7번 E♭, 8~13번 A♭으로 시작해 <strong>35번에서 B♭, 43번에서 D♭</strong>을 처음 만나고, 중급에서 B♭·D♭, 고급에서 F·G♭으로 이어집니다.
         <br><strong>중급 100곡</strong> E♭ 42 · A♭ 27 · B♭ 17 · D♭ 12 · F 2, <strong>고급 50곡</strong> E♭ 16 · A♭ 13 · B♭ 6 · D♭ 7 · F 4 · G♭ 2 · G 1 · D 1.</li>
       <li>기초는 <strong>음표 하나에서 시작</strong>해 열 곡씩 한 걸음씩 나아갑니다.
         <br><strong>1~10번</strong> 온음표·2분음표 → 점2분음표·4분음표 → 4분쉼표·점4분음표 → 8분음표와 슬러
         <br><strong>11~20번</strong> 8분음표 연결과 8분쉼표, 3/4·6/8·2/4·12/8의 8분음표 흐름, 붙임줄
-        <br><strong>21~30번</strong> 4분쉼표로 만드는 엇박, 농현(~)과 한 음 앞꾸밈음
+        <br><strong>21~30번</strong> 4분쉼표로 만드는 엇박, 모르덴트와 한 음 앞꾸밈음
         <br><strong>31~40번</strong> 긴 음과 짧은 음의 대비, 점8분음표+16분음표, B♭(35번)
         <br><strong>41~50번</strong> 한 곡에 한 번 박자 바뀜(3/4→6/8·4/4→3/4·2/4→4/4), D♭(43번), 기초 종합</li>
-      <li>프레이즈 첫 음의 <strong>당김활(내활)</strong> 표시는 중급·고급에 넣었고, 기초는 <strong>36번부터</strong> 붙입니다. 2~3음 장식음은 16분 겹빔, 농현·트릴은 안내서의 시김새 설명에 맞췄습니다.</li>
-      <li>중급은 10곡씩 여섯 묶음입니다. <strong>51~70</strong> 박자 전환과 3연음, <strong>71~90</strong> 점8분+16분과 첫 조바꿈, <strong>91~110</strong> 넓은 도약·빠른 템포·5/8·7/8 첫 등장, <strong>111~130</strong> 조바꿈과 셋잇단, 변박의 결, <strong>131~150</strong> 변박·조바꿈·시김새를 한 곡에 모은 종합.</li>
-      <li>고급은 <strong>151~170</strong> 복합박자·변박·조바꿈, <strong>171~190</strong> 잦은 변화와 16분·셋잇단 교차, <strong>191~200</strong> 조표 확장(G·D 포함)과 실전 초견입니다.</li>
-      <li>중급은 박자 전환·3연음·농현, 고급은 5/8·7/8·잦은 박자 변화·트릴·조바꿈을 다룹니다. 음역과 활·시김새는 <strong>해금 자료</strong> 탭의 안내서(김성아, 《창작을 위한 국악기 이해와 활용》 6장)를 따랐습니다.</li>
+      <li>프레이즈 첫 음의 <strong>당김활(내활)</strong> 표시는 중급·고급에 넣었고, 기초는 <strong>36번부터</strong> 붙입니다. 2~3음 장식음은 16분 겹빔, 모르덴트(윗·아랫모르덴트)·트릴은 안내서의 시김새 설명에 맞췄습니다.</li>
+      <li>중급 100곡은 난이도가 계단식으로 올라갑니다. <strong>51~60</strong> 박자 전환을 처음 만나는 구간(곡당 4구간), <strong>61~90</strong> 점8분+16분·복합박·첫 조바꿈(곡당 2.8~3.0구간), <strong>91~110</strong> 빠른 템포와 5/8·7/8 첫 등장(3.0~3.2구간), <strong>111~130</strong> 조바꿈·셋잇단·변박의 결(3.3~3.4구간), <strong>131~150</strong> 네 박자를 한 곡에 모은 종합(3.9구간).</li>
+      <li>고급 50곡은 <strong>151~160</strong> 박자 전환이 가장 잦은 구간(곡당 4.8구간)으로 시작해 <strong>161~180</strong> 변박·16분·셋잇단 교차와 조바꿈, <strong>181~190</strong> 조표 확장(G·D 포함), <strong>191~200</strong> 실전 초견으로 이어집니다.</li>
+      <li>중급은 박자 전환·3연음·모르덴트, 고급은 5/8·7/8·잦은 박자 변화·트릴·조바꿈을 다룹니다. 음역과 활·시김새는 <strong>해금 자료</strong> 탭의 안내서(김성아, 《창작을 위한 국악기 이해와 활용》 6장)를 따랐습니다.</li>
       <li>악보는 Verovio + Leland(SIL OFL) 활자로 조판했고, 인쇄용 PDF는 <strong>A4 세로</strong> 한 장으로 내려받을 수 있습니다.</li>
     </ul>
   </section>
@@ -140,7 +139,7 @@
   <div class="stage" id="stage">
     <img id="mImg" alt="악보" draggable="false">
     <div class="playlayer" id="playLayer" aria-hidden="true">
-      <div class="pcursor" id="pCursor"><i class="pfill"></i><i class="phead"></i></div>
+      <div class="pcursor" id="pCursor"></div>
       <div class="pmark" id="pMarkA" hidden>A</div>
       <div class="pmark b" id="pMarkB" hidden>B</div>
     </div>
@@ -188,7 +187,7 @@
         <button data-speed="1" class="is-active">1.0×</button>
       </div>
       <button class="pc-btn" id="pAB" aria-pressed="false">A–B</button>
-      <button class="pc-btn" id="pCursorBtn" aria-pressed="true">커서 켬</button>
+      <button class="pc-btn" id="pCursorBtn" aria-pressed="true">마디 표시 켬</button>
       <button class="pc-btn" id="pMic" aria-pressed="false">음정 체크</button>
       <button class="pc-btn" id="pTune">조율 <span id="pTuneHz">442</span>Hz</button>
       <button class="pc-btn" id="pFocus">집중 연습</button>
@@ -246,8 +245,8 @@
   </div>
 </div>
 
-<script src="data/pieces.js?v=15"></script>
-<script src="assets/player.js?v=10"></script>
-<script src="assets/app.js?v=19"></script>
+<script src="data/pieces.js?v=16"></script>
+<script src="assets/player.js?v=11"></script>
+<script src="assets/app.js?v=20"></script>
 </body>
 </html>

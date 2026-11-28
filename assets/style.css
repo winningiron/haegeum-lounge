@@ -313,7 +313,7 @@ details[open] summary::before{transform:rotate(90deg)}
 .pc-btn.play{background:#f2ede2;color:#221f1a;border-color:#f2ede2;font-weight:800;min-width:86px;justify-content:center}
 .pc-btn.play:hover{background:#fff}
 .pc-btn.play.is-playing{background:#9c3d2e;color:#fff;border-color:#b1543f}
-/* '커서' 버튼: 끈 상태는 점선 테두리로 구분 */
+/* '마디 표시' 버튼: 끈 상태는 점선 테두리로 구분 */
 .pc-btn.is-off{background:#241f1a;border-style:dashed;border-color:#4a443a;color:#a9a294}
 .pc-btn.is-off:hover{background:#2f2b25;color:#d8d1c2}
 .pc-seg{display:inline-flex;background:#211f1a;border:1px solid #3a352d;border-radius:9px;overflow:hidden}
@@ -339,17 +339,12 @@ details[open] summary::before{transform:rotate(90deg)}
   background:linear-gradient(90deg,#c9603f,#e0a25c);transition:width .08s linear
 }
 
-/* 악보 위 커서 */
+/* 악보 위 현재 마디 배경 */
 .playlayer{position:absolute;left:0;top:0;pointer-events:none;z-index:3}
 .pcursor{
   position:absolute;left:0;top:0;width:0;height:0;border-radius:4px;
-  border:1.5px solid rgba(156,61,46,.5);background:rgba(156,61,46,.045);
+  border:1.5px solid rgba(156,61,46,.45);background:rgba(156,61,46,.10);
   box-shadow:0 0 0 1px rgba(255,255,255,.35) inset;transition:opacity .2s
-}
-.pfill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(156,61,46,.13);border-radius:3px}
-.phead{
-  position:absolute;left:0;top:-4px;bottom:-4px;width:2px;margin-left:-1px;
-  background:var(--accent);box-shadow:0 0 7px rgba(196,88,66,.75);border-radius:2px
 }
 .pmark{
   position:absolute;left:0;top:0;margin-top:-9px;padding:1px 5px;border-radius:5px;

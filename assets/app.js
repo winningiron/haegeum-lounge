@@ -2,15 +2,15 @@
 (function () {
   const LEVELS = {
     '기초': {
-      desc: '온음표·2분음표에서 시작해 8분음표·8분쉼표, 엇박, 농현과 앞꾸밈음, 점8분+16분, 박자 바뀜까지 50곡. 4/4 · 3/4 · 2/4 · 6/8 · 12/8. 조표는 E♭(♭3) 27곡 · A♭(♭4) 17곡, 35번 B♭·43번 D♭.',
+      desc: '온음표·2분음표에서 시작해 8분음표·8분쉼표, 엇박, 모르덴트와 앞꾸밈음, 점8분+16분, 박자 바뀜까지 50곡. 4/4 · 3/4 · 2/4 · 6/8 · 12/8. 조표는 E♭(♭3) 27곡 · A♭(♭4) 17곡, 35번 B♭·43번 D♭.',
       hint: '느리게, 소리보다 눈이 먼저'
     },
     '중급': {
-      desc: '100곡. 박자 전환과 3연음, 점8분+16분, 두 음 장식음과 농현, 임시표, 조바꿈, 5/8·7/8 변박. 51~70 기본기 → 71~90 첫 조바꿈 → 91~110 빠른 템포·변박 첫 등장 → 111~130 조바꿈과 셋잇단 → 131~150 변박 종합. 조표는 E♭ 42 · A♭ 27 · B♭ 17 · D♭ 12 · F 2.',
+      desc: '100곡. 박자 전환과 3연음, 점8분+16분, 두 음 장식음과 모르덴트, 임시표, 조바꿈, 5/8·7/8 변박. 51~60 박자 전환 첫걸음(곡당 4구간) → 61~90 점8분·복합박·첫 조바꿈 → 91~110 빠른 템포·변박 첫 등장 → 111~130 조바꿈과 셋잇단 → 131~150 네 박자 종합(곡당 3.9구간). 조표는 E♭ 42 · A♭ 27 · B♭ 17 · D♭ 12 · F 2.',
       hint: '박이 바뀌는 지점을 미리 표시하며'
     },
     '고급': {
-      desc: '50곡. 5/8 · 7/8 · 12/8의 복합 박자, 잦은 박자·조 변화, 트릴과 2~3음 장식음, 16분과 셋잇단 교차, subito p. 151~170 기본 고급 → 171~190 잦은 변화 → 191~200 조표 확장과 실전 초견.',
+      desc: '50곡. 5/8 · 7/8 · 12/8의 복합 박자, 잦은 박자·조 변화, 트릴과 윗·아랫모르덴트, 16분과 셋잇단 교차, subito p. 151~160 박자 전환이 가장 잦은 구간(곡당 4.8구간) → 161~180 변박과 잦은 변화 → 181~190 조표 확장 → 191~200 실전 초견.',
       hint: '덩어리로 보고, 방향 전환을 예상하며'
     }
   };
@@ -21,7 +21,7 @@
       blocks: [
         { range: '1~10', head: '음표 하나에서 시작', text: '온음표·2분음표 → 점2분음표·4분음표 → 4분쉼표·점4분음표 → 8분음표와 슬러. 4/4·3/4·6/8·12/8. 조표는 E♭(1~7번) → A♭(8~10번).', done: true },
         { range: '11~20', head: '8분음표의 확장', text: '8분음표 두 개·네 개 잇기, 8분쉼표, 3/4·6/8·2/4·12/8의 8분음표 흐름, 마디를 넘는 붙임줄. 음역 A3~G5.', done: true },
-        { range: '21~30', head: '엇박과 시김새', text: '4분쉼표로 만드는 엇박, 8분음표 연속, 긴 음의 농현(~)과 한 음 앞꾸밈음. 조표 E♭·A♭.', done: true },
+        { range: '21~30', head: '엇박과 시김새', text: '4분쉼표로 만드는 엇박, 8분음표 연속, 긴 음의 모르덴트와 한 음 앞꾸밈음. 조표 E♭·A♭.', done: true },
         { range: '31~40', head: '점8분+16분', text: '긴 음과 짧은 음의 대비, 점8분음표+16분음표 짝, 프레이즈 첫 음 당김활. 35번에서 B♭(♭2) 첫 만남.', done: true },
         { range: '41~50', head: '기초 종합', text: '한 곡에 한 번 박자 바뀜(3/4→6/8·4/4→3/4·2/4→4/4), 43번 D♭(♭5), 엇박과 점8분을 모은 마무리.', done: true }
       ]
@@ -29,18 +29,18 @@
     {
       part: '2부', title: '중급', sub: '51~150 · 박자가 흔들리는 악보를 버티는 힘 · 100곡',
       blocks: [
-        { range: '51~70', head: '박자 전환과 3연음', text: '4/4·3/4·2/4·6/8·9/8·12/8 전환, 넓은 도약, 두 음 장식음, 농현. 61~70은 3/4·6/8·9/8·12/8 기본기를 넓히고 첫 조바꿈을 넣는다. 조표는 E♭·A♭에서 B♭·D♭으로.', done: true },
-        { range: '71~90', head: '점8분과 첫 조바꿈', text: '점8분+16분, 12/8와 6/8 오가기, 16분 연속, 한 곡 두 번의 조바꿈, 3/4와 2/4의 대비.', done: true },
-        { range: '91~110', head: '넓은 도약과 변박 첫 등장', text: '빠른 템포(♩=100~104), 5/8·7/8 첫 등장, F(♭1) 첫 만남, 복합박 세 가지 엮기.', done: true },
-        { range: '111~130', head: '조바꿈·셋잇단·변박의 결', text: '조바꿈 두 번, 4/4의 셋잇단, 5/8와 7/8의 교차, 3/4·2/4 오가기, 12/8의 조바꿈.', done: true },
-        { range: '131~150', head: '중급 종합', text: '변박과 조바꿈, 빠른 템포, 16분 패턴, 시김새를 한 곡에 모은 종합. 여기까지가 중급 100곡.', done: true }
+        { range: '51~70', head: '박자 전환과 3연음', text: '51~60은 4/4·3/4·2/4·6/8·9/8·12/8을 곡당 4구간으로 넓게 오가며 박자 전환을 처음 만난다. 61~70은 3/4·6/8·9/8·12/8 기본기에 두 음 장식음·모르덴트·넓은 도약을 얹고 첫 조바꿈을 넣는다(곡당 2.8구간). 조표는 E♭·A♭에서 B♭·D♭으로.', done: true },
+        { range: '71~90', head: '점8분과 복합박', text: '점8분+16분, 12/8와 6/8 오가기, 16분 연속, 한 곡 두 번의 조바꿈, 3/4와 2/4의 대비. 박자 구간이 2.9~3.0개로 늘어난다.', done: true },
+        { range: '91~110', head: '넓은 도약과 변박 첫 등장', text: '빠른 템포(♩=100~104), 5/8·7/8 첫 등장, F(♭1) 첫 만남, 복합박 세 가지 엮기. 곡당 3.0~3.2구간.', done: true },
+        { range: '111~130', head: '조바꿈·셋잇단·변박의 결', text: '조바꿈 두 번, 4/4의 셋잇단, 5/8와 7/8의 교차, 3/4·2/4 오가기, 12/8의 조바꿈. 곡당 3.3~3.4구간으로 박자 전환이 촘촘해진다.', done: true },
+        { range: '131~150', head: '중급 종합', text: '곡마다 3~4개의 박자를 한 곡에 모으고(곡당 3.9구간) 조바꿈·빠른 템포·16분·시김새를 함께 쓴다. 여기까지가 중급 100곡.', done: true }
       ]
     },
     {
       part: '3부', title: '고급', sub: '151~200 · 처음 보는 악보를 즉시 통과하는 힘 · 50곡',
       blocks: [
-        { range: '151~160', head: '복합 박자와 조바꿈', text: '5/8·7/8·12/8·6/8·4/4·3/4의 잦은 전환, 트릴, subito p, 조바꿈. 조표는 E♭에서 F(♭1)·G♭(♭6)까지.', done: true },
-        { range: '161~180', head: '변박과 잦은 변화', text: '3~4회 박자 변화, 16분과 셋잇단 교차, 넓은 음역 도약, 한 곡 두 번 조바꿈.', done: true },
+        { range: '151~160', head: '복합 박자와 조바꿈', text: '5/8·7/8·12/8·6/8·4/4·3/4의 잦은 전환(곡당 4.8구간으로 전곡에서 가장 잦다), 트릴, subito p, 조바꿈. 조표는 E♭에서 F(♭1)·G♭(♭6)까지.', done: true },
+        { range: '161~180', head: '변박과 잦은 변화', text: '3~4회 박자 변화, 16분과 셋잇단 교차, 넓은 음역 도약, 한 곡 두 번 조바꿈. 윗·아랫모르덴트를 섞어 쓴다.', done: true },
         { range: '181~190', head: '조표 확장', text: 'D♭·F·G♭의 겹변박, 조바꿈과 변박의 결합, 5/8에서 12/8까지 한 곡에.', done: true },
         { range: '191~200', head: '실전 초견', text: '네 가지 박자를 한 곡에, G(♯1)·D(♯2) 조표, 200번까지 이어지는 종합 초견.', done: true }
       ]
@@ -335,14 +335,48 @@
     if (e.touches.length === 2) {
       pinch = { d: dist(e.touches), z: state.zoom };
     }
-  }, { passive: true });
-  stage.addEventListener('touchmove', (e) => {
+  }, { passive: true });  stage.addEventListener('touchmove', (e) => {
     if (pinch && e.touches.length === 2) {
       e.preventDefault();
       setZoom(pinch.z * (dist(e.touches) / pinch.d));
     }
   }, { passive: false });
   stage.addEventListener('touchend', () => { pinch = null; }, { passive: true });
+
+  /* ---------------- 좌우 스와이프로 이전/다음 곡 ---------------- */
+  // 사진을 넘기듯 악보를 넘긴다. 한 손가락이고, 악보가 가로로 넘치지 않고(확대 전),
+  // 가로 이동이 세로 이동보다 뚜렷할 때만 넘긴다 (핀치·패닝·세로 스크롤과 엮이지 않게).
+  let swipe = null;
+  const SWIPE_MIN = 65;              // 최소 가로 이동(px)
+  const SWIPE_RATIO = 1.8;           // 세로 이동 대비 가로 이동 배율
+
+  function swipeBlocked() {
+    if (window.LoungePlayer && window.LoungePlayer.examActive && window.LoungePlayer.examActive()) return true;
+    return stage.scrollWidth > stage.clientWidth + 4;   // 확대돼 가로 스크롤이 되면 패닝이 우선
+  }
+
+  stage.addEventListener('touchstart', (e) => {
+    swipe = null;
+    if (e.touches.length !== 1) return;
+    if (swipeBlocked()) return;
+    const t = e.touches[0];
+    swipe = { x: t.clientX, y: t.clientY, done: false };
+  }, { passive: true });
+
+  stage.addEventListener('touchmove', (e) => {
+    if (!swipe || swipe.done || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    const dx = t.clientX - swipe.x;
+    const dy = t.clientY - swipe.y;
+    if (Math.abs(dx) >= SWIPE_MIN && Math.abs(dx) > Math.abs(dy) * SWIPE_RATIO) {
+      swipe.done = true;
+      if (dx < 0) openModal(state.index + 1);   // 왼쪽으로 → 다음 곡
+      else openModal(state.index - 1);          // 오른쪽으로 → 이전 곡
+    }
+  }, { passive: true });
+
+  stage.addEventListener('touchend', () => { swipe = null; }, { passive: true });
+  stage.addEventListener('touchcancel', () => { swipe = null; }, { passive: true });
   function dist(t) {
     const dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
     return Math.hypot(dx, dy) || 1;
@@ -423,7 +457,7 @@
     if (!examNote) return;
     const n = examPool().length;
     const where = examScope && examScope.value === 'all' ? '전체' : state.level;
-    examNote.textContent = `30초 읽고, 소리·커서 없이 제한 시간 안에 연주 · ${where} ${n}곡 중 뽑기`;
+    examNote.textContent = `30초 읽고, 소리·마디 표시 없이 제한 시간 안에 연주 · ${where} ${n}곡 중 뽑기`;
   }
 
   function openPieceByNo(no) {

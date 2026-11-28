@@ -338,7 +338,7 @@ for _meter in ((6, 8), (9, 8), (12, 8), (5, 8), (7, 8)):
 def note_xml(p, dur, ntype, dot=False, rest=False, beams=None, slurs=None, ties=None,
              acc=None, mordent=False, trill=False, stacc=False, accent=False,
              tenuto=False, grace=False, grace_slash=True, tuplet=None, fermata=False,
-             bow=None):
+             bow=None, tie_place=None, place=None, mordent_low=False):
     out = ["      <note>"]
     if grace:
         out.append('        <grace slash="yes"/>' if grace_slash else '        <grace/>')
@@ -370,20 +370,25 @@ def note_xml(p, dur, ntype, dot=False, rest=False, beams=None, slurs=None, ties=
             out.append(f'        <beam number="{num}">{val}</beam>')
     nots = []
     if ties:
+        # 이음줄은 기둥 반대쪽에 그린다 (stem up 이면 아래, stem down 이면 위)
+        tp = tie_place or 'above'
         for t in ties:
-            nots.append(f'          <tied type="{t}"/>')
+            nots.append(f'          <tied type="{t}" placement="{tp}"/>')
     if slurs:
-        for typ, num in slurs:
-            nots.append(f'          <slur type="{typ}" placement="above" number="{num}"/>')
+        for entry in slurs:
+            typ, num = entry[0], entry[1]
+            place = entry[2] if len(entry) > 2 and entry[2] else 'above'
+            nots.append(f'          <slur type="{typ}" placement="{place}" number="{num}"/>')
     if tuplet in ('start', 'stop'):
         nots.append(f'          <tuplet type="{tuplet}"/>')
     arts = []
+    ap = place or 'above'
     if stacc:
-        arts.append("            <staccato/>")
+        arts.append(f'            <staccato placement="{ap}"/>')
     if accent:
-        arts.append("            <accent/>")
+        arts.append(f'            <accent placement="{ap}"/>')
     if tenuto:
-        arts.append("            <tenuto/>")
+        arts.append(f'            <tenuto placement="{ap}"/>')
     if arts:
         nots.append("          <articulations>\n" + "\n".join(arts) + "\n          </articulations>")
     if fermata:
@@ -392,9 +397,11 @@ def note_xml(p, dur, ntype, dot=False, rest=False, beams=None, slurs=None, ties=
         nots.append(f"          <technical><{bow}-bow/></technical>")
     orns = []
     if mordent:
-        orns.append("<inverted-mordent/>")
+        orns.append(f'<inverted-mordent placement="{ap}"/>')     # 윗모르덴트 (자기음-위음-자기음)
+    if mordent_low:
+        orns.append(f'<mordent placement="{ap}"/>')              # 아랫모르덴트 (자기음-아래음-자기음)
     if trill:
-        orns.append("<trill-mark/>")
+        orns.append(f'<trill-mark placement="{ap}"/>')
     if orns:
         nots.append("          <ornaments>" + "".join(orns) + "</ornaments>")
     if nots:
@@ -831,14 +838,12 @@ class PieceBuilder:
                     it['accent'] = True
                 elif it['dur'] >= 12 and r.random() < 0.06:
                     it['tenuto'] = True
-            # 농현/트릴
+            # 모르덴트(윗·아랫모르덴트)·트릴
             if it['dur'] >= 12 and not it.get('acc_note'):
                 if lv in ('중급',) and r.random() < 0.16:
-                    it['mordent'] = True
-                    self.features.add('농현')
+                    self.set_mordent(items, it)
                 elif lv == '고급' and r.random() < 0.16:
-                    it['mordent'] = True
-                    self.features.add('농현')
+                    self.set_mordent(items, it)
             if lv == '고급' and it['dur'] >= 18 and r.random() < 0.30:
                 it['trill'] = True
                 self.features.add('트릴')
@@ -851,13 +856,20 @@ class PieceBuilder:
             if mnum < t:
                 break
             picks = [n for n in note_items
-                     if n['dur'] >= 18 and not n.get('mordent') and id(n) not in grace_targets]
+                     if n['dur'] >= 18 and not (n.get('mordent') or n.get('mordent_low'))
+                     and id(n) not in grace_targets]
             if not picks:
                 picks = [n for n in note_items
-                         if n['dur'] >= 12 and not n.get('mordent') and id(n) not in grace_targets]
+                         if n['dur'] >= 12 and not (n.get('mordent') or n.get('mordent_low'))
+                         and id(n) not in grace_targets]
             if picks and mnum <= t + 3:
-                max(picks, key=lambda n: n['dur'])['mordent'] = True
-                self.features.add('농현')
+                target = max(picks, key=lambda n: n['dur'])
+                # 기초 후반은 윗·아랫모르덴트를 번갈아 넣는다 (모양을 함께 익히도록)
+                if self._mi % 2 == 1:
+                    target['mordent_low'] = True
+                else:
+                    target['mordent'] = True
+                self.features.add('모르덴트')
                 self._mi += 1
                 break
             if mnum > t + 3:
@@ -883,7 +895,7 @@ class PieceBuilder:
             for it in items:
                 if it['rest'] or it.get('grace'):
                     continue
-                if any(it.get(k) for k in ('mordent', 'trill', 'accent', 'tenuto', 'stacc')):
+                if any(it.get(k) for k in ('mordent', 'mordent_low', 'trill', 'accent', 'tenuto', 'stacc')):
                     break
                 it['bow'] = 'down'
                 break
@@ -967,6 +979,22 @@ class PieceBuilder:
                 val = 'begin' if j == 0 else ('end' if j == size - 1 else 'continue')
                 items[pos + j]['beams'] = [(1, val), (2, val)]
         self.features.add('장식음')
+
+    # --- 모르덴트 ---------------------------------------------------------
+    def set_mordent(self, items, it):
+        """앞 음에서 내려온 자리는 아랫모르덴트, 올라온 자리는 윗모르덴트.
+        앞 음이 없으면 윗모르덴트"""
+        prev = None
+        for j in range(items.index(it) - 1, -1, -1):
+            if items[j]['rest'] or items[j].get('grace'):
+                continue
+            prev = items[j]
+            break
+        if prev is not None and pitch_step(prev['pitch']) > pitch_step(it['pitch']):
+            it['mordent_low'] = True
+        else:
+            it['mordent'] = True
+        self.features.add('모르덴트')
 
     def add_slurs(self, items, lv, meter):
         if self.cfg.get('no_slur'):
@@ -1125,7 +1153,129 @@ def line_spans(total, breaks_at):
     return [(s, e - 1) for s, e in zip(starts, ends)]
 
 
+# ----------------------------------------------------------------------------
+# 기둥 방향 · 슬러/이음줄 위치
+# ----------------------------------------------------------------------------
+# 기보법: 슬러와 이음줄은 기둥(꼬리)의 반대쪽, 즉 음표 머리 쪽에 그린다.
+#   기둥이 위(stem up)  -> 슬러는 음표 머리 아래 (placement="below")
+#   기둥이 아래(stem down) -> 슬러는 음표 머리 위  (placement="above")
+MIDDLE_MIDI = midi_of('B', 4, 0)          # 오선 가운데 줄 B4
+DIA = {'C': 0, 'D': 1, 'E': 2, 'F': 3, 'G': 4, 'A': 5, 'B': 6}
+MIDDLE_STEP = 4 * 7 + DIA['B']            # 가운데 줄(B4)의 계이름 자리
+
+
+def pitch_step(p):
+    """오선 위 자리(계이름+옥타브). 임시표는 기둥 방향에 영향을 주지 않는다."""
+    return p[1] * 7 + DIA[p[0]]
+
+
+def pitch_midi(p):
+    return midi_of(p[0], p[1], p[2])
+
+
+def measure_stem_dirs(items):
+    """마디 안 음표마다 기둥 방향 'up'/'down'.
+
+    Verovio 는 한 음표는 가운데 줄(B4)보다 높으면 기둥을 아래로, 낮으면 위로 세우고,
+    빔으로 묶인 무리는 가운데 줄에서 가장 먼 음표의 방향을 따른다.
+    """
+    dirs = {}
+    group = []
+
+    def close():
+        if not group:
+            return
+        far = max(group, key=lambda i: (abs(pitch_step(items[i]['pitch']) - MIDDLE_STEP),
+                                        pitch_step(items[i]['pitch'])))
+        d = 'up' if pitch_step(items[far]['pitch']) < MIDDLE_STEP else 'down'
+        for i in group:
+            dirs[i] = d
+        group.clear()
+
+    for i, it in enumerate(items):
+        if it.get('grace') or it['rest']:
+            close()
+            continue
+        tags = [v for n, v in (it.get('beams') or []) if n == 1]
+        if 'begin' in tags:
+            close()                      # 앞 묶음을 닫고 새 빔 묶음 시작
+            group.append(i)
+        elif 'end' in tags:
+            group.append(i)
+            close()
+        elif 'continue' in tags:
+            group.append(i)
+        else:
+            close()
+            dirs[i] = 'up' if pitch_step(it['pitch']) < MIDDLE_STEP else 'down'
+    close()
+    return dirs
+
+
+def slur_placement(stem_dirs):
+    """슬러 구간 기둥의 다수 방향 반대쪽. 같으면 첫 음 방향을 따른다."""
+    ups = sum(1 for d in stem_dirs if d == 'up')
+    downs = sum(1 for d in stem_dirs if d == 'down')
+    return 'below' if ups >= downs else 'above'
+
+
+def compute_slur_placements(measures, dirs):
+    """마디별 items 에서 슬러(number 1: 곡 슬러, 2: 장식음 슬러)의
+    시작·끝 음 위치(placement)를 정한다."""
+    place = {}
+    for mx in measures:
+        mnum, items = mx['number'], mx['items']
+        # 1) 곡 슬러 — 한 마디 안에서 시작해 끝난다
+        i = 0
+        while i < len(items):
+            sl = items[i].get('slur') or []
+            if 'start' in sl:
+                j = i + 1
+                notes = [i]
+                while j < len(items):
+                    notes.append(j)
+                    if 'stop' in (items[j].get('slur') or []):
+                        break
+                    j += 1
+                ds = [dirs[(mnum, k)] for k in notes if (mnum, k) in dirs]
+                if ds:
+                    p = slur_placement(ds)
+                    place[(mnum, notes[0])] = p
+                    place[(mnum, notes[-1])] = p
+                i = j
+            i += 1
+        # 2) 장식음 슬러 — 장식음 무리 + 뒤따르는 기준음
+        prev_grace = False
+        for i, it in enumerate(items):
+            if it.get('grace'):
+                if not prev_grace:
+                    j = i
+                    while j < len(items) and items[j].get('grace'):
+                        j += 1
+                    d = dirs.get((mnum, j))
+                    if d:
+                        p = 'below' if d == 'up' else 'above'
+                        place[(mnum, i)] = p          # 슬러 시작 (첫 장식음)
+                        place.setdefault((mnum, j), p)  # 슬러 끝 (기준음)
+                prev_grace = True
+                continue
+            prev_grace = False
+    return place
+
+
 def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
+    """곡 하나의 MusicXML. 슬러·이음줄 위치를 정하려고 같은 곡을 두 번 만든다
+    (난수 시드가 같아 두 번의 음표가 완전히 같다)."""
+    _xml, _b, mxs = _build_piece(cfg, per_system, breaks_at, None)
+    dirs = {}
+    for mx in mxs:
+        for i, d in measure_stem_dirs(mx['items']).items():
+            dirs[(mx['number'], i)] = d
+    places = compute_slur_placements(mxs, dirs)
+    return _build_piece(cfg, per_system, breaks_at, places)
+
+
+def _build_piece(cfg, per_system, breaks_at, slur_place):
     b = PieceBuilder(cfg)
     sections = cfg['sections']            # [(마디수, meter), ...]
     total = sum(s[0] for s in sections)
@@ -1228,9 +1378,11 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
             # --- 노트 XML ---
             body = []
             prev_grace = False
-            for it in items:
+            sdirs = measure_stem_dirs(items)
+            sp = slur_place or {}
+            for _i, it in enumerate(items):
                 if it.get('grace'):
-                    gsl = None if prev_grace else [('start', 2)]
+                    gsl = None if prev_grace else [('start', 2, sp.get((mnum, _i)))]
                     body.append(note_xml(it['pitch'], 0, it['ntype'], beams=it.get('beams'),
                                          grace=True, grace_slash=it.get('grace_slash', True),
                                          slurs=gsl, acc=it.get('acc')))
@@ -1241,12 +1393,14 @@ def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
                                          rest=True, beams=it.get('beams')))
                 else:
                     prev_grace = False
-                    sl = [(t, 1) for t in (it.get('slur') or [])] + \
-                         [(t, 2) for t in (it.get('gslur') or [])]
+                    sl = [(t, 1, sp.get((mnum, _i))) for t in (it.get('slur') or [])] + \
+                         [(t, 2, sp.get((mnum, _i))) for t in (it.get('gslur') or [])]
+                    tp = 'below' if sdirs.get(_i) == 'up' else 'above'
                     body.append(note_xml(it['pitch'], it['dur'], it['ntype'], dot=it['dot'],
                                          beams=it.get('beams'),
-                                         slurs=sl or None, ties=it.get('tie'),
+                                         slurs=sl or None, ties=it.get('tie'), tie_place=tp, place=tp,
                                          acc=it.get('acc'), mordent=it.get('mordent', False),
+                                         mordent_low=it.get('mordent_low', False),
                                          trill=it.get('trill', False), stacc=it.get('stacc', False),
                                          accent=it.get('accent', False), tenuto=it.get('tenuto', False),
                                          tuplet=it.get('tuplet'), fermata=is_final and it is items[-1],

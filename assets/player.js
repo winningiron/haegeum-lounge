@@ -1,6 +1,6 @@
 /* 해금 초견 라운지 · 연주 도구
    - 서양 전자 메트로놈 (마디 첫 박 강박 · 첫 마디 예비박)
-   - Salamander Grand Piano 실제 녹음 샘플 가이드 멜로디 + 노래방식 마디 커서
+   - Salamander Grand Piano 실제 녹음 샘플 가이드 멜로디 + 지금 연주 중인 마디 배경 하이라이트
    - 마이크 실시간 음정 체크 (자기상관 피치 검출) + 종료 후 점수·코멘트
    - A–B 마디 구간 반복, 집중 연습(30초 초견 읽기), 조율 기준음(440~450Hz)
    피아노 음원: Salamander Grand Piano (Alexander Holm, CC BY 3.0) */
@@ -23,8 +23,8 @@ window.LoungePlayer = (function () {
     ab: { a: null, b: null, on: false },
     sel: 0,                            // 현재(정지 시) 선택 마디 index
     lastBar: -1,
-    cursorOn: false,                   // 정지·최초 진입에는 커서를 두지 않는다
-    cursorEnabled: true,               // 도구 모음의 '커서' 버튼 (localStorage hg_cursor, 기본 ON)
+    cursorOn: false,                   // 정지·최초 진입에는 마디 표시를 두지 않는다
+    cursorEnabled: true,               // 도구 모음의 '마디 표시' 버튼 (localStorage hg_cursor, 기본 ON)
     focus: false, timerId: 0, rafId: 0,
     countdown: 0, countdownId: 0,
     a4: 442,
@@ -208,7 +208,7 @@ window.LoungePlayer = (function () {
     return lo;
   }
 
-  /* ============================================================ 커서·레이아웃 */
+  /* ============================================================ 마디 표시·레이아웃 */
   function syncGeometry() {
     const img = D.img;
     if (!img || !img.naturalWidth) return;
@@ -228,26 +228,24 @@ window.LoungePlayer = (function () {
   }
 
   function drawCursor(t, force) {
+    // 지금 연주 중인 마디 전체를 배경 상자로 덮는다 (마디 안을 지나가는 세로선은 없다).
     if (!S.tl || !S.geo.w) return;
     const bars = S.tl.bars;
-    let i = barAt(Math.max(0, t));
+    const i = barAt(Math.max(0, t));
     const b = bars[i];
-    const inner = clamp((t - b.t) / b.d, 0, 1);
     const x = b.x * S.geo.w;
     const y = b.y * S.geo.h;
     const w = b.w * S.geo.w;
     const h = b.h * S.geo.h;
     const c = D.cursor;
     // 재생 중이거나 사용자가 직접 마디를 짚었을 때만 보인다. 최초 진입·정지 상태에서는 숨김.
-    // '커서' 버튼을 끈 경우와 실전 테스트 중에는 악보 위에 아무것도 그리지 않는다.
-    const showCursor = S.cursorEnabled && !Ex.on && (S.playing || S.cursorOn);
-    c.style.opacity = showCursor ? '' : '0';
+    // '마디 표시'를 끈 경우와 실전 테스트 중에는 악보 위에 아무것도 그리지 않는다.
+    const showBar = S.cursorEnabled && !Ex.on && (S.playing || S.cursorOn);
+    c.style.opacity = showBar ? '' : '0';
     c.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
     c.style.width = w.toFixed(1) + 'px';
     c.style.height = h.toFixed(1) + 'px';
-    c.querySelector('.pfill').style.width = (inner * 100).toFixed(2) + '%';
-    if (D.head) D.head.style.left = (inner * 100).toFixed(2) + '%';
-    if (S.playing && showCursor && i !== S.lastBar) {
+    if (S.playing && showBar && i !== S.lastBar) {
       S.lastBar = i;
       ensureVisible(i);
     }
@@ -666,7 +664,7 @@ window.LoungePlayer = (function () {
   }
 
   /* ============================================================ 실전 테스트
-     30초 읽기 → 신호음·"시작하세요!" → 피아노·메트로놈·커서 없이
+     30초 읽기 → 신호음·"시작하세요!" → 피아노·메트로놈·마디 표시 없이
      곡의 연주 시간(timeline.dur)만큼 마이너스 스톱워치 → 종료 신호음 */
   const EX_READ_SEC = 30;
   const Ex = { on: false, phase: 'idle', readLeft: 0, readEnd: 0, readId: 0, tickId: 0,
@@ -765,7 +763,7 @@ window.LoungePlayer = (function () {
     Ex.dur = S.tl.dur;
     exShow('go');
     D.exMain.textContent = '시작하세요!';
-    D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} · 피아노·메트로놈·커서 없이`;
+    D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} · 피아노·메트로놈·마디 표시 없이`;
     Sound.init();
     if (Sound.ctx) {
       if (Sound.ctx.state === 'suspended') Sound.ctx.resume();
@@ -779,7 +777,7 @@ window.LoungePlayer = (function () {
   function exPlay() {
     exShow('play');
     Ex.t0 = performance.now();
-    D.exSub.textContent = '남은 시간 · 피아노·메트로놈·커서 없이';
+    D.exSub.textContent = '남은 시간 · 피아노·메트로놈·마디 표시 없이';
     if (S.mic.on) newSession();
     clearInterval(Ex.tickId);
     Ex.tickId = setInterval(exTick, 100);
@@ -849,15 +847,15 @@ window.LoungePlayer = (function () {
     if (D.markB) D.markB.hidden = true;
   }
 
-  /* ============================================================ 플레이백 커서 켜기/끄기 */
-  // 끄면 악보 위 빨간 마디 박스·세로 재생선을 그리지 않는다. 소리·진행 바·A–B 마커·음정 체크는 그대로.
+  /* ============================================================ 마디 표시 켜기/끄기 */
+  // 끄면 악보 위 마디 배경 상자를 그리지 않는다. 소리·진행 바·A–B 마커·음정 체크는 그대로.
   function setCursor(on, silent) {
     S.cursorEnabled = !!on;
     try { localStorage.setItem('hg_cursor', on ? '1' : '0'); } catch (e) {}
     if (D.cursorBtn) {
       D.cursorBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
       D.cursorBtn.classList.toggle('is-off', !on);
-      D.cursorBtn.textContent = on ? '커서 켬' : '커서 끔';
+      D.cursorBtn.textContent = on ? '마디 표시 켬' : '마디 표시 끔';
     }
     if (!on) {
       if (D.cursor) D.cursor.style.opacity = '0';
@@ -867,8 +865,8 @@ window.LoungePlayer = (function () {
     }
     if (!silent) {
       toast(on
-        ? '플레이백 커서를 켰습니다.'
-        : '플레이백 커서를 껐습니다. 소리·진행 바·A–B는 그대로 동작합니다.');
+        ? '마디 표시를 켰습니다.'
+        : '마디 표시를 껐습니다. 소리·진행 바·A–B는 그대로 동작합니다.');
     }
   }
 
@@ -1034,7 +1032,6 @@ window.LoungePlayer = (function () {
     D.img = $('#mImg');
     D.layer = $('#playLayer');
     D.cursor = $('#pCursor');
-    D.head = D.cursor.querySelector('.phead');
     D.markA = $('#pMarkA');
     D.markB = $('#pMarkB');
     D.play = $('#pPlay');
@@ -1101,7 +1098,7 @@ window.LoungePlayer = (function () {
       S.events = buildEvents(tl);
       D.total.textContent = fmt(tl.dur);
       S.sel = 0;
-      S.cursorOn = false;              // ▶ 연주를 누르기 전에는 커서 없음
+      S.cursorOn = false;              // ▶ 연주를 누르기 전에는 마디 표시 없음
       D.cursor.style.opacity = '0';
       drawCursor(0, true);
       syncGeometry();
