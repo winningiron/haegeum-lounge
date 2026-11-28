@@ -164,7 +164,7 @@ window.LoungePlayer = (function () {
     if (S.tl && S.tl.no === no) return Promise.resolve(S.tl);
     if (S.reqNo === no && S.req) return S.req;
     S.reqNo = no;
-    S.req = fetch('data/tl/' + String(no).padStart(3, '0') + '.json?v=18')
+    S.req = fetch('data/tl/' + String(no).padStart(3, '0') + '.json?v=19')
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .catch(() => null);
     return S.req;

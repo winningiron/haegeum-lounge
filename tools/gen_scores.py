@@ -816,7 +816,7 @@ class PieceBuilder:
                 accidentals[(letter, octv)] = alt
 
         # --- 아티큘레이션 / 꾸밈음 ---
-        # 장식음이 앞에 붙은 음에는 농현·트릴을 겹치지 않는다 (무늬가 엉킨다)
+        # 장식음이 앞에 붙은 음에는 모르덴트·트릴을 겹치지 않는다 (무늬가 엉킨다)
         grace_targets = set()
         for i, it in enumerate(items):
             if i > 0 and items[i - 1].get('grace') and not it.get('grace'):
@@ -838,18 +838,19 @@ class PieceBuilder:
                     it['accent'] = True
                 elif it['dur'] >= 12 and r.random() < 0.06:
                     it['tenuto'] = True
-            # 모르덴트(윗·아랫모르덴트)·트릴
-            if it['dur'] >= 12 and not it.get('acc_note'):
+            # 트릴 → 모르덴트 순서로 정한다. 한 음에 트릴과 모르덴트를 겹쳐 붙이지 않는다
+            # (두 꾸밈표가 같은 자리에 포개져 읽을 수 없게 된다).
+            if lv == '고급' and it['dur'] >= 18 and r.random() < 0.30:
+                it['trill'] = True
+                self.features.add('트릴')
+            if it['dur'] >= 12 and not it.get('acc_note') and not it.get('trill'):
                 if lv in ('중급',) and r.random() < 0.16:
                     self.set_mordent(items, it)
                 elif lv == '고급' and r.random() < 0.16:
                     self.set_mordent(items, it)
-            if lv == '고급' and it['dur'] >= 18 and r.random() < 0.30:
-                it['trill'] = True
-                self.features.add('트릴')
 
-        # 기초 후반의 농현: 곡마다 정한 마디(cfg['mordent_measures']) 근처에서 그 마디의
-        # 가장 긴 음에 붙인다 (plain=True 인 곡에서도 농현만은 붙일 수 있게 따로 둔다).
+        # 기초 후반의 모르덴트: 곡마다 정한 마디(cfg['mordent_measures']) 근처에서 그 마디의
+        # 가장 긴 음에 붙인다 (plain=True 인 곡에서도 모르덴트만은 붙일 수 있게 따로 둔다).
         # 정한 마디에 긴 음이 없으면 3마디 안에서 찾고, 그래도 없으면 쉬어 간다.
         while self._mi < len(self._mtargets):
             t = self._mtargets[self._mi]
@@ -984,8 +985,13 @@ class PieceBuilder:
     def set_mordent(self, items, it):
         """앞 음에서 내려온 자리는 아랫모르덴트, 올라온 자리는 윗모르덴트.
         앞 음이 없으면 윗모르덴트"""
+        # 자기 위치는 값이 아니라 객체 정체성으로 찾는다. list.index() 는 값(==) 비교라
+        # 마디 앞쪽에 같은 값의 음이 있으면 그 음을 자기 자리로 잡아 엉뚱한 앞음을 본다.
+        pos = next((i for i, v in enumerate(items) if v is it), None)
+        if pos is None:
+            pos = len(items)
         prev = None
-        for j in range(items.index(it) - 1, -1, -1):
+        for j in range(pos - 1, -1, -1):
             if items[j]['rest'] or items[j].get('grace'):
                 continue
             prev = items[j]

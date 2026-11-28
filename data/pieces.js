@@ -28,9 +28,9 @@ window.PIECES = [
    "4/4",
    "온음표·2분음표"
   ],
-  "image": "scores/001.png?v=11",
-  "pdf": "scores/001.pdf?v=11",
-  "thumb": "scores/thumb/001.jpg?v=11"
+  "image": "scores/001.png?v=12",
+  "pdf": "scores/001.pdf?v=12",
+  "thumb": "scores/thumb/001.jpg?v=12"
  },
  {
   "no": 2,
@@ -61,9 +61,9 @@ window.PIECES = [
    "2분음표",
    "3도 음정"
   ],
-  "image": "scores/002.png?v=11",
-  "pdf": "scores/002.pdf?v=11",
-  "thumb": "scores/thumb/002.jpg?v=11"
+  "image": "scores/002.png?v=12",
+  "pdf": "scores/002.pdf?v=12",
+  "thumb": "scores/thumb/002.jpg?v=12"
  },
  {
   "no": 3,
@@ -93,9 +93,9 @@ window.PIECES = [
    "4/4",
    "점2분음표·4분음표"
   ],
-  "image": "scores/003.png?v=11",
-  "pdf": "scores/003.pdf?v=11",
-  "thumb": "scores/thumb/003.jpg?v=11"
+  "image": "scores/003.png?v=12",
+  "pdf": "scores/003.pdf?v=12",
+  "thumb": "scores/thumb/003.jpg?v=12"
  },
  {
   "no": 4,
@@ -125,9 +125,9 @@ window.PIECES = [
    "3/4",
    "점2분음표"
   ],
-  "image": "scores/004.png?v=11",
-  "pdf": "scores/004.pdf?v=11",
-  "thumb": "scores/thumb/004.jpg?v=11"
+  "image": "scores/004.png?v=12",
+  "pdf": "scores/004.pdf?v=12",
+  "thumb": "scores/thumb/004.jpg?v=12"
  },
  {
   "no": 5,
@@ -157,9 +157,9 @@ window.PIECES = [
    "4/4",
    "4분음표·4분쉼표"
   ],
-  "image": "scores/005.png?v=11",
-  "pdf": "scores/005.pdf?v=11",
-  "thumb": "scores/thumb/005.jpg?v=11"
+  "image": "scores/005.png?v=12",
+  "pdf": "scores/005.pdf?v=12",
+  "thumb": "scores/thumb/005.jpg?v=12"
  },
  {
   "no": 6,
@@ -189,9 +189,9 @@ window.PIECES = [
    "3/4",
    "4분음표·4분쉼표"
   ],
-  "image": "scores/006.png?v=11",
-  "pdf": "scores/006.pdf?v=11",
-  "thumb": "scores/thumb/006.jpg?v=11"
+  "image": "scores/006.png?v=12",
+  "pdf": "scores/006.pdf?v=12",
+  "thumb": "scores/thumb/006.jpg?v=12"
  },
  {
   "no": 7,
@@ -221,9 +221,9 @@ window.PIECES = [
    "12/8",
    "점4분음표"
   ],
-  "image": "scores/007.png?v=11",
-  "pdf": "scores/007.pdf?v=11",
-  "thumb": "scores/thumb/007.jpg?v=11"
+  "image": "scores/007.png?v=12",
+  "pdf": "scores/007.pdf?v=12",
+  "thumb": "scores/thumb/007.jpg?v=12"
  },
  {
   "no": 8,
@@ -253,9 +253,9 @@ window.PIECES = [
    "4/4",
    "8분음표"
   ],
-  "image": "scores/008.png?v=11",
-  "pdf": "scores/008.pdf?v=11",
-  "thumb": "scores/thumb/008.jpg?v=11"
+  "image": "scores/008.png?v=12",
+  "pdf": "scores/008.pdf?v=12",
+  "thumb": "scores/thumb/008.jpg?v=12"
  },
  {
   "no": 9,
@@ -285,9 +285,9 @@ window.PIECES = [
    "3/4",
    "8분음표"
   ],
-  "image": "scores/009.png?v=11",
-  "pdf": "scores/009.pdf?v=11",
-  "thumb": "scores/thumb/009.jpg?v=11"
+  "image": "scores/009.png?v=12",
+  "pdf": "scores/009.pdf?v=12",
+  "thumb": "scores/thumb/009.jpg?v=12"
  },
  {
   "no": 10,
@@ -318,9 +318,9 @@ window.PIECES = [
    "8분음표",
    "슬러"
   ],
-  "image": "scores/010.png?v=11",
-  "pdf": "scores/010.pdf?v=11",
-  "thumb": "scores/thumb/010.jpg?v=11"
+  "image": "scores/010.png?v=12",
+  "pdf": "scores/010.pdf?v=12",
+  "thumb": "scores/thumb/010.jpg?v=12"
  },
  {
   "no": 11,
@@ -350,9 +350,9 @@ window.PIECES = [
    "4/4",
    "8분음표"
   ],
-  "image": "scores/011.png?v=11",
-  "pdf": "scores/011.pdf?v=11",
-  "thumb": "scores/thumb/011.jpg?v=11"
+  "image": "scores/011.png?v=12",
+  "pdf": "scores/011.pdf?v=12",
+  "thumb": "scores/thumb/011.jpg?v=12"
  },
  {
   "no": 12,
@@ -382,9 +382,9 @@ window.PIECES = [
    "3/4",
    "8분음표"
   ],
-  "image": "scores/012.png?v=11",
-  "pdf": "scores/012.pdf?v=11",
-  "thumb": "scores/thumb/012.jpg?v=11"
+  "image": "scores/012.png?v=12",
+  "pdf": "scores/012.pdf?v=12",
+  "thumb": "scores/thumb/012.jpg?v=12"
  },
  {
   "no": 13,
@@ -414,9 +414,9 @@ window.PIECES = [
    "6/8",
    "8분음표"
   ],
-  "image": "scores/013.png?v=11",
-  "pdf": "scores/013.pdf?v=11",
-  "thumb": "scores/thumb/013.jpg?v=11"
+  "image": "scores/013.png?v=12",
+  "pdf": "scores/013.pdf?v=12",
+  "thumb": "scores/thumb/013.jpg?v=12"
  },
  {
   "no": 14,
@@ -446,9 +446,9 @@ window.PIECES = [
    "4/4",
    "8분쉼표"
   ],
-  "image": "scores/014.png?v=11",
-  "pdf": "scores/014.pdf?v=11",
-  "thumb": "scores/thumb/014.jpg?v=11"
+  "image": "scores/014.png?v=12",
+  "pdf": "scores/014.pdf?v=12",
+  "thumb": "scores/thumb/014.jpg?v=12"
  },
  {
   "no": 15,
@@ -478,9 +478,9 @@ window.PIECES = [
    "4/4",
    "8분음표 연결"
   ],
-  "image": "scores/015.png?v=11",
-  "pdf": "scores/015.pdf?v=11",
-  "thumb": "scores/thumb/015.jpg?v=11"
+  "image": "scores/015.png?v=12",
+  "pdf": "scores/015.pdf?v=12",
+  "thumb": "scores/thumb/015.jpg?v=12"
  },
  {
   "no": 16,
@@ -511,9 +511,9 @@ window.PIECES = [
    "8분음표",
    "쉼표"
   ],
-  "image": "scores/016.png?v=11",
-  "pdf": "scores/016.pdf?v=11",
-  "thumb": "scores/thumb/016.jpg?v=11"
+  "image": "scores/016.png?v=12",
+  "pdf": "scores/016.pdf?v=12",
+  "thumb": "scores/thumb/016.jpg?v=12"
  },
  {
   "no": 17,
@@ -543,9 +543,9 @@ window.PIECES = [
    "6/8",
    "8분쉼표"
   ],
-  "image": "scores/017.png?v=11",
-  "pdf": "scores/017.pdf?v=11",
-  "thumb": "scores/thumb/017.jpg?v=11"
+  "image": "scores/017.png?v=12",
+  "pdf": "scores/017.pdf?v=12",
+  "thumb": "scores/thumb/017.jpg?v=12"
  },
  {
   "no": 18,
@@ -575,9 +575,9 @@ window.PIECES = [
    "2/4",
    "8분음표"
   ],
-  "image": "scores/018.png?v=11",
-  "pdf": "scores/018.pdf?v=11",
-  "thumb": "scores/thumb/018.jpg?v=11"
+  "image": "scores/018.png?v=12",
+  "pdf": "scores/018.pdf?v=12",
+  "thumb": "scores/thumb/018.jpg?v=12"
  },
  {
   "no": 19,
@@ -607,9 +607,9 @@ window.PIECES = [
    "4/4",
    "2분음표·8분음표"
   ],
-  "image": "scores/019.png?v=11",
-  "pdf": "scores/019.pdf?v=11",
-  "thumb": "scores/thumb/019.jpg?v=11"
+  "image": "scores/019.png?v=12",
+  "pdf": "scores/019.pdf?v=12",
+  "thumb": "scores/thumb/019.jpg?v=12"
  },
  {
   "no": 20,
@@ -640,9 +640,9 @@ window.PIECES = [
    "8분음표",
    "붙임줄"
   ],
-  "image": "scores/020.png?v=11",
-  "pdf": "scores/020.pdf?v=11",
-  "thumb": "scores/thumb/020.jpg?v=11"
+  "image": "scores/020.png?v=12",
+  "pdf": "scores/020.pdf?v=12",
+  "thumb": "scores/thumb/020.jpg?v=12"
  },
  {
   "no": 21,
@@ -672,9 +672,9 @@ window.PIECES = [
    "4/4",
    "엇박"
   ],
-  "image": "scores/021.png?v=11",
-  "pdf": "scores/021.pdf?v=11",
-  "thumb": "scores/thumb/021.jpg?v=11"
+  "image": "scores/021.png?v=12",
+  "pdf": "scores/021.pdf?v=12",
+  "thumb": "scores/thumb/021.jpg?v=12"
  },
  {
   "no": 22,
@@ -704,9 +704,9 @@ window.PIECES = [
    "3/4",
    "엇박"
   ],
-  "image": "scores/022.png?v=11",
-  "pdf": "scores/022.pdf?v=11",
-  "thumb": "scores/thumb/022.jpg?v=11"
+  "image": "scores/022.png?v=12",
+  "pdf": "scores/022.pdf?v=12",
+  "thumb": "scores/thumb/022.jpg?v=12"
  },
  {
   "no": 23,
@@ -737,9 +737,9 @@ window.PIECES = [
    "8분음표",
    "쉼표"
   ],
-  "image": "scores/023.png?v=11",
-  "pdf": "scores/023.pdf?v=11",
-  "thumb": "scores/thumb/023.jpg?v=11"
+  "image": "scores/023.png?v=12",
+  "pdf": "scores/023.pdf?v=12",
+  "thumb": "scores/thumb/023.jpg?v=12"
  },
  {
   "no": 24,
@@ -769,9 +769,9 @@ window.PIECES = [
    "4/4",
    "꾸밈음"
   ],
-  "image": "scores/024.png?v=11",
-  "pdf": "scores/024.pdf?v=11",
-  "thumb": "scores/thumb/024.jpg?v=11"
+  "image": "scores/024.png?v=12",
+  "pdf": "scores/024.pdf?v=12",
+  "thumb": "scores/thumb/024.jpg?v=12"
  },
  {
   "no": 25,
@@ -801,9 +801,9 @@ window.PIECES = [
    "12/8",
    "8분음표"
   ],
-  "image": "scores/025.png?v=11",
-  "pdf": "scores/025.pdf?v=11",
-  "thumb": "scores/thumb/025.jpg?v=11"
+  "image": "scores/025.png?v=12",
+  "pdf": "scores/025.pdf?v=12",
+  "thumb": "scores/thumb/025.jpg?v=12"
  },
  {
   "no": 26,
@@ -833,9 +833,9 @@ window.PIECES = [
    "3/4",
    "모르덴트"
   ],
-  "image": "scores/026.png?v=11",
-  "pdf": "scores/026.pdf?v=11",
-  "thumb": "scores/thumb/026.jpg?v=11"
+  "image": "scores/026.png?v=12",
+  "pdf": "scores/026.pdf?v=12",
+  "thumb": "scores/thumb/026.jpg?v=12"
  },
  {
   "no": 27,
@@ -860,15 +860,15 @@ window.PIECES = [
    8
   ],
   "midline": false,
-  "focus": "6/8박에서 꾸밈음과 농현 구분해 읽기",
+  "focus": "6/8박에서 꾸밈음과 모르덴트 구분해 읽기",
   "tags": [
    "6/8",
    "꾸밈음",
-   "농현"
+   "모르덴트"
   ],
-  "image": "scores/027.png?v=11",
-  "pdf": "scores/027.pdf?v=11",
-  "thumb": "scores/thumb/027.jpg?v=11"
+  "image": "scores/027.png?v=12",
+  "pdf": "scores/027.pdf?v=12",
+  "thumb": "scores/thumb/027.jpg?v=12"
  },
  {
   "no": 28,
@@ -898,9 +898,9 @@ window.PIECES = [
    "2/4",
    "8분음표"
   ],
-  "image": "scores/028.png?v=11",
-  "pdf": "scores/028.pdf?v=11",
-  "thumb": "scores/thumb/028.jpg?v=11"
+  "image": "scores/028.png?v=12",
+  "pdf": "scores/028.pdf?v=12",
+  "thumb": "scores/thumb/028.jpg?v=12"
  },
  {
   "no": 29,
@@ -931,9 +931,9 @@ window.PIECES = [
    "엇박",
    "8분음표"
   ],
-  "image": "scores/029.png?v=11",
-  "pdf": "scores/029.pdf?v=11",
-  "thumb": "scores/thumb/029.jpg?v=11"
+  "image": "scores/029.png?v=12",
+  "pdf": "scores/029.pdf?v=12",
+  "thumb": "scores/thumb/029.jpg?v=12"
  },
  {
   "no": 30,
@@ -962,11 +962,11 @@ window.PIECES = [
   "tags": [
    "6/8",
    "8분음표",
-   "농현"
+   "모르덴트"
   ],
-  "image": "scores/030.png?v=11",
-  "pdf": "scores/030.pdf?v=11",
-  "thumb": "scores/thumb/030.jpg?v=11"
+  "image": "scores/030.png?v=12",
+  "pdf": "scores/030.pdf?v=12",
+  "thumb": "scores/thumb/030.jpg?v=12"
  },
  {
   "no": 31,
@@ -994,12 +994,12 @@ window.PIECES = [
   "focus": "2분음표 뒤에 8분음표가 붙는 흐름",
   "tags": [
    "4/4",
-   "농현",
+   "모르덴트",
    "꾸밈음"
   ],
-  "image": "scores/031.png?v=11",
-  "pdf": "scores/031.pdf?v=11",
-  "thumb": "scores/thumb/031.jpg?v=11"
+  "image": "scores/031.png?v=12",
+  "pdf": "scores/031.pdf?v=12",
+  "thumb": "scores/thumb/031.jpg?v=12"
  },
  {
   "no": 32,
@@ -1028,11 +1028,11 @@ window.PIECES = [
   "tags": [
    "3/4",
    "2분음표",
-   "농현"
+   "모르덴트"
   ],
-  "image": "scores/032.png?v=11",
-  "pdf": "scores/032.pdf?v=11",
-  "thumb": "scores/thumb/032.jpg?v=11"
+  "image": "scores/032.png?v=12",
+  "pdf": "scores/032.pdf?v=12",
+  "thumb": "scores/thumb/032.jpg?v=12"
  },
  {
   "no": 33,
@@ -1060,11 +1060,11 @@ window.PIECES = [
   "focus": "12/8박에서 긴 음과 8분음표 엮기",
   "tags": [
    "12/8",
-   "농현"
+   "모르덴트"
   ],
-  "image": "scores/033.png?v=11",
-  "pdf": "scores/033.pdf?v=11",
-  "thumb": "scores/thumb/033.jpg?v=11"
+  "image": "scores/033.png?v=12",
+  "pdf": "scores/033.pdf?v=12",
+  "thumb": "scores/thumb/033.jpg?v=12"
  },
  {
   "no": 34,
@@ -1095,9 +1095,9 @@ window.PIECES = [
    "모르덴트",
    "쉼표"
   ],
-  "image": "scores/034.png?v=11",
-  "pdf": "scores/034.pdf?v=11",
-  "thumb": "scores/thumb/034.jpg?v=11"
+  "image": "scores/034.png?v=12",
+  "pdf": "scores/034.pdf?v=12",
+  "thumb": "scores/thumb/034.jpg?v=12"
  },
  {
   "no": 35,
@@ -1127,9 +1127,9 @@ window.PIECES = [
    "4/4",
    "B♭ 조표"
   ],
-  "image": "scores/035.png?v=11",
-  "pdf": "scores/035.pdf?v=11",
-  "thumb": "scores/thumb/035.jpg?v=11"
+  "image": "scores/035.png?v=12",
+  "pdf": "scores/035.pdf?v=12",
+  "thumb": "scores/thumb/035.jpg?v=12"
  },
  {
   "no": 36,
@@ -1160,9 +1160,9 @@ window.PIECES = [
    "점8분+16분",
    "당김활"
   ],
-  "image": "scores/036.png?v=11",
-  "pdf": "scores/036.pdf?v=11",
-  "thumb": "scores/thumb/036.jpg?v=11"
+  "image": "scores/036.png?v=12",
+  "pdf": "scores/036.pdf?v=12",
+  "thumb": "scores/thumb/036.jpg?v=12"
  },
  {
   "no": 37,
@@ -1193,9 +1193,9 @@ window.PIECES = [
    "점8분+16분",
    "당김활"
   ],
-  "image": "scores/037.png?v=11",
-  "pdf": "scores/037.pdf?v=11",
-  "thumb": "scores/thumb/037.jpg?v=11"
+  "image": "scores/037.png?v=12",
+  "pdf": "scores/037.pdf?v=12",
+  "thumb": "scores/thumb/037.jpg?v=12"
  },
  {
   "no": 38,
@@ -1226,9 +1226,9 @@ window.PIECES = [
    "점8분+16분",
    "당김활"
   ],
-  "image": "scores/038.png?v=11",
-  "pdf": "scores/038.pdf?v=11",
-  "thumb": "scores/thumb/038.jpg?v=11"
+  "image": "scores/038.png?v=12",
+  "pdf": "scores/038.pdf?v=12",
+  "thumb": "scores/thumb/038.jpg?v=12"
  },
  {
   "no": 39,
@@ -1258,9 +1258,9 @@ window.PIECES = [
    "4/4",
    "점8분+16분"
   ],
-  "image": "scores/039.png?v=11",
-  "pdf": "scores/039.pdf?v=11",
-  "thumb": "scores/thumb/039.jpg?v=11"
+  "image": "scores/039.png?v=12",
+  "pdf": "scores/039.pdf?v=12",
+  "thumb": "scores/thumb/039.jpg?v=12"
  },
  {
   "no": 40,
@@ -1291,9 +1291,9 @@ window.PIECES = [
    "B♭ 조표",
    "점8분+16분"
   ],
-  "image": "scores/040.png?v=11",
-  "pdf": "scores/040.pdf?v=11",
-  "thumb": "scores/thumb/040.jpg?v=11"
+  "image": "scores/040.png?v=12",
+  "pdf": "scores/040.pdf?v=12",
+  "thumb": "scores/thumb/040.jpg?v=12"
  },
  {
   "no": 41,
@@ -1324,9 +1324,9 @@ window.PIECES = [
    "점8분+16분",
    "당김활"
   ],
-  "image": "scores/041.png?v=11",
-  "pdf": "scores/041.pdf?v=11",
-  "thumb": "scores/thumb/041.jpg?v=11"
+  "image": "scores/041.png?v=12",
+  "pdf": "scores/041.pdf?v=12",
+  "thumb": "scores/thumb/041.jpg?v=12"
  },
  {
   "no": 42,
@@ -1359,9 +1359,9 @@ window.PIECES = [
    "박자 바뀜",
    "당김활"
   ],
-  "image": "scores/042.png?v=11",
-  "pdf": "scores/042.pdf?v=11",
-  "thumb": "scores/thumb/042.jpg?v=11"
+  "image": "scores/042.png?v=12",
+  "pdf": "scores/042.pdf?v=12",
+  "thumb": "scores/thumb/042.jpg?v=12"
  },
  {
   "no": 43,
@@ -1391,9 +1391,9 @@ window.PIECES = [
    "4/4",
    "D♭ 조표"
   ],
-  "image": "scores/043.png?v=11",
-  "pdf": "scores/043.pdf?v=11",
-  "thumb": "scores/thumb/043.jpg?v=11"
+  "image": "scores/043.png?v=12",
+  "pdf": "scores/043.pdf?v=12",
+  "thumb": "scores/thumb/043.jpg?v=12"
  },
  {
   "no": 44,
@@ -1426,9 +1426,9 @@ window.PIECES = [
    "박자 바뀜",
    "당김활"
   ],
-  "image": "scores/044.png?v=11",
-  "pdf": "scores/044.pdf?v=11",
-  "thumb": "scores/thumb/044.jpg?v=11"
+  "image": "scores/044.png?v=12",
+  "pdf": "scores/044.pdf?v=12",
+  "thumb": "scores/thumb/044.jpg?v=12"
  },
  {
   "no": 45,
@@ -1459,9 +1459,9 @@ window.PIECES = [
    "꾸밈음",
    "점8분+16분"
   ],
-  "image": "scores/045.png?v=11",
-  "pdf": "scores/045.pdf?v=11",
-  "thumb": "scores/thumb/045.jpg?v=11"
+  "image": "scores/045.png?v=12",
+  "pdf": "scores/045.pdf?v=12",
+  "thumb": "scores/thumb/045.jpg?v=12"
  },
  {
   "no": 46,
@@ -1494,9 +1494,9 @@ window.PIECES = [
    "B♭ 조표",
    "박자 바뀜"
   ],
-  "image": "scores/046.png?v=11",
-  "pdf": "scores/046.pdf?v=11",
-  "thumb": "scores/thumb/046.jpg?v=11"
+  "image": "scores/046.png?v=12",
+  "pdf": "scores/046.pdf?v=12",
+  "thumb": "scores/thumb/046.jpg?v=12"
  },
  {
   "no": 47,
@@ -1529,9 +1529,9 @@ window.PIECES = [
    "박자 바뀜",
    "당김활"
   ],
-  "image": "scores/047.png?v=11",
-  "pdf": "scores/047.pdf?v=11",
-  "thumb": "scores/thumb/047.jpg?v=11"
+  "image": "scores/047.png?v=12",
+  "pdf": "scores/047.pdf?v=12",
+  "thumb": "scores/thumb/047.jpg?v=12"
  },
  {
   "no": 48,
@@ -1562,9 +1562,9 @@ window.PIECES = [
    "D♭ 조표",
    "점8분+16분"
   ],
-  "image": "scores/048.png?v=11",
-  "pdf": "scores/048.pdf?v=11",
-  "thumb": "scores/thumb/048.jpg?v=11"
+  "image": "scores/048.png?v=12",
+  "pdf": "scores/048.pdf?v=12",
+  "thumb": "scores/thumb/048.jpg?v=12"
  },
  {
   "no": 49,
@@ -1596,9 +1596,9 @@ window.PIECES = [
    "점8분+16분",
    "당김활"
   ],
-  "image": "scores/049.png?v=11",
-  "pdf": "scores/049.pdf?v=11",
-  "thumb": "scores/thumb/049.jpg?v=11"
+  "image": "scores/049.png?v=12",
+  "pdf": "scores/049.pdf?v=12",
+  "thumb": "scores/thumb/049.jpg?v=12"
  },
  {
   "no": 50,
@@ -1631,9 +1631,9 @@ window.PIECES = [
    "D♭ 조표",
    "기초 종합"
   ],
-  "image": "scores/050.png?v=11",
-  "pdf": "scores/050.pdf?v=11",
-  "thumb": "scores/thumb/050.jpg?v=11"
+  "image": "scores/050.png?v=12",
+  "pdf": "scores/050.pdf?v=12",
+  "thumb": "scores/thumb/050.jpg?v=12"
  },
  {
   "no": 51,
@@ -1668,9 +1668,9 @@ window.PIECES = [
    "4/4·3/4",
    "3연음"
   ],
-  "image": "scores/051.png?v=11",
-  "pdf": "scores/051.pdf?v=11",
-  "thumb": "scores/thumb/051.jpg?v=11"
+  "image": "scores/051.png?v=12",
+  "pdf": "scores/051.pdf?v=12",
+  "thumb": "scores/thumb/051.jpg?v=12"
  },
  {
   "no": 52,
@@ -1703,9 +1703,9 @@ window.PIECES = [
    "3/4→6/8→3/4",
    "당김음"
   ],
-  "image": "scores/052.png?v=11",
-  "pdf": "scores/052.pdf?v=11",
-  "thumb": "scores/thumb/052.jpg?v=11"
+  "image": "scores/052.png?v=12",
+  "pdf": "scores/052.pdf?v=12",
+  "thumb": "scores/thumb/052.jpg?v=12"
  },
  {
   "no": 53,
@@ -1743,9 +1743,9 @@ window.PIECES = [
    "4/4→12/8→4/4",
    "조바꿈 E♭↔A♭"
   ],
-  "image": "scores/053.png?v=11",
-  "pdf": "scores/053.pdf?v=11",
-  "thumb": "scores/thumb/053.jpg?v=11"
+  "image": "scores/053.png?v=12",
+  "pdf": "scores/053.pdf?v=12",
+  "thumb": "scores/thumb/053.jpg?v=12"
  },
  {
   "no": 54,
@@ -1778,9 +1778,9 @@ window.PIECES = [
    "6/8→9/8→6/8",
    "9/8"
   ],
-  "image": "scores/054.png?v=11",
-  "pdf": "scores/054.pdf?v=11",
-  "thumb": "scores/thumb/054.jpg?v=11"
+  "image": "scores/054.png?v=12",
+  "pdf": "scores/054.pdf?v=12",
+  "thumb": "scores/thumb/054.jpg?v=12"
  },
  {
   "no": 55,
@@ -1813,9 +1813,9 @@ window.PIECES = [
    "2/4→4/4→2/4",
    "리듬 확장"
   ],
-  "image": "scores/055.png?v=11",
-  "pdf": "scores/055.pdf?v=11",
-  "thumb": "scores/thumb/055.jpg?v=11"
+  "image": "scores/055.png?v=12",
+  "pdf": "scores/055.pdf?v=12",
+  "thumb": "scores/thumb/055.jpg?v=12"
  },
  {
   "no": 56,
@@ -1851,9 +1851,9 @@ window.PIECES = [
    "3/4·2/4",
    "리듬 대비"
   ],
-  "image": "scores/056.png?v=11",
-  "pdf": "scores/056.pdf?v=11",
-  "thumb": "scores/thumb/056.jpg?v=11"
+  "image": "scores/056.png?v=12",
+  "pdf": "scores/056.pdf?v=12",
+  "thumb": "scores/thumb/056.jpg?v=12"
  },
  {
   "no": 57,
@@ -1886,9 +1886,9 @@ window.PIECES = [
    "4/4→9/8→4/4",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/057.png?v=11",
-  "pdf": "scores/057.pdf?v=11",
-  "thumb": "scores/thumb/057.jpg?v=11"
+  "image": "scores/057.png?v=12",
+  "pdf": "scores/057.pdf?v=12",
+  "thumb": "scores/thumb/057.jpg?v=12"
  },
  {
   "no": 58,
@@ -1923,9 +1923,9 @@ window.PIECES = [
    "12/8·6/8",
    "셋잇단"
   ],
-  "image": "scores/058.png?v=11",
-  "pdf": "scores/058.pdf?v=11",
-  "thumb": "scores/thumb/058.jpg?v=11"
+  "image": "scores/058.png?v=12",
+  "pdf": "scores/058.pdf?v=12",
+  "thumb": "scores/thumb/058.jpg?v=12"
  },
  {
   "no": 59,
@@ -1961,9 +1961,9 @@ window.PIECES = [
    "4/4·3/4·2/4",
    "박자 여행"
   ],
-  "image": "scores/059.png?v=11",
-  "pdf": "scores/059.pdf?v=11",
-  "thumb": "scores/thumb/059.jpg?v=11"
+  "image": "scores/059.png?v=12",
+  "pdf": "scores/059.pdf?v=12",
+  "thumb": "scores/thumb/059.jpg?v=12"
  },
  {
   "no": 60,
@@ -1997,9 +1997,9 @@ window.PIECES = [
    "조바꿈 D♭↔A♭",
    "모르덴트"
   ],
-  "image": "scores/060.png?v=11",
-  "pdf": "scores/060.pdf?v=11",
-  "thumb": "scores/thumb/060.jpg?v=11"
+  "image": "scores/060.png?v=12",
+  "pdf": "scores/060.pdf?v=12",
+  "thumb": "scores/thumb/060.jpg?v=12"
  },
  {
   "no": 61,
@@ -2033,9 +2033,9 @@ window.PIECES = [
    "3/4→6/8",
    "도약"
   ],
-  "image": "scores/061.png?v=11",
-  "pdf": "scores/061.pdf?v=11",
-  "thumb": "scores/thumb/061.jpg?v=11"
+  "image": "scores/061.png?v=12",
+  "pdf": "scores/061.pdf?v=12",
+  "thumb": "scores/thumb/061.jpg?v=12"
  },
  {
   "no": 62,
@@ -2067,9 +2067,9 @@ window.PIECES = [
    "3/4·4/4",
    "쉼표"
   ],
-  "image": "scores/062.png?v=11",
-  "pdf": "scores/062.pdf?v=11",
-  "thumb": "scores/thumb/062.jpg?v=11"
+  "image": "scores/062.png?v=12",
+  "pdf": "scores/062.pdf?v=12",
+  "thumb": "scores/thumb/062.jpg?v=12"
  },
  {
   "no": 63,
@@ -2102,9 +2102,9 @@ window.PIECES = [
   "tags": [
    "6/8·3/4"
   ],
-  "image": "scores/063.png?v=11",
-  "pdf": "scores/063.pdf?v=11",
-  "thumb": "scores/thumb/063.jpg?v=11"
+  "image": "scores/063.png?v=12",
+  "pdf": "scores/063.pdf?v=12",
+  "thumb": "scores/thumb/063.jpg?v=12"
  },
  {
   "no": 64,
@@ -2137,9 +2137,9 @@ window.PIECES = [
   "tags": [
    "2/4·4/4"
   ],
-  "image": "scores/064.png?v=11",
-  "pdf": "scores/064.pdf?v=11",
-  "thumb": "scores/thumb/064.jpg?v=11"
+  "image": "scores/064.png?v=12",
+  "pdf": "scores/064.pdf?v=12",
+  "thumb": "scores/thumb/064.jpg?v=12"
  },
  {
   "no": 65,
@@ -2172,9 +2172,9 @@ window.PIECES = [
   "tags": [
    "9/8·6/8"
   ],
-  "image": "scores/065.png?v=11",
-  "pdf": "scores/065.pdf?v=11",
-  "thumb": "scores/thumb/065.jpg?v=11"
+  "image": "scores/065.png?v=12",
+  "pdf": "scores/065.pdf?v=12",
+  "thumb": "scores/thumb/065.jpg?v=12"
  },
  {
   "no": 66,
@@ -2208,9 +2208,9 @@ window.PIECES = [
    "4/4·9/8",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/066.png?v=11",
-  "pdf": "scores/066.pdf?v=11",
-  "thumb": "scores/thumb/066.jpg?v=11"
+  "image": "scores/066.png?v=12",
+  "pdf": "scores/066.pdf?v=12",
+  "thumb": "scores/thumb/066.jpg?v=12"
  },
  {
   "no": 67,
@@ -2241,9 +2241,9 @@ window.PIECES = [
   "tags": [
    "12/8·6/8"
   ],
-  "image": "scores/067.png?v=11",
-  "pdf": "scores/067.pdf?v=11",
-  "thumb": "scores/thumb/067.jpg?v=11"
+  "image": "scores/067.png?v=12",
+  "pdf": "scores/067.pdf?v=12",
+  "thumb": "scores/thumb/067.jpg?v=12"
  },
  {
   "no": 68,
@@ -2276,9 +2276,9 @@ window.PIECES = [
   "tags": [
    "4/4→3/4"
   ],
-  "image": "scores/068.png?v=11",
-  "pdf": "scores/068.pdf?v=11",
-  "thumb": "scores/thumb/068.jpg?v=11"
+  "image": "scores/068.png?v=12",
+  "pdf": "scores/068.pdf?v=12",
+  "thumb": "scores/thumb/068.jpg?v=12"
  },
  {
   "no": 69,
@@ -2311,9 +2311,9 @@ window.PIECES = [
   "tags": [
    "6/8↔9/8"
   ],
-  "image": "scores/069.png?v=11",
-  "pdf": "scores/069.pdf?v=11",
-  "thumb": "scores/thumb/069.jpg?v=11"
+  "image": "scores/069.png?v=12",
+  "pdf": "scores/069.pdf?v=12",
+  "thumb": "scores/thumb/069.jpg?v=12"
  },
  {
   "no": 70,
@@ -2346,9 +2346,9 @@ window.PIECES = [
   "tags": [
    "3/4↔6/8"
   ],
-  "image": "scores/070.png?v=11",
-  "pdf": "scores/070.pdf?v=11",
-  "thumb": "scores/thumb/070.jpg?v=11"
+  "image": "scores/070.png?v=12",
+  "pdf": "scores/070.pdf?v=12",
+  "thumb": "scores/thumb/070.jpg?v=12"
  },
  {
   "no": 71,
@@ -2382,9 +2382,9 @@ window.PIECES = [
    "4/4·2/4",
    "16분"
   ],
-  "image": "scores/071.png?v=11",
-  "pdf": "scores/071.pdf?v=11",
-  "thumb": "scores/thumb/071.jpg?v=11"
+  "image": "scores/071.png?v=12",
+  "pdf": "scores/071.pdf?v=12",
+  "thumb": "scores/thumb/071.jpg?v=12"
  },
  {
   "no": 72,
@@ -2417,9 +2417,9 @@ window.PIECES = [
   "tags": [
    "12/8·6/8"
   ],
-  "image": "scores/072.png?v=11",
-  "pdf": "scores/072.pdf?v=11",
-  "thumb": "scores/thumb/072.jpg?v=11"
+  "image": "scores/072.png?v=12",
+  "pdf": "scores/072.pdf?v=12",
+  "thumb": "scores/thumb/072.jpg?v=12"
  },
  {
   "no": 73,
@@ -2450,9 +2450,9 @@ window.PIECES = [
   "tags": [
    "9/8→4/4"
   ],
-  "image": "scores/073.png?v=11",
-  "pdf": "scores/073.pdf?v=11",
-  "thumb": "scores/thumb/073.jpg?v=11"
+  "image": "scores/073.png?v=12",
+  "pdf": "scores/073.pdf?v=12",
+  "thumb": "scores/thumb/073.jpg?v=12"
  },
  {
   "no": 74,
@@ -2486,9 +2486,9 @@ window.PIECES = [
    "4/4·3/4",
    "조바꿈 E♭↔A♭"
   ],
-  "image": "scores/074.png?v=11",
-  "pdf": "scores/074.pdf?v=11",
-  "thumb": "scores/thumb/074.jpg?v=11"
+  "image": "scores/074.png?v=12",
+  "pdf": "scores/074.pdf?v=12",
+  "thumb": "scores/thumb/074.jpg?v=12"
  },
  {
   "no": 75,
@@ -2522,9 +2522,9 @@ window.PIECES = [
    "3/4·2/4",
    "D♭"
   ],
-  "image": "scores/075.png?v=11",
-  "pdf": "scores/075.pdf?v=11",
-  "thumb": "scores/thumb/075.jpg?v=11"
+  "image": "scores/075.png?v=12",
+  "pdf": "scores/075.pdf?v=12",
+  "thumb": "scores/thumb/075.jpg?v=12"
  },
  {
   "no": 76,
@@ -2557,9 +2557,9 @@ window.PIECES = [
   "tags": [
    "2/4→4/4"
   ],
-  "image": "scores/076.png?v=11",
-  "pdf": "scores/076.pdf?v=11",
-  "thumb": "scores/thumb/076.jpg?v=11"
+  "image": "scores/076.png?v=12",
+  "pdf": "scores/076.pdf?v=12",
+  "thumb": "scores/thumb/076.jpg?v=12"
  },
  {
   "no": 77,
@@ -2593,9 +2593,9 @@ window.PIECES = [
    "6/8·3/4",
    "점8분+16분"
   ],
-  "image": "scores/077.png?v=11",
-  "pdf": "scores/077.pdf?v=11",
-  "thumb": "scores/thumb/077.jpg?v=11"
+  "image": "scores/077.png?v=12",
+  "pdf": "scores/077.pdf?v=12",
+  "thumb": "scores/thumb/077.jpg?v=12"
  },
  {
   "no": 78,
@@ -2628,9 +2628,9 @@ window.PIECES = [
   "tags": [
    "9/8·6/8"
   ],
-  "image": "scores/078.png?v=11",
-  "pdf": "scores/078.pdf?v=11",
-  "thumb": "scores/thumb/078.jpg?v=11"
+  "image": "scores/078.png?v=12",
+  "pdf": "scores/078.pdf?v=12",
+  "thumb": "scores/thumb/078.jpg?v=12"
  },
  {
   "no": 79,
@@ -2664,9 +2664,9 @@ window.PIECES = [
    "4/4·2/4",
    "조바꿈 E♭↔B♭"
   ],
-  "image": "scores/079.png?v=11",
-  "pdf": "scores/079.pdf?v=11",
-  "thumb": "scores/thumb/079.jpg?v=11"
+  "image": "scores/079.png?v=12",
+  "pdf": "scores/079.pdf?v=12",
+  "thumb": "scores/thumb/079.jpg?v=12"
  },
  {
   "no": 80,
@@ -2699,9 +2699,9 @@ window.PIECES = [
   "tags": [
    "4/4·3/4"
   ],
-  "image": "scores/080.png?v=11",
-  "pdf": "scores/080.pdf?v=11",
-  "thumb": "scores/thumb/080.jpg?v=11"
+  "image": "scores/080.png?v=12",
+  "pdf": "scores/080.pdf?v=12",
+  "thumb": "scores/thumb/080.jpg?v=12"
  },
  {
   "no": 81,
@@ -2735,9 +2735,9 @@ window.PIECES = [
    "12/8·6/8",
    "조바꿈 A♭↔D♭"
   ],
-  "image": "scores/081.png?v=11",
-  "pdf": "scores/081.pdf?v=11",
-  "thumb": "scores/thumb/081.jpg?v=11"
+  "image": "scores/081.png?v=12",
+  "pdf": "scores/081.pdf?v=12",
+  "thumb": "scores/thumb/081.jpg?v=12"
  },
  {
   "no": 82,
@@ -2771,9 +2771,9 @@ window.PIECES = [
    "4/4·3/4",
    "16분"
   ],
-  "image": "scores/082.png?v=11",
-  "pdf": "scores/082.pdf?v=11",
-  "thumb": "scores/thumb/082.jpg?v=11"
+  "image": "scores/082.png?v=12",
+  "pdf": "scores/082.pdf?v=12",
+  "thumb": "scores/thumb/082.jpg?v=12"
  },
  {
   "no": 83,
@@ -2807,9 +2807,9 @@ window.PIECES = [
    "6/8·2/4",
    "B♭"
   ],
-  "image": "scores/083.png?v=11",
-  "pdf": "scores/083.pdf?v=11",
-  "thumb": "scores/thumb/083.jpg?v=11"
+  "image": "scores/083.png?v=12",
+  "pdf": "scores/083.pdf?v=12",
+  "thumb": "scores/thumb/083.jpg?v=12"
  },
  {
   "no": 84,
@@ -2843,9 +2843,9 @@ window.PIECES = [
    "9/8·6/8",
    "조바꿈 A♭↔E♭"
   ],
-  "image": "scores/084.png?v=11",
-  "pdf": "scores/084.pdf?v=11",
-  "thumb": "scores/thumb/084.jpg?v=11"
+  "image": "scores/084.png?v=12",
+  "pdf": "scores/084.pdf?v=12",
+  "thumb": "scores/thumb/084.jpg?v=12"
  },
  {
   "no": 85,
@@ -2876,9 +2876,9 @@ window.PIECES = [
   "tags": [
    "3/4·2/4"
   ],
-  "image": "scores/085.png?v=11",
-  "pdf": "scores/085.pdf?v=11",
-  "thumb": "scores/thumb/085.jpg?v=11"
+  "image": "scores/085.png?v=12",
+  "pdf": "scores/085.pdf?v=12",
+  "thumb": "scores/thumb/085.jpg?v=12"
  },
  {
   "no": 86,
@@ -2912,9 +2912,9 @@ window.PIECES = [
    "12/8·6/8",
    "D♭"
   ],
-  "image": "scores/086.png?v=11",
-  "pdf": "scores/086.pdf?v=11",
-  "thumb": "scores/thumb/086.jpg?v=11"
+  "image": "scores/086.png?v=12",
+  "pdf": "scores/086.pdf?v=12",
+  "thumb": "scores/thumb/086.jpg?v=12"
  },
  {
   "no": 87,
@@ -2949,9 +2949,9 @@ window.PIECES = [
   "tags": [
    "4/4↔12/8"
   ],
-  "image": "scores/087.png?v=11",
-  "pdf": "scores/087.pdf?v=11",
-  "thumb": "scores/thumb/087.jpg?v=11"
+  "image": "scores/087.png?v=12",
+  "pdf": "scores/087.pdf?v=12",
+  "thumb": "scores/thumb/087.jpg?v=12"
  },
  {
   "no": 88,
@@ -2987,9 +2987,9 @@ window.PIECES = [
    "4/4·6/8",
    "조바꿈 A♭↔B♭"
   ],
-  "image": "scores/088.png?v=11",
-  "pdf": "scores/088.pdf?v=11",
-  "thumb": "scores/thumb/088.jpg?v=11"
+  "image": "scores/088.png?v=12",
+  "pdf": "scores/088.pdf?v=12",
+  "thumb": "scores/thumb/088.jpg?v=12"
  },
  {
   "no": 89,
@@ -3022,9 +3022,9 @@ window.PIECES = [
   "tags": [
    "6/8·9/8"
   ],
-  "image": "scores/089.png?v=11",
-  "pdf": "scores/089.pdf?v=11",
-  "thumb": "scores/thumb/089.jpg?v=11"
+  "image": "scores/089.png?v=12",
+  "pdf": "scores/089.pdf?v=12",
+  "thumb": "scores/thumb/089.jpg?v=12"
  },
  {
   "no": 90,
@@ -3060,9 +3060,9 @@ window.PIECES = [
    "2/4·4/4",
    "빠른 템포"
   ],
-  "image": "scores/090.png?v=11",
-  "pdf": "scores/090.pdf?v=11",
-  "thumb": "scores/thumb/090.jpg?v=11"
+  "image": "scores/090.png?v=12",
+  "pdf": "scores/090.pdf?v=12",
+  "thumb": "scores/thumb/090.jpg?v=12"
  },
  {
   "no": 91,
@@ -3098,9 +3098,9 @@ window.PIECES = [
    "12/8·5/8·6/8",
    "도약"
   ],
-  "image": "scores/091.png?v=11",
-  "pdf": "scores/091.pdf?v=11",
-  "thumb": "scores/thumb/091.jpg?v=11"
+  "image": "scores/091.png?v=12",
+  "pdf": "scores/091.pdf?v=12",
+  "thumb": "scores/thumb/091.jpg?v=12"
  },
  {
   "no": 92,
@@ -3135,9 +3135,9 @@ window.PIECES = [
    "16분",
    "빠른 템포"
   ],
-  "image": "scores/092.png?v=11",
-  "pdf": "scores/092.pdf?v=11",
-  "thumb": "scores/thumb/092.jpg?v=11"
+  "image": "scores/092.png?v=12",
+  "pdf": "scores/092.pdf?v=12",
+  "thumb": "scores/thumb/092.jpg?v=12"
  },
  {
   "no": 93,
@@ -3171,9 +3171,9 @@ window.PIECES = [
    "9/8·6/8",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/093.png?v=11",
-  "pdf": "scores/093.pdf?v=11",
-  "thumb": "scores/thumb/093.jpg?v=11"
+  "image": "scores/093.png?v=12",
+  "pdf": "scores/093.pdf?v=12",
+  "thumb": "scores/thumb/093.jpg?v=12"
  },
  {
   "no": 94,
@@ -3205,9 +3205,9 @@ window.PIECES = [
    "3/4·2/4",
    "D♭"
   ],
-  "image": "scores/094.png?v=11",
-  "pdf": "scores/094.pdf?v=11",
-  "thumb": "scores/thumb/094.jpg?v=11"
+  "image": "scores/094.png?v=12",
+  "pdf": "scores/094.pdf?v=12",
+  "thumb": "scores/thumb/094.jpg?v=12"
  },
  {
   "no": 95,
@@ -3241,9 +3241,9 @@ window.PIECES = [
    "6/8·5/8",
    "조바꿈 E♭↔A♭"
   ],
-  "image": "scores/095.png?v=11",
-  "pdf": "scores/095.pdf?v=11",
-  "thumb": "scores/thumb/095.jpg?v=11"
+  "image": "scores/095.png?v=12",
+  "pdf": "scores/095.pdf?v=12",
+  "thumb": "scores/thumb/095.jpg?v=12"
  },
  {
   "no": 96,
@@ -3276,9 +3276,9 @@ window.PIECES = [
   "tags": [
    "4/4·3/4"
   ],
-  "image": "scores/096.png?v=11",
-  "pdf": "scores/096.pdf?v=11",
-  "thumb": "scores/thumb/096.jpg?v=11"
+  "image": "scores/096.png?v=12",
+  "pdf": "scores/096.pdf?v=12",
+  "thumb": "scores/thumb/096.jpg?v=12"
  },
  {
   "no": 97,
@@ -3311,9 +3311,9 @@ window.PIECES = [
   "tags": [
    "9/8·12/8"
   ],
-  "image": "scores/097.png?v=11",
-  "pdf": "scores/097.pdf?v=11",
-  "thumb": "scores/thumb/097.jpg?v=11"
+  "image": "scores/097.png?v=12",
+  "pdf": "scores/097.pdf?v=12",
+  "thumb": "scores/thumb/097.jpg?v=12"
  },
  {
   "no": 98,
@@ -3347,9 +3347,9 @@ window.PIECES = [
    "4/4·3/4",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/098.png?v=11",
-  "pdf": "scores/098.pdf?v=11",
-  "thumb": "scores/thumb/098.jpg?v=11"
+  "image": "scores/098.png?v=12",
+  "pdf": "scores/098.pdf?v=12",
+  "thumb": "scores/thumb/098.jpg?v=12"
  },
  {
   "no": 99,
@@ -3382,9 +3382,9 @@ window.PIECES = [
   "tags": [
    "12/8·9/8·6/8"
   ],
-  "image": "scores/099.png?v=11",
-  "pdf": "scores/099.pdf?v=11",
-  "thumb": "scores/thumb/099.jpg?v=11"
+  "image": "scores/099.png?v=12",
+  "pdf": "scores/099.pdf?v=12",
+  "thumb": "scores/thumb/099.jpg?v=12"
  },
  {
   "no": 100,
@@ -3418,9 +3418,9 @@ window.PIECES = [
    "4/4·6/8",
    "빠른 템포"
   ],
-  "image": "scores/100.png?v=11",
-  "pdf": "scores/100.pdf?v=11",
-  "thumb": "scores/thumb/100.jpg?v=11"
+  "image": "scores/100.png?v=12",
+  "pdf": "scores/100.pdf?v=12",
+  "thumb": "scores/thumb/100.jpg?v=12"
  },
  {
   "no": 101,
@@ -3453,9 +3453,9 @@ window.PIECES = [
   "tags": [
    "5/8·3/4"
   ],
-  "image": "scores/101.png?v=11",
-  "pdf": "scores/101.pdf?v=11",
-  "thumb": "scores/thumb/101.jpg?v=11"
+  "image": "scores/101.png?v=12",
+  "pdf": "scores/101.pdf?v=12",
+  "thumb": "scores/thumb/101.jpg?v=12"
  },
  {
   "no": 102,
@@ -3488,9 +3488,9 @@ window.PIECES = [
   "tags": [
    "7/8·4/4"
   ],
-  "image": "scores/102.png?v=11",
-  "pdf": "scores/102.pdf?v=11",
-  "thumb": "scores/thumb/102.jpg?v=11"
+  "image": "scores/102.png?v=12",
+  "pdf": "scores/102.pdf?v=12",
+  "thumb": "scores/thumb/102.jpg?v=12"
  },
  {
   "no": 103,
@@ -3523,9 +3523,9 @@ window.PIECES = [
   "tags": [
    "5/8·3/4"
   ],
-  "image": "scores/103.png?v=11",
-  "pdf": "scores/103.pdf?v=11",
-  "thumb": "scores/thumb/103.jpg?v=11"
+  "image": "scores/103.png?v=12",
+  "pdf": "scores/103.pdf?v=12",
+  "thumb": "scores/thumb/103.jpg?v=12"
  },
  {
   "no": 104,
@@ -3558,9 +3558,9 @@ window.PIECES = [
   "tags": [
    "9/8·12/8"
   ],
-  "image": "scores/104.png?v=11",
-  "pdf": "scores/104.pdf?v=11",
-  "thumb": "scores/thumb/104.jpg?v=11"
+  "image": "scores/104.png?v=12",
+  "pdf": "scores/104.pdf?v=12",
+  "thumb": "scores/thumb/104.jpg?v=12"
  },
  {
   "no": 105,
@@ -3594,9 +3594,9 @@ window.PIECES = [
    "4/4·6/8",
    "조바꿈 D♭↔A♭"
   ],
-  "image": "scores/105.png?v=11",
-  "pdf": "scores/105.pdf?v=11",
-  "thumb": "scores/thumb/105.jpg?v=11"
+  "image": "scores/105.png?v=12",
+  "pdf": "scores/105.pdf?v=12",
+  "thumb": "scores/thumb/105.jpg?v=12"
  },
  {
   "no": 106,
@@ -3629,9 +3629,9 @@ window.PIECES = [
   "tags": [
    "6/8·9/8"
   ],
-  "image": "scores/106.png?v=11",
-  "pdf": "scores/106.pdf?v=11",
-  "thumb": "scores/thumb/106.jpg?v=11"
+  "image": "scores/106.png?v=12",
+  "pdf": "scores/106.pdf?v=12",
+  "thumb": "scores/thumb/106.jpg?v=12"
  },
  {
   "no": 107,
@@ -3666,9 +3666,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8"
   ],
-  "image": "scores/107.png?v=11",
-  "pdf": "scores/107.pdf?v=11",
-  "thumb": "scores/thumb/107.jpg?v=11"
+  "image": "scores/107.png?v=12",
+  "pdf": "scores/107.pdf?v=12",
+  "thumb": "scores/thumb/107.jpg?v=12"
  },
  {
   "no": 108,
@@ -3703,9 +3703,9 @@ window.PIECES = [
   "tags": [
    "12/8·6/8·5/8"
   ],
-  "image": "scores/108.png?v=11",
-  "pdf": "scores/108.pdf?v=11",
-  "thumb": "scores/thumb/108.jpg?v=11"
+  "image": "scores/108.png?v=12",
+  "pdf": "scores/108.pdf?v=12",
+  "thumb": "scores/thumb/108.jpg?v=12"
  },
  {
   "no": 109,
@@ -3739,9 +3739,9 @@ window.PIECES = [
    "4/4·3/4",
    "조바꿈 F↔B♭"
   ],
-  "image": "scores/109.png?v=11",
-  "pdf": "scores/109.pdf?v=11",
-  "thumb": "scores/thumb/109.jpg?v=11"
+  "image": "scores/109.png?v=12",
+  "pdf": "scores/109.pdf?v=12",
+  "thumb": "scores/thumb/109.jpg?v=12"
  },
  {
   "no": 110,
@@ -3774,9 +3774,9 @@ window.PIECES = [
   "tags": [
    "4/4·2/4·6/8"
   ],
-  "image": "scores/110.png?v=11",
-  "pdf": "scores/110.pdf?v=11",
-  "thumb": "scores/thumb/110.jpg?v=11"
+  "image": "scores/110.png?v=12",
+  "pdf": "scores/110.pdf?v=12",
+  "thumb": "scores/thumb/110.jpg?v=12"
  },
  {
   "no": 111,
@@ -3812,9 +3812,9 @@ window.PIECES = [
    "12/8·5/8·6/8",
    "조바꿈 E♭↔A♭"
   ],
-  "image": "scores/111.png?v=11",
-  "pdf": "scores/111.pdf?v=11",
-  "thumb": "scores/thumb/111.jpg?v=11"
+  "image": "scores/111.png?v=12",
+  "pdf": "scores/111.pdf?v=12",
+  "thumb": "scores/thumb/111.jpg?v=12"
  },
  {
   "no": 112,
@@ -3848,9 +3848,9 @@ window.PIECES = [
    "3/4·2/4",
    "16분"
   ],
-  "image": "scores/112.png?v=11",
-  "pdf": "scores/112.pdf?v=11",
-  "thumb": "scores/thumb/112.jpg?v=11"
+  "image": "scores/112.png?v=12",
+  "pdf": "scores/112.pdf?v=12",
+  "thumb": "scores/thumb/112.jpg?v=12"
  },
  {
   "no": 113,
@@ -3885,9 +3885,9 @@ window.PIECES = [
   "tags": [
    "9/8·6/8"
   ],
-  "image": "scores/113.png?v=11",
-  "pdf": "scores/113.pdf?v=11",
-  "thumb": "scores/thumb/113.jpg?v=11"
+  "image": "scores/113.png?v=12",
+  "pdf": "scores/113.pdf?v=12",
+  "thumb": "scores/thumb/113.jpg?v=12"
  },
  {
   "no": 114,
@@ -3921,9 +3921,9 @@ window.PIECES = [
    "4/4·3/4",
    "조바꿈 D♭↔A♭"
   ],
-  "image": "scores/114.png?v=11",
-  "pdf": "scores/114.pdf?v=11",
-  "thumb": "scores/thumb/114.jpg?v=11"
+  "image": "scores/114.png?v=12",
+  "pdf": "scores/114.pdf?v=12",
+  "thumb": "scores/thumb/114.jpg?v=12"
  },
  {
   "no": 115,
@@ -3958,9 +3958,9 @@ window.PIECES = [
   "tags": [
    "6/8·9/8·5/8"
   ],
-  "image": "scores/115.png?v=11",
-  "pdf": "scores/115.pdf?v=11",
-  "thumb": "scores/thumb/115.jpg?v=11"
+  "image": "scores/115.png?v=12",
+  "pdf": "scores/115.pdf?v=12",
+  "thumb": "scores/thumb/115.jpg?v=12"
  },
  {
   "no": 116,
@@ -3994,9 +3994,9 @@ window.PIECES = [
    "4/4·7/8",
    "셋잇단"
   ],
-  "image": "scores/116.png?v=11",
-  "pdf": "scores/116.pdf?v=11",
-  "thumb": "scores/thumb/116.jpg?v=11"
+  "image": "scores/116.png?v=12",
+  "pdf": "scores/116.pdf?v=12",
+  "thumb": "scores/thumb/116.jpg?v=12"
  },
  {
   "no": 117,
@@ -4030,9 +4030,9 @@ window.PIECES = [
    "7/8·3/4",
    "B♭"
   ],
-  "image": "scores/117.png?v=11",
-  "pdf": "scores/117.pdf?v=11",
-  "thumb": "scores/thumb/117.jpg?v=11"
+  "image": "scores/117.png?v=12",
+  "pdf": "scores/117.pdf?v=12",
+  "thumb": "scores/thumb/117.jpg?v=12"
  },
  {
   "no": 118,
@@ -4065,9 +4065,9 @@ window.PIECES = [
   "tags": [
    "12/8·6/8"
   ],
-  "image": "scores/118.png?v=11",
-  "pdf": "scores/118.pdf?v=11",
-  "thumb": "scores/thumb/118.jpg?v=11"
+  "image": "scores/118.png?v=12",
+  "pdf": "scores/118.pdf?v=12",
+  "thumb": "scores/thumb/118.jpg?v=12"
  },
  {
   "no": 119,
@@ -4101,9 +4101,9 @@ window.PIECES = [
    "2/4·4/4",
    "빠른 템포"
   ],
-  "image": "scores/119.png?v=11",
-  "pdf": "scores/119.pdf?v=11",
-  "thumb": "scores/thumb/119.jpg?v=11"
+  "image": "scores/119.png?v=12",
+  "pdf": "scores/119.pdf?v=12",
+  "thumb": "scores/thumb/119.jpg?v=12"
  },
  {
   "no": 120,
@@ -4136,9 +4136,9 @@ window.PIECES = [
   "tags": [
    "4/4·3/4·6/8"
   ],
-  "image": "scores/120.png?v=11",
-  "pdf": "scores/120.pdf?v=11",
-  "thumb": "scores/thumb/120.jpg?v=11"
+  "image": "scores/120.png?v=12",
+  "pdf": "scores/120.pdf?v=12",
+  "thumb": "scores/thumb/120.jpg?v=12"
  },
  {
   "no": 121,
@@ -4171,9 +4171,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8"
   ],
-  "image": "scores/121.png?v=11",
-  "pdf": "scores/121.pdf?v=11",
-  "thumb": "scores/thumb/121.jpg?v=11"
+  "image": "scores/121.png?v=12",
+  "pdf": "scores/121.pdf?v=12",
+  "thumb": "scores/thumb/121.jpg?v=12"
  },
  {
   "no": 122,
@@ -4206,9 +4206,9 @@ window.PIECES = [
   "tags": [
    "7/8·4/4"
   ],
-  "image": "scores/122.png?v=11",
-  "pdf": "scores/122.pdf?v=11",
-  "thumb": "scores/thumb/122.jpg?v=11"
+  "image": "scores/122.png?v=12",
+  "pdf": "scores/122.pdf?v=12",
+  "thumb": "scores/thumb/122.jpg?v=12"
  },
  {
   "no": 123,
@@ -4242,9 +4242,9 @@ window.PIECES = [
    "4/4·5/8",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/123.png?v=11",
-  "pdf": "scores/123.pdf?v=11",
-  "thumb": "scores/thumb/123.jpg?v=11"
+  "image": "scores/123.png?v=12",
+  "pdf": "scores/123.pdf?v=12",
+  "thumb": "scores/thumb/123.jpg?v=12"
  },
  {
   "no": 124,
@@ -4280,9 +4280,9 @@ window.PIECES = [
    "12/8·5/8·6/8",
    "조바꿈 D♭↔A♭"
   ],
-  "image": "scores/124.png?v=11",
-  "pdf": "scores/124.pdf?v=11",
-  "thumb": "scores/thumb/124.jpg?v=11"
+  "image": "scores/124.png?v=12",
+  "pdf": "scores/124.pdf?v=12",
+  "thumb": "scores/thumb/124.jpg?v=12"
  },
  {
   "no": 125,
@@ -4317,9 +4317,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8·3/4"
   ],
-  "image": "scores/125.png?v=11",
-  "pdf": "scores/125.pdf?v=11",
-  "thumb": "scores/thumb/125.jpg?v=11"
+  "image": "scores/125.png?v=12",
+  "pdf": "scores/125.pdf?v=12",
+  "thumb": "scores/thumb/125.jpg?v=12"
  },
  {
   "no": 126,
@@ -4353,9 +4353,9 @@ window.PIECES = [
    "9/8·6/8",
    "조바꿈 A♭↔D♭"
   ],
-  "image": "scores/126.png?v=11",
-  "pdf": "scores/126.pdf?v=11",
-  "thumb": "scores/thumb/126.jpg?v=11"
+  "image": "scores/126.png?v=12",
+  "pdf": "scores/126.pdf?v=12",
+  "thumb": "scores/thumb/126.jpg?v=12"
  },
  {
   "no": 127,
@@ -4389,9 +4389,9 @@ window.PIECES = [
    "4/4·2/4",
    "빠른 템포"
   ],
-  "image": "scores/127.png?v=11",
-  "pdf": "scores/127.pdf?v=11",
-  "thumb": "scores/thumb/127.jpg?v=11"
+  "image": "scores/127.png?v=12",
+  "pdf": "scores/127.pdf?v=12",
+  "thumb": "scores/thumb/127.jpg?v=12"
  },
  {
   "no": 128,
@@ -4426,9 +4426,9 @@ window.PIECES = [
   "tags": [
    "3/4·2/4·6/8"
   ],
-  "image": "scores/128.png?v=11",
-  "pdf": "scores/128.pdf?v=11",
-  "thumb": "scores/thumb/128.jpg?v=11"
+  "image": "scores/128.png?v=12",
+  "pdf": "scores/128.pdf?v=12",
+  "thumb": "scores/thumb/128.jpg?v=12"
  },
  {
   "no": 129,
@@ -4462,9 +4462,9 @@ window.PIECES = [
    "6/8·9/8",
    "D♭"
   ],
-  "image": "scores/129.png?v=11",
-  "pdf": "scores/129.pdf?v=11",
-  "thumb": "scores/thumb/129.jpg?v=11"
+  "image": "scores/129.png?v=12",
+  "pdf": "scores/129.pdf?v=12",
+  "thumb": "scores/thumb/129.jpg?v=12"
  },
  {
   "no": 130,
@@ -4499,9 +4499,9 @@ window.PIECES = [
   "tags": [
    "12/8·5/8·6/8"
   ],
-  "image": "scores/130.png?v=11",
-  "pdf": "scores/130.pdf?v=11",
-  "thumb": "scores/thumb/130.jpg?v=11"
+  "image": "scores/130.png?v=12",
+  "pdf": "scores/130.pdf?v=12",
+  "thumb": "scores/thumb/130.jpg?v=12"
  },
  {
   "no": 131,
@@ -4536,9 +4536,9 @@ window.PIECES = [
   "tags": [
    "7/8·5/8·3/4"
   ],
-  "image": "scores/131.png?v=11",
-  "pdf": "scores/131.pdf?v=11",
-  "thumb": "scores/thumb/131.jpg?v=11"
+  "image": "scores/131.png?v=12",
+  "pdf": "scores/131.pdf?v=12",
+  "thumb": "scores/thumb/131.jpg?v=12"
  },
  {
   "no": 132,
@@ -4574,9 +4574,9 @@ window.PIECES = [
    "5/8·4/4",
    "빠른 템포"
   ],
-  "image": "scores/132.png?v=11",
-  "pdf": "scores/132.pdf?v=11",
-  "thumb": "scores/thumb/132.jpg?v=11"
+  "image": "scores/132.png?v=12",
+  "pdf": "scores/132.pdf?v=12",
+  "thumb": "scores/thumb/132.jpg?v=12"
  },
  {
   "no": 133,
@@ -4612,9 +4612,9 @@ window.PIECES = [
    "4/4·2/4",
    "조바꿈 B♭↔D♭"
   ],
-  "image": "scores/133.png?v=11",
-  "pdf": "scores/133.pdf?v=11",
-  "thumb": "scores/thumb/133.jpg?v=11"
+  "image": "scores/133.png?v=12",
+  "pdf": "scores/133.pdf?v=12",
+  "thumb": "scores/thumb/133.jpg?v=12"
  },
  {
   "no": 134,
@@ -4649,9 +4649,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8·4/4"
   ],
-  "image": "scores/134.png?v=11",
-  "pdf": "scores/134.pdf?v=11",
-  "thumb": "scores/thumb/134.jpg?v=11"
+  "image": "scores/134.png?v=12",
+  "pdf": "scores/134.pdf?v=12",
+  "thumb": "scores/thumb/134.jpg?v=12"
  },
  {
   "no": 135,
@@ -4687,9 +4687,9 @@ window.PIECES = [
    "3/4·9/8",
    "16분"
   ],
-  "image": "scores/135.png?v=11",
-  "pdf": "scores/135.pdf?v=11",
-  "thumb": "scores/thumb/135.jpg?v=11"
+  "image": "scores/135.png?v=12",
+  "pdf": "scores/135.pdf?v=12",
+  "thumb": "scores/thumb/135.jpg?v=12"
  },
  {
   "no": 136,
@@ -4722,9 +4722,9 @@ window.PIECES = [
   "tags": [
    "9/8·12/8·6/8"
   ],
-  "image": "scores/136.png?v=11",
-  "pdf": "scores/136.pdf?v=11",
-  "thumb": "scores/thumb/136.jpg?v=11"
+  "image": "scores/136.png?v=12",
+  "pdf": "scores/136.pdf?v=12",
+  "thumb": "scores/thumb/136.jpg?v=12"
  },
  {
   "no": 137,
@@ -4759,9 +4759,9 @@ window.PIECES = [
   "tags": [
    "4/4·5/8·3/4"
   ],
-  "image": "scores/137.png?v=11",
-  "pdf": "scores/137.pdf?v=11",
-  "thumb": "scores/thumb/137.jpg?v=11"
+  "image": "scores/137.png?v=12",
+  "pdf": "scores/137.pdf?v=12",
+  "thumb": "scores/thumb/137.jpg?v=12"
  },
  {
   "no": 138,
@@ -4797,9 +4797,9 @@ window.PIECES = [
    "12/8·7/8·5/8",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/138.png?v=11",
-  "pdf": "scores/138.pdf?v=11",
-  "thumb": "scores/thumb/138.jpg?v=11"
+  "image": "scores/138.png?v=12",
+  "pdf": "scores/138.pdf?v=12",
+  "thumb": "scores/thumb/138.jpg?v=12"
  },
  {
   "no": 139,
@@ -4835,9 +4835,9 @@ window.PIECES = [
    "4/4·6/8",
    "빠른 템포"
   ],
-  "image": "scores/139.png?v=11",
-  "pdf": "scores/139.pdf?v=11",
-  "thumb": "scores/thumb/139.jpg?v=11"
+  "image": "scores/139.png?v=12",
+  "pdf": "scores/139.pdf?v=12",
+  "thumb": "scores/thumb/139.jpg?v=12"
  },
  {
   "no": 140,
@@ -4873,9 +4873,9 @@ window.PIECES = [
    "7/8·5/8·3/4",
    "16분"
   ],
-  "image": "scores/140.png?v=11",
-  "pdf": "scores/140.pdf?v=11",
-  "thumb": "scores/thumb/140.jpg?v=11"
+  "image": "scores/140.png?v=12",
+  "pdf": "scores/140.pdf?v=12",
+  "thumb": "scores/thumb/140.jpg?v=12"
  },
  {
   "no": 141,
@@ -4910,9 +4910,9 @@ window.PIECES = [
   "tags": [
    "5/8·9/8·7/8"
   ],
-  "image": "scores/141.png?v=11",
-  "pdf": "scores/141.pdf?v=11",
-  "thumb": "scores/thumb/141.jpg?v=11"
+  "image": "scores/141.png?v=12",
+  "pdf": "scores/141.pdf?v=12",
+  "thumb": "scores/thumb/141.jpg?v=12"
  },
  {
   "no": 142,
@@ -4948,9 +4948,9 @@ window.PIECES = [
    "4/4·5/8",
    "시김새"
   ],
-  "image": "scores/142.png?v=11",
-  "pdf": "scores/142.pdf?v=11",
-  "thumb": "scores/thumb/142.jpg?v=11"
+  "image": "scores/142.png?v=12",
+  "pdf": "scores/142.pdf?v=12",
+  "thumb": "scores/thumb/142.jpg?v=12"
  },
  {
   "no": 143,
@@ -4985,9 +4985,9 @@ window.PIECES = [
   "tags": [
    "12/8·5/8·6/8"
   ],
-  "image": "scores/143.png?v=11",
-  "pdf": "scores/143.pdf?v=11",
-  "thumb": "scores/thumb/143.jpg?v=11"
+  "image": "scores/143.png?v=12",
+  "pdf": "scores/143.pdf?v=12",
+  "thumb": "scores/thumb/143.jpg?v=12"
  },
  {
   "no": 144,
@@ -5023,9 +5023,9 @@ window.PIECES = [
    "9/8·7/8",
    "조바꿈 D♭↔A♭"
   ],
-  "image": "scores/144.png?v=11",
-  "pdf": "scores/144.pdf?v=11",
-  "thumb": "scores/thumb/144.jpg?v=11"
+  "image": "scores/144.png?v=12",
+  "pdf": "scores/144.pdf?v=12",
+  "thumb": "scores/thumb/144.jpg?v=12"
  },
  {
   "no": 145,
@@ -5061,9 +5061,9 @@ window.PIECES = [
    "6/8·4/4",
    "시김새"
   ],
-  "image": "scores/145.png?v=11",
-  "pdf": "scores/145.pdf?v=11",
-  "thumb": "scores/thumb/145.jpg?v=11"
+  "image": "scores/145.png?v=12",
+  "pdf": "scores/145.pdf?v=12",
+  "thumb": "scores/thumb/145.jpg?v=12"
  },
  {
   "no": 146,
@@ -5099,9 +5099,9 @@ window.PIECES = [
    "7/8·5/8",
    "도약"
   ],
-  "image": "scores/146.png?v=11",
-  "pdf": "scores/146.pdf?v=11",
-  "thumb": "scores/thumb/146.jpg?v=11"
+  "image": "scores/146.png?v=12",
+  "pdf": "scores/146.pdf?v=12",
+  "thumb": "scores/thumb/146.jpg?v=12"
  },
  {
   "no": 147,
@@ -5136,9 +5136,9 @@ window.PIECES = [
   "tags": [
    "4/4·5/8·7/8·3/4"
   ],
-  "image": "scores/147.png?v=11",
-  "pdf": "scores/147.pdf?v=11",
-  "thumb": "scores/thumb/147.jpg?v=11"
+  "image": "scores/147.png?v=12",
+  "pdf": "scores/147.pdf?v=12",
+  "thumb": "scores/thumb/147.jpg?v=12"
  },
  {
   "no": 148,
@@ -5172,9 +5172,9 @@ window.PIECES = [
    "5/8·7/8",
    "빠른 템포"
   ],
-  "image": "scores/148.png?v=11",
-  "pdf": "scores/148.pdf?v=11",
-  "thumb": "scores/thumb/148.jpg?v=11"
+  "image": "scores/148.png?v=12",
+  "pdf": "scores/148.pdf?v=12",
+  "thumb": "scores/thumb/148.jpg?v=12"
  },
  {
   "no": 149,
@@ -5210,9 +5210,9 @@ window.PIECES = [
    "4/4·2/4",
    "F"
   ],
-  "image": "scores/149.png?v=11",
-  "pdf": "scores/149.pdf?v=11",
-  "thumb": "scores/thumb/149.jpg?v=11"
+  "image": "scores/149.png?v=12",
+  "pdf": "scores/149.pdf?v=12",
+  "thumb": "scores/thumb/149.jpg?v=12"
  },
  {
   "no": 150,
@@ -5248,9 +5248,9 @@ window.PIECES = [
    "4/4·5/8·3/4·6/8",
    "중급 종합"
   ],
-  "image": "scores/150.png?v=11",
-  "pdf": "scores/150.pdf?v=11",
-  "thumb": "scores/thumb/150.jpg?v=11"
+  "image": "scores/150.png?v=12",
+  "pdf": "scores/150.pdf?v=12",
+  "thumb": "scores/thumb/150.jpg?v=12"
  },
  {
   "no": 151,
@@ -5286,9 +5286,9 @@ window.PIECES = [
    "5/8·3/4·4/4",
    "조바꿈 E♭→A♭"
   ],
-  "image": "scores/151.png?v=11",
-  "pdf": "scores/151.pdf?v=11",
-  "thumb": "scores/thumb/151.jpg?v=11"
+  "image": "scores/151.png?v=12",
+  "pdf": "scores/151.pdf?v=12",
+  "thumb": "scores/thumb/151.jpg?v=12"
  },
  {
   "no": 152,
@@ -5324,9 +5324,9 @@ window.PIECES = [
    "7/8·4/4",
    "조바꿈 A♭↔D♭"
   ],
-  "image": "scores/152.png?v=11",
-  "pdf": "scores/152.pdf?v=11",
-  "thumb": "scores/thumb/152.jpg?v=11"
+  "image": "scores/152.png?v=12",
+  "pdf": "scores/152.pdf?v=12",
+  "thumb": "scores/thumb/152.jpg?v=12"
  },
  {
   "no": 153,
@@ -5364,9 +5364,9 @@ window.PIECES = [
    "5/8→7/8→12/8",
    "조바꿈 E♭↔A♭"
   ],
-  "image": "scores/153.png?v=11",
-  "pdf": "scores/153.pdf?v=11",
-  "thumb": "scores/thumb/153.jpg?v=11"
+  "image": "scores/153.png?v=12",
+  "pdf": "scores/153.pdf?v=12",
+  "thumb": "scores/thumb/153.jpg?v=12"
  },
  {
   "no": 154,
@@ -5402,9 +5402,9 @@ window.PIECES = [
    "4/4·3/4·2/4",
    "조바꿈 A♭→B♭"
   ],
-  "image": "scores/154.png?v=11",
-  "pdf": "scores/154.pdf?v=11",
-  "thumb": "scores/thumb/154.jpg?v=11"
+  "image": "scores/154.png?v=12",
+  "pdf": "scores/154.pdf?v=12",
+  "thumb": "scores/thumb/154.jpg?v=12"
  },
  {
   "no": 155,
@@ -5441,9 +5441,9 @@ window.PIECES = [
    "6/8→9/8→4/4",
    "조바꿈 A♭↔E♭"
   ],
-  "image": "scores/155.png?v=11",
-  "pdf": "scores/155.pdf?v=11",
-  "thumb": "scores/thumb/155.jpg?v=11"
+  "image": "scores/155.png?v=12",
+  "pdf": "scores/155.pdf?v=12",
+  "thumb": "scores/thumb/155.jpg?v=12"
  },
  {
   "no": 156,
@@ -5484,9 +5484,9 @@ window.PIECES = [
    "7/8·5/8·12/8·6/8",
    "조바꿈 A♭↔E♭"
   ],
-  "image": "scores/156.png?v=11",
-  "pdf": "scores/156.pdf?v=11",
-  "thumb": "scores/thumb/156.jpg?v=11"
+  "image": "scores/156.png?v=12",
+  "pdf": "scores/156.pdf?v=12",
+  "thumb": "scores/thumb/156.jpg?v=12"
  },
  {
   "no": 157,
@@ -5524,9 +5524,9 @@ window.PIECES = [
    "트릴",
    "조바꿈 B♭↔E♭"
   ],
-  "image": "scores/157.png?v=11",
-  "pdf": "scores/157.pdf?v=11",
-  "thumb": "scores/thumb/157.jpg?v=11"
+  "image": "scores/157.png?v=12",
+  "pdf": "scores/157.pdf?v=12",
+  "thumb": "scores/thumb/157.jpg?v=12"
  },
  {
   "no": 158,
@@ -5562,9 +5562,9 @@ window.PIECES = [
    "3/4·5/8·7/8·4/4",
    "조바꿈 D♭→A♭"
   ],
-  "image": "scores/158.png?v=11",
-  "pdf": "scores/158.pdf?v=11",
-  "thumb": "scores/thumb/158.jpg?v=11"
+  "image": "scores/158.png?v=12",
+  "pdf": "scores/158.pdf?v=12",
+  "thumb": "scores/thumb/158.jpg?v=12"
  },
  {
   "no": 159,
@@ -5601,9 +5601,9 @@ window.PIECES = [
    "4/4→7/8→3/4",
    "조바꿈 F↔B♭"
   ],
-  "image": "scores/159.png?v=11",
-  "pdf": "scores/159.pdf?v=11",
-  "thumb": "scores/thumb/159.jpg?v=11"
+  "image": "scores/159.png?v=12",
+  "pdf": "scores/159.pdf?v=12",
+  "thumb": "scores/thumb/159.jpg?v=12"
  },
  {
   "no": 160,
@@ -5639,9 +5639,9 @@ window.PIECES = [
    "5/8·12/8·7/8·6/8",
    "조바꿈 G♭→D♭"
   ],
-  "image": "scores/160.png?v=11",
-  "pdf": "scores/160.pdf?v=11",
-  "thumb": "scores/thumb/160.jpg?v=11"
+  "image": "scores/160.png?v=12",
+  "pdf": "scores/160.pdf?v=12",
+  "thumb": "scores/thumb/160.jpg?v=12"
  },
  {
   "no": 161,
@@ -5676,9 +5676,9 @@ window.PIECES = [
   "tags": [
    "5/8·3/4·7/8·4/4"
   ],
-  "image": "scores/161.png?v=11",
-  "pdf": "scores/161.pdf?v=11",
-  "thumb": "scores/thumb/161.jpg?v=11"
+  "image": "scores/161.png?v=12",
+  "pdf": "scores/161.pdf?v=12",
+  "thumb": "scores/thumb/161.jpg?v=12"
  },
  {
   "no": 162,
@@ -5713,9 +5713,9 @@ window.PIECES = [
   "tags": [
    "7/8·4/4·5/8"
   ],
-  "image": "scores/162.png?v=11",
-  "pdf": "scores/162.pdf?v=11",
-  "thumb": "scores/thumb/162.jpg?v=11"
+  "image": "scores/162.png?v=12",
+  "pdf": "scores/162.pdf?v=12",
+  "thumb": "scores/thumb/162.jpg?v=12"
  },
  {
   "no": 163,
@@ -5748,9 +5748,9 @@ window.PIECES = [
   "tags": [
    "12/8·6/8·4/4"
   ],
-  "image": "scores/163.png?v=11",
-  "pdf": "scores/163.pdf?v=11",
-  "thumb": "scores/thumb/163.jpg?v=11"
+  "image": "scores/163.png?v=12",
+  "pdf": "scores/163.pdf?v=12",
+  "thumb": "scores/thumb/163.jpg?v=12"
  },
  {
   "no": 164,
@@ -5785,9 +5785,9 @@ window.PIECES = [
   "tags": [
    "4/4·3/4·2/4·5/8"
   ],
-  "image": "scores/164.png?v=11",
-  "pdf": "scores/164.pdf?v=11",
-  "thumb": "scores/thumb/164.jpg?v=11"
+  "image": "scores/164.png?v=12",
+  "pdf": "scores/164.pdf?v=12",
+  "thumb": "scores/thumb/164.jpg?v=12"
  },
  {
   "no": 165,
@@ -5820,9 +5820,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8·12/8"
   ],
-  "image": "scores/165.png?v=11",
-  "pdf": "scores/165.pdf?v=11",
-  "thumb": "scores/thumb/165.jpg?v=11"
+  "image": "scores/165.png?v=12",
+  "pdf": "scores/165.pdf?v=12",
+  "thumb": "scores/thumb/165.jpg?v=12"
  },
  {
   "no": 166,
@@ -5857,9 +5857,9 @@ window.PIECES = [
   "tags": [
    "6/8·9/8·4/4"
   ],
-  "image": "scores/166.png?v=11",
-  "pdf": "scores/166.pdf?v=11",
-  "thumb": "scores/thumb/166.jpg?v=11"
+  "image": "scores/166.png?v=12",
+  "pdf": "scores/166.pdf?v=12",
+  "thumb": "scores/thumb/166.jpg?v=12"
  },
  {
   "no": 167,
@@ -5892,9 +5892,9 @@ window.PIECES = [
   "tags": [
    "3/4·5/8·4/4"
   ],
-  "image": "scores/167.png?v=11",
-  "pdf": "scores/167.pdf?v=11",
-  "thumb": "scores/thumb/167.jpg?v=11"
+  "image": "scores/167.png?v=12",
+  "pdf": "scores/167.pdf?v=12",
+  "thumb": "scores/thumb/167.jpg?v=12"
  },
  {
   "no": 168,
@@ -5927,9 +5927,9 @@ window.PIECES = [
   "tags": [
    "12/8·9/8·6/8"
   ],
-  "image": "scores/168.png?v=11",
-  "pdf": "scores/168.pdf?v=11",
-  "thumb": "scores/thumb/168.jpg?v=11"
+  "image": "scores/168.png?v=12",
+  "pdf": "scores/168.pdf?v=12",
+  "thumb": "scores/thumb/168.jpg?v=12"
  },
  {
   "no": 169,
@@ -5964,9 +5964,9 @@ window.PIECES = [
   "tags": [
    "7/8·4/4"
   ],
-  "image": "scores/169.png?v=11",
-  "pdf": "scores/169.pdf?v=11",
-  "thumb": "scores/thumb/169.jpg?v=11"
+  "image": "scores/169.png?v=12",
+  "pdf": "scores/169.pdf?v=12",
+  "thumb": "scores/thumb/169.jpg?v=12"
  },
  {
   "no": 170,
@@ -6001,9 +6001,9 @@ window.PIECES = [
   "tags": [
    "4/4·5/8·7/8·3/4"
   ],
-  "image": "scores/170.png?v=11",
-  "pdf": "scores/170.pdf?v=11",
-  "thumb": "scores/thumb/170.jpg?v=11"
+  "image": "scores/170.png?v=12",
+  "pdf": "scores/170.pdf?v=12",
+  "thumb": "scores/thumb/170.jpg?v=12"
  },
  {
   "no": 171,
@@ -6035,9 +6035,9 @@ window.PIECES = [
   "tags": [
    "9/8·12/8"
   ],
-  "image": "scores/171.png?v=11",
-  "pdf": "scores/171.pdf?v=11",
-  "thumb": "scores/thumb/171.jpg?v=11"
+  "image": "scores/171.png?v=12",
+  "pdf": "scores/171.pdf?v=12",
+  "thumb": "scores/thumb/171.jpg?v=12"
  },
  {
   "no": 172,
@@ -6072,9 +6072,9 @@ window.PIECES = [
   "tags": [
    "6/8·5/8·7/8·4/4"
   ],
-  "image": "scores/172.png?v=11",
-  "pdf": "scores/172.pdf?v=11",
-  "thumb": "scores/thumb/172.jpg?v=11"
+  "image": "scores/172.png?v=12",
+  "pdf": "scores/172.pdf?v=12",
+  "thumb": "scores/thumb/172.jpg?v=12"
  },
  {
   "no": 173,
@@ -6107,9 +6107,9 @@ window.PIECES = [
   "tags": [
    "4/4·9/8·6/8"
   ],
-  "image": "scores/173.png?v=11",
-  "pdf": "scores/173.pdf?v=11",
-  "thumb": "scores/thumb/173.jpg?v=11"
+  "image": "scores/173.png?v=12",
+  "pdf": "scores/173.pdf?v=12",
+  "thumb": "scores/thumb/173.jpg?v=12"
  },
  {
   "no": 174,
@@ -6142,9 +6142,9 @@ window.PIECES = [
   "tags": [
    "7/8·5/8·4/4"
   ],
-  "image": "scores/174.png?v=11",
-  "pdf": "scores/174.pdf?v=11",
-  "thumb": "scores/thumb/174.jpg?v=11"
+  "image": "scores/174.png?v=12",
+  "pdf": "scores/174.pdf?v=12",
+  "thumb": "scores/thumb/174.jpg?v=12"
  },
  {
   "no": 175,
@@ -6179,9 +6179,9 @@ window.PIECES = [
   "tags": [
    "2/4·5/8·7/8·4/4"
   ],
-  "image": "scores/175.png?v=11",
-  "pdf": "scores/175.pdf?v=11",
-  "thumb": "scores/thumb/175.jpg?v=11"
+  "image": "scores/175.png?v=12",
+  "pdf": "scores/175.pdf?v=12",
+  "thumb": "scores/thumb/175.jpg?v=12"
  },
  {
   "no": 176,
@@ -6216,9 +6216,9 @@ window.PIECES = [
   "tags": [
    "12/8·4/4·5/8·6/8"
   ],
-  "image": "scores/176.png?v=11",
-  "pdf": "scores/176.pdf?v=11",
-  "thumb": "scores/thumb/176.jpg?v=11"
+  "image": "scores/176.png?v=12",
+  "pdf": "scores/176.pdf?v=12",
+  "thumb": "scores/thumb/176.jpg?v=12"
  },
  {
   "no": 177,
@@ -6251,9 +6251,9 @@ window.PIECES = [
   "tags": [
    "5/8·3/4·7/8"
   ],
-  "image": "scores/177.png?v=11",
-  "pdf": "scores/177.pdf?v=11",
-  "thumb": "scores/thumb/177.jpg?v=11"
+  "image": "scores/177.png?v=12",
+  "pdf": "scores/177.pdf?v=12",
+  "thumb": "scores/thumb/177.jpg?v=12"
  },
  {
   "no": 178,
@@ -6288,9 +6288,9 @@ window.PIECES = [
   "tags": [
    "4/4·6/8·9/8"
   ],
-  "image": "scores/178.png?v=11",
-  "pdf": "scores/178.pdf?v=11",
-  "thumb": "scores/thumb/178.jpg?v=11"
+  "image": "scores/178.png?v=12",
+  "pdf": "scores/178.pdf?v=12",
+  "thumb": "scores/thumb/178.jpg?v=12"
  },
  {
   "no": 179,
@@ -6323,9 +6323,9 @@ window.PIECES = [
   "tags": [
    "5/8·12/8·4/4"
   ],
-  "image": "scores/179.png?v=11",
-  "pdf": "scores/179.pdf?v=11",
-  "thumb": "scores/thumb/179.jpg?v=11"
+  "image": "scores/179.png?v=12",
+  "pdf": "scores/179.pdf?v=12",
+  "thumb": "scores/thumb/179.jpg?v=12"
  },
  {
   "no": 180,
@@ -6360,9 +6360,9 @@ window.PIECES = [
   "tags": [
    "7/8·5/8·3/4·4/4"
   ],
-  "image": "scores/180.png?v=11",
-  "pdf": "scores/180.pdf?v=11",
-  "thumb": "scores/thumb/180.jpg?v=11"
+  "image": "scores/180.png?v=12",
+  "pdf": "scores/180.pdf?v=12",
+  "thumb": "scores/thumb/180.jpg?v=12"
  },
  {
   "no": 181,
@@ -6395,9 +6395,9 @@ window.PIECES = [
   "tags": [
    "9/8·7/8·5/8"
   ],
-  "image": "scores/181.png?v=11",
-  "pdf": "scores/181.pdf?v=11",
-  "thumb": "scores/thumb/181.jpg?v=11"
+  "image": "scores/181.png?v=12",
+  "pdf": "scores/181.pdf?v=12",
+  "thumb": "scores/thumb/181.jpg?v=12"
  },
  {
   "no": 182,
@@ -6430,9 +6430,9 @@ window.PIECES = [
   "tags": [
    "4/4·5/8"
   ],
-  "image": "scores/182.png?v=11",
-  "pdf": "scores/182.pdf?v=11",
-  "thumb": "scores/thumb/182.jpg?v=11"
+  "image": "scores/182.png?v=12",
+  "pdf": "scores/182.pdf?v=12",
+  "thumb": "scores/thumb/182.jpg?v=12"
  },
  {
   "no": 183,
@@ -6465,9 +6465,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8·6/8"
   ],
-  "image": "scores/183.png?v=11",
-  "pdf": "scores/183.pdf?v=11",
-  "thumb": "scores/thumb/183.jpg?v=11"
+  "image": "scores/183.png?v=12",
+  "pdf": "scores/183.pdf?v=12",
+  "thumb": "scores/thumb/183.jpg?v=12"
  },
  {
   "no": 184,
@@ -6502,9 +6502,9 @@ window.PIECES = [
   "tags": [
    "4/4·7/8·5/8"
   ],
-  "image": "scores/184.png?v=11",
-  "pdf": "scores/184.pdf?v=11",
-  "thumb": "scores/thumb/184.jpg?v=11"
+  "image": "scores/184.png?v=12",
+  "pdf": "scores/184.pdf?v=12",
+  "thumb": "scores/thumb/184.jpg?v=12"
  },
  {
   "no": 185,
@@ -6539,9 +6539,9 @@ window.PIECES = [
   "tags": [
    "12/8·5/8·7/8·4/4"
   ],
-  "image": "scores/185.png?v=11",
-  "pdf": "scores/185.pdf?v=11",
-  "thumb": "scores/thumb/185.jpg?v=11"
+  "image": "scores/185.png?v=12",
+  "pdf": "scores/185.pdf?v=12",
+  "thumb": "scores/thumb/185.jpg?v=12"
  },
  {
   "no": 186,
@@ -6574,9 +6574,9 @@ window.PIECES = [
   "tags": [
    "3/4·9/8·4/4"
   ],
-  "image": "scores/186.png?v=11",
-  "pdf": "scores/186.pdf?v=11",
-  "thumb": "scores/thumb/186.jpg?v=11"
+  "image": "scores/186.png?v=12",
+  "pdf": "scores/186.pdf?v=12",
+  "thumb": "scores/thumb/186.jpg?v=12"
  },
  {
   "no": 187,
@@ -6611,9 +6611,9 @@ window.PIECES = [
   "tags": [
    "7/8·4/4·5/8·6/8"
   ],
-  "image": "scores/187.png?v=11",
-  "pdf": "scores/187.pdf?v=11",
-  "thumb": "scores/thumb/187.jpg?v=11"
+  "image": "scores/187.png?v=12",
+  "pdf": "scores/187.pdf?v=12",
+  "thumb": "scores/thumb/187.jpg?v=12"
  },
  {
   "no": 188,
@@ -6646,9 +6646,9 @@ window.PIECES = [
   "tags": [
    "5/8·9/8·4/4"
   ],
-  "image": "scores/188.png?v=11",
-  "pdf": "scores/188.pdf?v=11",
-  "thumb": "scores/thumb/188.jpg?v=11"
+  "image": "scores/188.png?v=12",
+  "pdf": "scores/188.pdf?v=12",
+  "thumb": "scores/thumb/188.jpg?v=12"
  },
  {
   "no": 189,
@@ -6681,9 +6681,9 @@ window.PIECES = [
   "tags": [
    "6/8·5/8·7/8"
   ],
-  "image": "scores/189.png?v=11",
-  "pdf": "scores/189.pdf?v=11",
-  "thumb": "scores/thumb/189.jpg?v=11"
+  "image": "scores/189.png?v=12",
+  "pdf": "scores/189.pdf?v=12",
+  "thumb": "scores/thumb/189.jpg?v=12"
  },
  {
   "no": 190,
@@ -6716,9 +6716,9 @@ window.PIECES = [
   "tags": [
    "4/4·12/8·5/8"
   ],
-  "image": "scores/190.png?v=11",
-  "pdf": "scores/190.pdf?v=11",
-  "thumb": "scores/thumb/190.jpg?v=11"
+  "image": "scores/190.png?v=12",
+  "pdf": "scores/190.pdf?v=12",
+  "thumb": "scores/thumb/190.jpg?v=12"
  },
  {
   "no": 191,
@@ -6753,9 +6753,9 @@ window.PIECES = [
   "tags": [
    "9/8·5/8·7/8·4/4"
   ],
-  "image": "scores/191.png?v=11",
-  "pdf": "scores/191.pdf?v=11",
-  "thumb": "scores/thumb/191.jpg?v=11"
+  "image": "scores/191.png?v=12",
+  "pdf": "scores/191.pdf?v=12",
+  "thumb": "scores/thumb/191.jpg?v=12"
  },
  {
   "no": 192,
@@ -6788,9 +6788,9 @@ window.PIECES = [
   "tags": [
    "7/8·12/8·5/8"
   ],
-  "image": "scores/192.png?v=11",
-  "pdf": "scores/192.pdf?v=11",
-  "thumb": "scores/thumb/192.jpg?v=11"
+  "image": "scores/192.png?v=12",
+  "pdf": "scores/192.pdf?v=12",
+  "thumb": "scores/thumb/192.jpg?v=12"
  },
  {
   "no": 193,
@@ -6825,9 +6825,9 @@ window.PIECES = [
   "tags": [
    "4/4·5/8·7/8·3/4"
   ],
-  "image": "scores/193.png?v=11",
-  "pdf": "scores/193.pdf?v=11",
-  "thumb": "scores/thumb/193.jpg?v=11"
+  "image": "scores/193.png?v=12",
+  "pdf": "scores/193.pdf?v=12",
+  "thumb": "scores/thumb/193.jpg?v=12"
  },
  {
   "no": 194,
@@ -6862,9 +6862,9 @@ window.PIECES = [
   "tags": [
    "5/8·6/8·9/8·4/4"
   ],
-  "image": "scores/194.png?v=11",
-  "pdf": "scores/194.pdf?v=11",
-  "thumb": "scores/thumb/194.jpg?v=11"
+  "image": "scores/194.png?v=12",
+  "pdf": "scores/194.pdf?v=12",
+  "thumb": "scores/thumb/194.jpg?v=12"
  },
  {
   "no": 195,
@@ -6899,9 +6899,9 @@ window.PIECES = [
   "tags": [
    "4/4·5/8·7/8·9/8"
   ],
-  "image": "scores/195.png?v=11",
-  "pdf": "scores/195.pdf?v=11",
-  "thumb": "scores/thumb/195.jpg?v=11"
+  "image": "scores/195.png?v=12",
+  "pdf": "scores/195.pdf?v=12",
+  "thumb": "scores/thumb/195.jpg?v=12"
  },
  {
   "no": 196,
@@ -6934,9 +6934,9 @@ window.PIECES = [
   "tags": [
    "12/8·7/8·5/8"
   ],
-  "image": "scores/196.png?v=11",
-  "pdf": "scores/196.pdf?v=11",
-  "thumb": "scores/thumb/196.jpg?v=11"
+  "image": "scores/196.png?v=12",
+  "pdf": "scores/196.pdf?v=12",
+  "thumb": "scores/thumb/196.jpg?v=12"
  },
  {
   "no": 197,
@@ -6970,9 +6970,9 @@ window.PIECES = [
    "4/4·5/8",
    "G 조표"
   ],
-  "image": "scores/197.png?v=11",
-  "pdf": "scores/197.pdf?v=11",
-  "thumb": "scores/thumb/197.jpg?v=11"
+  "image": "scores/197.png?v=12",
+  "pdf": "scores/197.pdf?v=12",
+  "thumb": "scores/thumb/197.jpg?v=12"
  },
  {
   "no": 198,
@@ -7006,9 +7006,9 @@ window.PIECES = [
    "4/4·7/8",
    "D 조표"
   ],
-  "image": "scores/198.png?v=11",
-  "pdf": "scores/198.pdf?v=11",
-  "thumb": "scores/thumb/198.jpg?v=11"
+  "image": "scores/198.png?v=12",
+  "pdf": "scores/198.pdf?v=12",
+  "thumb": "scores/thumb/198.jpg?v=12"
  },
  {
   "no": 199,
@@ -7043,9 +7043,9 @@ window.PIECES = [
   "tags": [
    "5/8·7/8·9/8·6/8"
   ],
-  "image": "scores/199.png?v=11",
-  "pdf": "scores/199.pdf?v=11",
-  "thumb": "scores/thumb/199.jpg?v=11"
+  "image": "scores/199.png?v=12",
+  "pdf": "scores/199.pdf?v=12",
+  "thumb": "scores/thumb/199.jpg?v=12"
  },
  {
   "no": 200,
@@ -7081,8 +7081,8 @@ window.PIECES = [
    "5/8·7/8·4/4·3/4",
    "실전 초견"
   ],
-  "image": "scores/200.png?v=11",
-  "pdf": "scores/200.pdf?v=11",
-  "thumb": "scores/thumb/200.jpg?v=11"
+  "image": "scores/200.png?v=12",
+  "pdf": "scores/200.pdf?v=12",
+  "thumb": "scores/thumb/200.jpg?v=12"
  }
 ];
