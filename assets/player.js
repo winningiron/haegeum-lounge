@@ -164,14 +164,20 @@ window.LoungePlayer = (function () {
     if (S.tl && S.tl.no === no) return Promise.resolve(S.tl);
     if (S.reqNo === no && S.req) return S.req;
     S.reqNo = no;
-    S.req = fetch('data/tl/' + String(no).padStart(3, '0') + '.json?v=19')
+    S.req = fetch('data/tl/' + String(no).padStart(3, '0') + '.json?v=20')
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .catch(() => null);
     return S.req;
   }
 
   // 마디 박의 강세: 2 마디 첫 박 · 1 복합박자(5/8·7/8·6/8·9/8·12/8) 그룹 첫 박 · 0 약박
+  // 타임라인에 그 마디의 박 묶음(bar.g, 예 [2,3,2] · [2,2,2,3,3])이 있으면 그 그룹의 첫
+  // 8분음표 자리마다 중강을 찍는다. bar.b 자체가 그룹 첫 자리들이라 위치는 이미 맞고,
+  // 여기서는 강세만 정한다 (묶음이 모두 같은 크기인 2+2+2+2+2+2 도 그룹마다 중강).
   function barAccents(bar) {
+    if (Array.isArray(bar.g) && bar.g.length) {
+      return bar.b.map((_, i) => (i === 0 ? 2 : 1));
+    }
     const endTick = bar.d * (bar.q / 60) * 12;      // 마디 길이(1/12쿼터 단위)
     const sizes = bar.b.map((o, i) => Math.round((i + 1 < bar.b.length ? bar.b[i + 1] : endTick) - o));
     const first = sizes[0] || 0;

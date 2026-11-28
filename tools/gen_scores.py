@@ -278,10 +278,13 @@ BEAT_GROUP_OK = {
 }
 
 
-def staff_group_violations(txt, meter):
-    """패턴이 박마다 완결된 덩어리로 나뉘는지 검사한다 (위반 목록 반환)."""
+def staff_group_violations(txt, meter, groups=None):
+    """패턴이 박마다 완결된 덩어리로 나뉘는지 검사한다 (위반 목록 반환).
+
+    groups 를 주면 그 묶음 경계를 기준으로 본다 (5/8 2+3, 12/8 2+2+2+3+3 등).
+    """
     items, _ = expand(txt)
-    bounds = beat_bounds(meter)
+    bounds = beat_bounds(meter, groups)
     toks = tokens(txt)
     starts = []
     t = 0
@@ -313,23 +316,144 @@ CADENCE = {(4, 4): "q q h", (3, 4): "q h", (2, 4): "q q",
            (6, 8): "dq dq", (5, 8): "dq q", (7, 8): "dq q q"}
 
 
-def beat_bounds(meter):
+# ----------------------------------------------------------------------------
+# 박 묶음(beat grouping) — 5/8·7/8·12/8 한 마디를 8분음표 몇 개씩 묶는가
+# ----------------------------------------------------------------------------
+# 악보의 빔 묶음 · 리듬 분할 · 슬러 시작 자리 · 메트로놈 중강이 모두 이 묶음을 따른다.
+# 001~100 은 기본 묶음만 쓰고, 101~200 은 cfg 에 따라 변형 묶음을 섞는다
+# (grouping_plan() 참고). 곡마다 마디별 묶음은 build_piece() 가 마디 정보에 실어
+# extract_timeline.py 가 타임라인 `g` 필드로 옮긴다.
+DEFAULT_GROUPS = {
+    (6, 8): (3, 3),
+    (9, 8): (3, 3, 3),
+    (5, 8): (3, 2),
+    (7, 8): (3, 2, 2),
+    (12, 8): (3, 3, 3, 3),
+}
+
+VARIANT_GROUPS = {
+    (5, 8): [(2, 3)],
+    (7, 8): [(2, 3, 2), (2, 2, 3)],
+    (12, 8): [(2, 2, 2, 3, 3), (3, 2, 2, 2, 3), (3, 3, 2, 2, 2), (2, 2, 2, 2, 2, 2)],
+}
+
+# 그룹 하나(8분음표 2개 = 12 · 3개 = 18) 안에서 스스로 완결되는 리듬 세포.
+# BEAT_GROUP_OK 와 같은 덩어리이며, 변형 묶음 마디의 리듬은 이 세포를 이어 붙여 만든다.
+GROUP_CELLS = {
+    12: ['q', 'e e', 'de s', 're e', 'rq'],
+    18: ['dq', 'q e', 'e e e', 're e e', 'de s e', 'rdq'],
+}
+
+
+def beat_bounds(meter, groups=None):
+    """한 마디의 박 경계(1/12 쿼터 단위). groups 를 주면 그 묶음을 따른다."""
+    gs = tuple(groups) if groups else DEFAULT_GROUPS.get(meter)
+    if gs:
+        assert sum(gs) * 6 == METER_TOTAL[meter], (meter, gs)
+        out = [0]
+        for k in gs:
+            out.append(out[-1] + k * 6)
+        return out
     b, bt = meter
     if bt == 4:
         return [i * 12 for i in range(b + 1)]
-    if bt == 8:
-        if b % 3 == 0 and b >= 6:
-            return [i * 18 for i in range(b // 3 + 1)]
-        if b == 5:
-            return [0, 18, 30]
-        if b == 7:
-            return [0, 18, 30, 42]
     raise ValueError(meter)
+
+
+def cadence_for(meter, groups=None):
+    """마침꼴 패턴. 변형 묶음이면 그 묶음 경계에 맞는 마침꼴을 쓴다."""
+    if groups:
+        return CADENCE_BY_GROUP.get((meter, tuple(groups))) or group_pool(meter, groups)[0][0]
+    return CADENCE[meter]
+
+
+CADENCE_BY_GROUP = {
+    ((5, 8), (2, 3)): 'q dq',
+    ((7, 8), (2, 3, 2)): 'q dq q',
+    ((7, 8), (2, 2, 3)): 'q q dq',
+    ((12, 8), (2, 2, 2, 3, 3)): 'q q q dq dq',
+    ((12, 8), (3, 2, 2, 2, 3)): 'dq q q q dq',
+    ((12, 8), (3, 3, 2, 2, 2)): 'dq dq q q q',
+    ((12, 8), (2, 2, 2, 2, 2, 2)): 'q q q q q q',
+}
+
+
+def _pool_tag(items):
+    """리듬 세포 조합의 성격 — pick_pattern 의 태그 선호에 쓴다."""
+    if any(it['rest'] for it in items):
+        return 'rest_mid'
+    if any(it.get('dot') for it in items):
+        return 'dot16'
+    if all(it['dur'] <= 6 for it in items):
+        return 'run'
+    if all(it['dur'] >= 12 for it in items):
+        return 'long'
+    return ''
+
+
+_POOL_CACHE = {}
+
+
+def group_pool(meter, groups, n=14):
+    """그룹 배열에 맞춘 리듬 패턴 목록 [(패턴, 태그)].
+
+    그룹마다 GROUP_CELLS 에서 세포를 하나씩 골라 이어 붙이므로, 모든 패턴이
+    그룹 경계에서 끊긴다 (staff_group_violations 로 다시 확인한다).
+    같은 박자·묶음이면 언제나 같은 목록이 나오도록 시드를 고정한다.
+    """
+    key = (meter, tuple(groups))
+    if key in _POOL_CACHE:
+        return _POOL_CACHE[key]
+    lists = [GROUP_CELLS[k * 6] for k in groups]
+    rng = random.Random(meter[0] * 100 + meter[1] * 7 + sum(groups) * 13 + len(groups))
+    pats, seen = [], set()
+
+    def add(seq):
+        txt = ' '.join(seq)
+        if txt in seen:
+            return
+        items, tot = expand(txt)
+        if tot != METER_TOTAL[meter]:
+            return
+        if staff_group_violations(txt, meter, groups):
+            return
+        seen.add(txt)
+        pats.append((txt, _pool_tag(items)))
+
+    # 같은 세포를 끝까지 쓰는 기본형(가장 읽기 쉬운 모양)
+    for cell in GROUP_CELLS[groups[0] * 6]:
+        if all(cell in c for c in lists):
+            add([cell] * len(lists))
+    # 그룹마다 세포를 섞은 변형 (앞 그룹의 세포가 그대로 반복되지 않게)
+    tries = 0
+    while len(pats) < n and tries < n * 40:
+        tries += 1
+        seq = [rng.choice(c) for c in lists]
+        if len(seq) > 1 and seq[0] == seq[1] and seq[0] not in ('q', 'dq'):
+            continue
+        add(seq)
+    if not pats:                       # 이론상 나올 수 없지만 안전하게
+        add([c[0] for c in lists])
+    _POOL_CACHE[key] = pats
+    return pats
+
 
 for _meter in ((6, 8), (9, 8), (12, 8), (5, 8), (7, 8)):
     for _txt, _tag in POOLS[_meter]:
         _bad = staff_group_violations(_txt, _meter)
         assert not _bad, (METER_LABEL[_meter], _txt, _bad)
+
+# 변형 묶음 리듬 풀·마침꼴이 모두 그룹 경계를 지키는지 시작할 때 확인한다
+for _meter, _vars in VARIANT_GROUPS.items():
+    assert DEFAULT_GROUPS[_meter]
+    for _gs in _vars:
+        for _txt, _tag in group_pool(_meter, _gs):
+            _bad = staff_group_violations(_txt, _meter, _gs)
+            assert not _bad, (METER_LABEL[_meter], _gs, _txt, _bad)
+        _cad = cadence_for(_meter, _gs)
+        _items, _tot = expand(_cad)
+        assert _tot == METER_TOTAL[_meter], (_meter, _gs, _cad)
+        assert not staff_group_violations(_cad, _meter, _gs), (_meter, _gs, _cad)
 
 
 # ----------------------------------------------------------------------------
@@ -626,7 +750,7 @@ def beam_attaches_back(items, i):
     return (not p['rest']) and p['ntype'] == 'eighth' and bool(p.get('dot'))
 
 
-def enforce_slur_starts(items, meter):
+def enforce_slur_starts(items, meter, groups=None):
     """빔·박 중간에서 시작하는 슬러를 지운다 (apply_beams 뒤에 호출).
 
     add_slurs 가 이미 박 첫 음에서만 시작하게 만들지만, 빔 모양은 apply_beams 가
@@ -639,7 +763,7 @@ def enforce_slur_starts(items, meter):
             continue
         starts.append(t)
         t += it['dur']
-    beats = set(beat_bounds(meter)[:-1])
+    beats = set(beat_bounds(meter, groups)[:-1])
     for i, it in enumerate(items):
         if it.get('grace') or it['rest']:
             continue
@@ -688,16 +812,26 @@ class PieceBuilder:
         self.mel.set_key(self.fifths)
 
     # --- 리듬 선택 -------------------------------------------------------
-    def pick_pattern(self, meter, pref_tags, cadence=False):
+    def pick_pattern(self, meter, pref_tags, cadence=False, groups=None):
         if cadence:
             cad = self.cfg.get('cadence') or {}
-            return cad.get(meter) or CADENCE[meter]
+            return cad.get(meter) or cadence_for(meter, groups)
         # 기초 곡은 그 곡에서 배운 리듬만 쓴다 (cfg['pools']).
         own = (self.cfg.get('pools') or {}).get(meter)
         if own:
             cands = [p[0] != self.prev_pattern for p in own]
             pick = [p for p, ok in zip(own, cands) if ok] or own
             txt = self.rng.choice(pick)
+            self.prev_pattern = txt
+            return txt
+        # 변형 박 묶음 마디는 그 묶음(그룹)마다 리듬 덩어리가 끊기는 패턴만 쓴다.
+        if groups:
+            pool = group_pool(meter, tuple(groups))
+            cands = [p for p in pool if p[1] in pref_tags]
+            if not cands:
+                cands = pool
+            cands2 = [p for p in cands if p[0] != self.prev_pattern] or cands
+            txt = self.rng.choice(cands2)[0]
             self.prev_pattern = txt
             return txt
         pool = POOLS[meter]
@@ -740,7 +874,8 @@ class PieceBuilder:
         return ["", "dot16"]
 
     # --- 한 마디 ---------------------------------------------------------
-    def make_measure(self, meter, pattern_txt, mnum, is_phrase_end, is_final, tie_ok_next=True):
+    def make_measure(self, meter, pattern_txt, mnum, is_phrase_end, is_final,
+                     tie_ok_next=True, groups=None):
         items, total = expand(pattern_txt)
         assert total == METER_TOTAL[meter], (meter, pattern_txt, total)
         lv = self.cfg['level']
@@ -781,7 +916,7 @@ class PieceBuilder:
 
         # --- 장식음 ---
         # 임시표 계산보다 먼저 넣어, 같은 마디 앞 음의 임시표 영향을 장식음에도 반영한다.
-        self.add_graces(items, lv, meter)
+        self.add_graces(items, lv, meter, groups)
 
         # --- 임시표 ---
         p_chrom = 0.0 if self.cfg.get('no_acc') else {'기초': 0.03, '중급': 0.09, '고급': 0.14}[lv]
@@ -879,7 +1014,7 @@ class PieceBuilder:
             break
 
         # --- 슬러 ---
-        self.add_slurs(items, lv, meter)
+        self.add_slurs(items, lv, meter, groups)
 
         # --- 마디 사이 타이 ---
         if not self.cfg.get('no_tie') and note_items and not is_final and tie_ok_next:
@@ -902,11 +1037,11 @@ class PieceBuilder:
                 break
 
         # --- 빔 ---
-        apply_beams(items, meter)
-        enforce_slur_starts(items, meter)
+        apply_beams(items, meter, groups)
+        enforce_slur_starts(items, meter, groups)
         return items
 
-    def add_graces(self, items, lv, meter):
+    def add_graces(self, items, lv, meter, groups=None):
         if self.cfg.get('no_grace'):
             return
         r = self.rng
@@ -917,7 +1052,8 @@ class PieceBuilder:
         else:
             p_slot, sizes = 0.55, [2, 3]
         # 박 경계는 박자표에서 직접 구한다 (6/8 은 점4분음표 = 18 단위).
-        beats = set(beat_bounds(meter)[:-1])
+        # 변형 묶음 마디는 그 묶음 경계를 쓴다.
+        beats = set(beat_bounds(meter, groups)[:-1])
         # 각 음의 시작 시간, 바로 앞의 (장식음이 아닌) 음이 쉼표인지
         starts = []
         prev_rest = []
@@ -1002,7 +1138,7 @@ class PieceBuilder:
             it['mordent'] = True
         self.features.add('모르덴트')
 
-    def add_slurs(self, items, lv, meter):
+    def add_slurs(self, items, lv, meter, groups=None):
         if self.cfg.get('no_slur'):
             return
         r = self.rng
@@ -1027,7 +1163,7 @@ class PieceBuilder:
                 continue
             starts.append(t)
             t += it['dur']
-        beats = set(beat_bounds(meter)[:-1])
+        beats = set(beat_bounds(meter, groups)[:-1])
         cands = [i for i in plain if starts[i] in beats and not beam_attaches_back(items, i)]
         pick = plain[r.randrange(1, len(plain) - 1)]
         choices = self.cfg.get('slur_len') or ([2, 2, 3, 3, 4] if lv != '기초' else [2, 2, 3])
@@ -1058,8 +1194,9 @@ class PieceBuilder:
                 items[i]['slur'] = None
 
 
-def apply_beams(items, meter):
+def apply_beams(items, meter, beat_groups=None):
     # 시간 계산 (장식음 제외)
+    # (아래에서 빔 묶음 목록을 groups 라는 이름으로 모으므로, 박 묶음은 beat_groups 로 받는다)
     t = 0
     starts = []
     for it in items:
@@ -1068,7 +1205,7 @@ def apply_beams(items, meter):
             continue
         starts.append(t)
         t += it['dur']
-    bounds = beat_bounds(meter)
+    bounds = beat_bounds(meter, beat_groups)
     total = t
 
     def bindex(t0):
@@ -1112,7 +1249,8 @@ def apply_beams(items, meter):
             cur.append(i)
             continue
         # 점8분 + 16분 짝은 박 경계를 넘어도 반드시 한 빔으로 묶는다.
-        if dot_pair(prev, i):
+        # (변형 묶음 마디는 그룹마다 완결된 세포만 쓰므로 그룹 경계를 넘기지 않는다.)
+        if dot_pair(prev, i) and not beat_groups:
             cur.append(i)
             groups.append(cur)
             cur = []
@@ -1269,6 +1407,56 @@ def compute_slur_placements(measures, dirs):
     return place
 
 
+def grouping_plan(cfg):
+    """곡마다 마디별 박 묶음 {마디번호: (8분음표 개수, ...)}.
+
+    001~100 은 아무것도 돌려주지 않아 기본 묶음(5/8=3+2 · 7/8=3+2+2 ·
+    12/8=3+3+3+3)만 쓴다. 101~200 은 구간을 4마디 프레이즈로 나누어 프레이즈
+    첫머리에서 묶음이 바뀌게 한다(박 묶음이 마디 중간에서 바뀌면 엇갈려 읽힌다).
+
+      - 중급 후반(101~150): 사이클의 마지막 프레이즈만 변형
+      - 고급(151~200): 첫 프레이즈 다음부터 사이클마다 한 번씩 변형
+      - 변형은 곡·구간마다 차례를 돌려 쓰므로 책 전체에 모든 묶음이 고루 나온다
+    """
+    plan = {}
+    if cfg['no'] < 101:
+        return plan
+    lv = cfg['level']
+    seen = {}                    # 박자별 변형 프레이즈 수 (곡 전체에서 차례로 돌린다)
+    for si, (count, meter) in enumerate(cfg['sections']):
+        variants = VARIANT_GROUPS.get(meter) or []
+        if not variants:
+            continue
+        step = VAR_PHRASE_STEP.get((lv, meter), 2)
+        start = mnum_of_section(cfg, si)
+        for ph in range((count + 3) // 4):
+            if lv == '중급':
+                use_var = (ph % step == step - 1)
+            else:
+                use_var = (ph % step == 1)
+            if not use_var:
+                continue
+            # 곡 번호와 그 박자의 변형 순번으로 묶음을 고른다 → 책 전체에 고루 퍼진다
+            k = seen.get(meter, 0)
+            seen[meter] = k + 1
+            g = variants[(cfg['no'] + k) % len(variants)]
+            for m in range(ph * 4, min(count, ph * 4 + 4)):
+                plan[start + m] = g
+    return plan
+
+
+# 변형 박 묶음을 넣는 프레이즈 간격 (레벨, 박자) → 4마디 프레이즈 몇 개마다 한 번
+VAR_PHRASE_STEP = {
+    ('중급', (5, 8)): 3, ('중급', (7, 8)): 3, ('중급', (12, 8)): 3,
+    ('고급', (5, 8)): 2, ('고급', (7, 8)): 2, ('고급', (12, 8)): 3,
+}
+
+
+def mnum_of_section(cfg, si):
+    """구간 번호 -> 그 구간 첫 마디 번호."""
+    return sum(c for c, _m in cfg['sections'][:si]) + 1
+
+
 def build_piece(cfg, per_system=MEASURES_PER_SYSTEM, breaks_at=None):
     """곡 하나의 MusicXML. 슬러·이음줄 위치를 정하려고 같은 곡을 두 번 만든다
     (난수 시드가 같아 두 번의 음표가 완전히 같다)."""
@@ -1300,18 +1488,21 @@ def _build_piece(cfg, per_system, breaks_at, slur_place):
     meta_meters = []
 
     # 1) 마디별 리듬 패턴을 먼저 정한다 (타이 여부를 다음 마디로 판단하기 위해)
+    gplan = grouping_plan(cfg)             # 변형 박 묶음을 쓰는 마디 {마디번호: 묶음}
     plans = []
     _n = 0
     for _si, (_count, _meter) in enumerate(sections):
         for _k in range(_count):
             _n += 1
             _prefs = b.tags_for(cfg['level'], _k % 8)
-            _pat = b.pick_pattern(_meter, _prefs, cadence=(_n == total))
+            _pat = b.pick_pattern(_meter, _prefs, cadence=(_n == total),
+                                  groups=gplan.get(_n))
             plans.append(dict(mnum=_n, meter=_meter, pat=_pat, k=_k, si=_si))
 
     for _idx, _pl in enumerate(plans):
             mnum = _pl['mnum']; meter = _pl['meter']; pat = _pl['pat']
             k = _pl['k']; si = _pl['si']
+            groups = gplan.get(mnum)          # 변형 박 묶음 마디만 값이 있다
             is_phrase_end = (line_of[mnum][2] == mnum)
             is_final = (mnum == total)
             if mnum in key_changes:
@@ -1325,7 +1516,8 @@ def _build_piece(cfg, per_system, breaks_at, slur_place):
                 tie_ok_next = len(_nxt) > 0 and not _nxt[0]['rest']
                 if plans[_idx + 1]['mnum'] in key_changes:
                     tie_ok_next = False      # 조표가 바뀌는 마디로는 타이를 넘기지 않는다
-            items = b.make_measure(meter, pat, mnum, is_phrase_end, is_final, tie_ok_next=tie_ok_next)
+            items = b.make_measure(meter, pat, mnum, is_phrase_end, is_final,
+                                   tie_ok_next=tie_ok_next, groups=groups)
 
             # --- 방향 요소 ---
             dirs = []
@@ -1440,7 +1632,8 @@ def _build_piece(cfg, per_system, breaks_at, slur_place):
                 barline = '      <barline location="right"><bar-style>light-light</bar-style></barline>'
 
             measure_xmls.append(dict(number=mnum, body=body, attrs=attrs, sys=sys_break,
-                                     barline=barline, meter=meter, dirs=dirs, items=items))
+                                     barline=barline, meter=meter, dirs=dirs, items=items,
+                                     groups=groups))
 
     # --- 최종 XML ---
     blocks = []

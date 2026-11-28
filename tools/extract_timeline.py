@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""70곡의 연주 타임라인 + 악보 마디 좌표를 data/tl/*.json 으로 뽑는다.
+"""200곡의 연주 타임라인 + 악보 마디 좌표를 data/tl/*.json 으로 뽑는다.
 
 음표·쉼표·붙임줄(tie)·장식음(grace)·템포·박자는 tools/gen_scores.py 의 build_piece()
 결과(마디별 items)에서 그대로 가져온다. 악보 PNG/PDF 는 읽기만 하고 덮어쓰지 않는다.
+
+마디별 `b`(박 시작 위치, 1/12 쿼터 단위)와 `g`(8분음표 박 묶음, 예 [2,3,2])는
+그 마디의 실제 빔 묶음을 따른다. 5/8·7/8·12/8 변형 묶음 마디는 그룹마다 첫 8분음표가
+박이 되어, 웹 플레이어의 메트로놈이 그 자리에 중강을 찍는다 (4/4 등은 g 없음 → 기존 규칙).
 
 마디 좌표:
   1) 배포된 scores/NNN.png 에서 오선 5줄을 찾아 7단의 위/아래(y)와 그 줄의 왼·오른 끝(x)을 잰다.
@@ -234,10 +238,16 @@ def build_timeline(cfg, total, mxs, boxes, systems, page_h):
         dur = quarters * 60.0 / qpm
 
         box = boxes[i]
-        bars.append(dict(n=n, t=round(t, 4), d=round(dur, 4), q=round(qpm, 3),
-                         b=g.beat_bounds(meter)[:-1], s=box['s'],
-                         x=round(box['x'], 5), y=round(box['y'], 5),
-                         w=round(box['w'], 5), h=round(box['h'], 5)))
+        bgroups = mx.get('groups') or g.DEFAULT_GROUPS.get(meter)
+        bar = dict(n=n, t=round(t, 4), d=round(dur, 4), q=round(qpm, 3),
+                   b=g.beat_bounds(meter, mx.get('groups'))[:-1],
+                   s=box['s'],
+                   x=round(box['x'], 5), y=round(box['y'], 5),
+                   w=round(box['w'], 5), h=round(box['h'], 5))
+        if bgroups:
+            # 8분음표 박 묶음 (5/8 2+3, 7/8 2+3+2, 12/8 2+2+2+3+3 …) — 메트로놈 중강 자리
+            bar['g'] = list(bgroups)
+        bars.append(bar)
 
         pos, tick = [], 0
         for it in mx['items']:

@@ -7,6 +7,7 @@ build_piece() 가 만든 MusicXML 을 그대로 세므로 악보에 실제로 �
   - 윗모르덴트(inverted-mordent) · 아랫모르덴트(mordent) · 트릴(trill-mark)
   - 트릴과 모르덴트가 같은 음에 겹친 건수
   - 슬러 개수(곡 슬러 number=1 시작점)
+  - 박 묶음(5/8·7/8·12/8) 마디 수: 기본 묶음과 변형 묶음(grouping_plan)
 usage: python3 tools/stats.py [곡번호 ...]
 """
 import sys, os, re, collections
@@ -44,6 +45,8 @@ def main(only=None):
     tot = collections.Counter()
     meters = collections.Counter()
     keys = collections.Counter()
+    groups = collections.Counter()      # (박자, 묶음) -> 마디 수
+    group_pieces = collections.defaultdict(set)
     keych = 0
     per = []
     for cfg in PIECES:
@@ -58,6 +61,11 @@ def main(only=None):
             meters[g.METER_LABEL[meter]] += 1
         keys[g.KEY_LABEL[cfg['key']]] += 1
         keych += len(cfg.get('key_changes') or {})
+        # 박 묶음: 마디마다 실제로 쓰인 묶음
+        for _m, gs in g.grouping_plan(cfg).items():
+            meter = g.sections_meter(cfg['sections'], _m)
+            groups[(g.METER_LABEL[meter], tuple(gs))] += 1
+            group_pieces[(g.METER_LABEL[meter], tuple(gs))].add(cfg['no'])
     print('meter pieces(dup):', ' · '.join(f'{k} {meters[k]}' for k in
           ['4/4', '6/8', '5/8', '3/4', '7/8', '12/8', '9/8', '2/4']),
           '| sum', sum(meters.values()))
@@ -68,6 +76,10 @@ def main(only=None):
     bad = [p for p in per if p['both']]
     if bad:
         print('same-note trill+mordent:', len(bad), 'pieces', [p['no'] for p in bad][:40])
+    if groups:
+        print('mixed groupings (변형 박 묶음):',
+              ' · '.join(f"{m} {'+'.join(map(str, gs))} {groups[(m, gs)]}마디/{len(group_pieces[(m, gs)])}곡"
+                        for (m, gs) in sorted(groups, key=lambda k: (k[0], k[1]))))
 
 
 if __name__ == '__main__':
