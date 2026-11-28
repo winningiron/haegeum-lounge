@@ -24,6 +24,7 @@ window.LoungePlayer = (function () {
     sel: 0,                            // 현재(정지 시) 선택 마디 index
     lastBar: -1,
     cursorOn: false,                   // 정지·최초 진입에는 커서를 두지 않는다
+    cursorEnabled: true,               // 도구 모음의 '커서' 버튼 (localStorage hg_cursor, 기본 ON)
     focus: false, timerId: 0, rafId: 0,
     countdown: 0, countdownId: 0,
     a4: 442,
@@ -238,13 +239,15 @@ window.LoungePlayer = (function () {
     const h = b.h * S.geo.h;
     const c = D.cursor;
     // 재생 중이거나 사용자가 직접 마디를 짚었을 때만 보인다. 최초 진입·정지 상태에서는 숨김.
-    c.style.opacity = (S.playing || S.cursorOn) ? '' : '0';
+    // '커서' 버튼을 끈 경우와 실전 테스트 중에는 악보 위에 아무것도 그리지 않는다.
+    const showCursor = S.cursorEnabled && !Ex.on && (S.playing || S.cursorOn);
+    c.style.opacity = showCursor ? '' : '0';
     c.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
     c.style.width = w.toFixed(1) + 'px';
     c.style.height = h.toFixed(1) + 'px';
     c.querySelector('.pfill').style.width = (inner * 100).toFixed(2) + '%';
     if (D.head) D.head.style.left = (inner * 100).toFixed(2) + '%';
-    if (S.playing && i !== S.lastBar) {
+    if (S.playing && showCursor && i !== S.lastBar) {
       S.lastBar = i;
       ensureVisible(i);
     }
@@ -846,6 +849,29 @@ window.LoungePlayer = (function () {
     if (D.markB) D.markB.hidden = true;
   }
 
+  /* ============================================================ 플레이백 커서 켜기/끄기 */
+  // 끄면 악보 위 빨간 마디 박스·세로 재생선을 그리지 않는다. 소리·진행 바·A–B 마커·음정 체크는 그대로.
+  function setCursor(on, silent) {
+    S.cursorEnabled = !!on;
+    try { localStorage.setItem('hg_cursor', on ? '1' : '0'); } catch (e) {}
+    if (D.cursorBtn) {
+      D.cursorBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      D.cursorBtn.classList.toggle('is-off', !on);
+      D.cursorBtn.textContent = on ? '커서 켬' : '커서 끔';
+    }
+    if (!on) {
+      if (D.cursor) D.cursor.style.opacity = '0';
+    } else if (S.tl) {
+      S.lastBar = -1;                       // 켜는 순간 지금 위치로 다시 따라가게
+      drawCursor(S.playing ? currentPos() : S.pos, true);
+    }
+    if (!silent) {
+      toast(on
+        ? '플레이백 커서를 켰습니다.'
+        : '플레이백 커서를 껐습니다. 소리·진행 바·A–B는 그대로 동작합니다.');
+    }
+  }
+
   /* ============================================================ UI */
   let toastTimer = 0;
   function toast(msg) {
@@ -899,6 +925,7 @@ window.LoungePlayer = (function () {
       drawCursor(S.pos, true);
     });
     D.mic.addEventListener('click', micToggle);
+    if (D.cursorBtn) D.cursorBtn.addEventListener('click', () => setCursor(!S.cursorEnabled));
     D.tune.addEventListener('click', () => {
       if (!D.tunePop.hidden) { D.tunePop.hidden = true; return; }
       updateTune();
@@ -1014,6 +1041,7 @@ window.LoungePlayer = (function () {
     D.modeEl = $('#pMode');
     D.speedEl = $('#pSpeed');
     D.ab = $('#pAB');
+    D.cursorBtn = $('#pCursorBtn');
     D.mic = $('#pMic');
     D.tune = $('#pTune');
     D.tuneHz = $('#pTuneHz');
@@ -1045,6 +1073,8 @@ window.LoungePlayer = (function () {
     try {
       const v = localStorage.getItem('hg_a4');
       if (v) { S.a4 = +v; D.tpSlider.value = String(S.a4); }
+      const cur = localStorage.getItem('hg_cursor');
+      if (cur != null) S.cursorEnabled = cur !== '0';   // 저장된 설정(기본 ON)
     } catch (e) {}
 
     stop(false);
@@ -1061,6 +1091,7 @@ window.LoungePlayer = (function () {
     D.total.textContent = '0:00';
     updateProgress(0);
     D.cursor.style.opacity = '0';
+    setCursor(S.cursorEnabled, true);      // 버튼 표시만 맞춘다 (타임라인은 아직 없음)
     updateTune();
     Sound.load();
     loadTimeline(piece.no).then((tl) => {

@@ -313,6 +313,9 @@ details[open] summary::before{transform:rotate(90deg)}
 .pc-btn.play{background:#f2ede2;color:#221f1a;border-color:#f2ede2;font-weight:800;min-width:86px;justify-content:center}
 .pc-btn.play:hover{background:#fff}
 .pc-btn.play.is-playing{background:#9c3d2e;color:#fff;border-color:#b1543f}
+/* '커서' 버튼: 끈 상태는 점선 테두리로 구분 */
+.pc-btn.is-off{background:#241f1a;border-style:dashed;border-color:#4a443a;color:#a9a294}
+.pc-btn.is-off:hover{background:#2f2b25;color:#d8d1c2}
 .pc-seg{display:inline-flex;background:#211f1a;border:1px solid #3a352d;border-radius:9px;overflow:hidden}
 .pc-seg button{
   height:32px;padding:0 11px;background:transparent;border:0;color:#b9b2a4;
