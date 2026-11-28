@@ -74,8 +74,12 @@
   }
 
   function tempoText(p) {
-    const first = p.tempos[0];
-    return '♩ = ' + first;
+    const t = p.tempos || [];
+    if (!t.length) return '';
+    // 8분의 8 박자(6/8·9/8·12/8·5/8·7/8)는 점4분음표가 한 박 — ♩. 로 적는다
+    const beat = p.meters.every(m => /\/8$/.test(m)) ? '♩.' : '♩';
+    // 곡 중 템포가 바뀌면 첫 템포만 보여 주지 말고 전부 적는다 (예: ♩ = 80 → 63 → 84 → 72)
+    return beat + ' = ' + t.join(' → ');
   }
 
   /* ---------------- render ---------------- */
@@ -167,7 +171,7 @@
     $('#mNo').textContent = p.no;
     $('#mTitle').textContent = p.title;
     $('#mMeta').textContent = [
-      p.level, p.key, meterText(p),
+      p.level, p.key, meterText(p), tempoText(p),
       (p.bars ? p.bars + '마디' : ''),
       (p.lines ? p.lines.length + '단' + (new Set(p.lines).size > 1
         ? ' (' + p.lines.join('·') + '마디)' : '') : ''),

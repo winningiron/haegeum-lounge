@@ -32,6 +32,12 @@ OUT = os.path.join(REPO, 'data', 'tl')
 NS = '{http://www.w3.org/2000/svg}'
 TICKS_PER_QUARTER = 12
 COMPOUND = ((6, 8), (9, 8), (12, 8))
+WARNINGS = []
+
+
+def warn(msg):
+    """조판·타임라인의 이상은 멈추지 않고 모아서 보고한다."""
+    WARNINGS.append(msg)
 
 
 # ------------------------------------------------------------------ SVG
@@ -178,8 +184,8 @@ def png_systems(no):
 
 def measure_boxes(cfg, svg_sys, png_sys, W, H, expect):
     boxes, sysinfo = [], []
-    if len(svg_sys) != len(png_sys) != 7:
-        raise RuntimeError(f"#{cfg['no']}: 단 수 불일치")
+    if len(svg_sys) != 7 or len(png_sys) != 7:
+        raise RuntimeError(f"#{cfg['no']}: 단 수 불일치 (SVG {len(svg_sys)} · PNG {len(png_sys)})")
     for si, (sv, pn) in enumerate(zip(svg_sys, png_sys)):
         ms = sv['measures']
         if len(ms) != expect[si]:
@@ -254,9 +260,14 @@ def build_timeline(cfg, total, mxs, boxes, systems, page_h):
             main_off = pos[gj][0] if gj < len(pos) else off
             if main is not None and not main.get('rest'):
                 lead = min(0.085, 0.22 * ((main.get('dur') or 12) * sec_per_tick))
+                # 본음과 같은 밀리초로 반올림되지 않게 최소 폭을 둔다
+                lead = max(lead, 0.035)
                 for k, gr in enumerate(group):
                     tt = max(0.0, t + main_off * sec_per_tick - lead * (len(group) - k))
-                    notes.append(dict(t=int(round(tt * 1000)), d=int(round(lead * 1000)),
+                    gms, mms = int(round(tt * 1000)), int(round((t + main_off * sec_per_tick) * 1000))
+                    if gms == mms:
+                        warn(f"#{cfg['no']} m{n}: 장식음과 본음이 같은 시각({gms}ms)에 겹칩니다")
+                    notes.append(dict(t=gms, d=int(round(lead * 1000)),
                                       midi=midi_of(gr['pitch']), m=n, v=1, last=n))
             gi = gj
 
@@ -266,6 +277,12 @@ def build_timeline(cfg, total, mxs, boxes, systems, page_h):
             pitch = midi_of(it['pitch'])
             dur_t = it['dur'] * sec_per_tick
             tie = it.get('tie') or []
+            if 'stop' in tie:
+                if pending is None:
+                    warn(f"#{cfg['no']} m{n}: 붙임줄 stop에 start가 없습니다")
+                elif pending['midi'] != pitch:
+                    warn(f"#{cfg['no']} m{n}: 붙임줄 stop 음정 불일치 "
+                         f"(start {pending['midi']} / stop {pitch})")
             if 'stop' in tie and pending is not None and pending['midi'] == pitch:
                 pending['d'] += dur_t          # 마디줄을 넘는 붙임줄: 길이만 이어 붙인다
                 pending['last'] = n
@@ -287,6 +304,11 @@ def build_timeline(cfg, total, mxs, boxes, systems, page_h):
     if pending is not None:
         notes.append(pending)
     notes.sort(key=lambda r: (r['t'], -r['d']))
+
+    # 첫 마디 0초에 장식음이 있으면 제한 시간 시작과 함께 들려 본음 판정을 흐린다
+    for r in notes:
+        if r['v'] == 1 and r['t'] <= 0:
+            warn(f"#{cfg['no']} 첫 마디 0초에 장식음(중간 {r['midi']}) — 본음과 겹칩니다")
 
     return dict(
         no=cfg['no'], level=cfg['level'], title=cfg['title'],
@@ -325,7 +347,10 @@ def main(only=None):
         assert all(b['w'] > 0 and b['h'] > 0 for b in tl['bars'])
         print(f"#{cfg['no']:3d} {cfg['level']:2s} {total:2d}마디 {len(tl['notes']):3d}음 "
               f"{tl['dur']:6.1f}s {os.path.getsize(path)//1024}KB")
-    print('elapsed', round(__import__('time').time() - t0, 1), 's', 'fails', len(fails))
+    for w in WARNINGS:
+        print('WARN', w)
+    print('elapsed', round(__import__('time').time() - t0, 1), 's', 'fails', len(fails),
+          'warnings', len(WARNINGS))
 
 
 if __name__ == '__main__':

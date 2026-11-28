@@ -81,7 +81,8 @@ window.LoungePlayer = (function () {
       if (!buf) return;
       const src = ctx.createBufferSource();
       src.buffer = buf;
-      src.playbackRate.value = Math.pow(2, (midi - s) / 12);
+      // 샘플은 440Hz 기준 녹음 — 조율 기준음(S.a4, 기본 442Hz)만큼 같이 올리고 내린다
+      src.playbackRate.value = Math.pow(2, (midi - s) / 12) * (S.a4 / 440.0);
       const g = ctx.createGain();
       const peak = 0.30 * vel;
       const atk = 0.004, rel = 0.18;
@@ -96,19 +97,21 @@ window.LoungePlayer = (function () {
       this.sources.add(src);
       src.onended = () => this.sources.delete(src);
     },
-    click(when, strong) {
+    click(when, accent) {
+      // accent: 2 = 마디 첫 박(1568Hz) · 1 = 복합박자 그룹 첫 박(1245Hz) · 0 = 약박(1046Hz)
+      const lvl = accent === true ? 2 : (accent | 0);
       const ctx = this.ctx;
       const g = ctx.createGain();
       const o = ctx.createOscillator();
       o.type = 'sine';
-      o.frequency.setValueAtTime(strong ? 1568 : 1046, when);
-      const peak = strong ? 0.34 : 0.17;
+      o.frequency.setValueAtTime(lvl === 2 ? 1568 : lvl === 1 ? 1245 : 1046, when);
+      const peak = lvl === 2 ? 0.34 : lvl === 1 ? 0.24 : 0.17;
       g.gain.setValueAtTime(0.0001, when);
       g.gain.exponentialRampToValueAtTime(peak, when + 0.003);
-      g.gain.exponentialRampToValueAtTime(0.0001, when + (strong ? 0.20 : 0.10));
+      g.gain.exponentialRampToValueAtTime(0.0001, when + (lvl === 2 ? 0.20 : lvl === 1 ? 0.15 : 0.10));
       o.connect(g).connect(this.master);
       o.start(when);
-      o.stop(when + (strong ? 0.24 : 0.13));
+      o.stop(when + (lvl === 2 ? 0.24 : 0.16));
       // 아주 짧은 타격감 (전자 메트로놈)
       const n = ctx.createBufferSource();
       const len = Math.floor(ctx.sampleRate * 0.012);
@@ -120,10 +123,10 @@ window.LoungePlayer = (function () {
       }
       n.buffer = this._noise;
       const ng = ctx.createGain();
-      ng.gain.value = strong ? 0.08 : 0.05;
+      ng.gain.value = lvl === 2 ? 0.08 : lvl === 1 ? 0.065 : 0.05;
       const bp = ctx.createBiquadFilter();
       bp.type = 'bandpass';
-      bp.frequency.value = strong ? 2600 : 1900;
+      bp.frequency.value = lvl === 2 ? 2600 : lvl === 1 ? 2200 : 1900;
       n.connect(bp).connect(ng).connect(this.master);
       n.start(when);
     },
@@ -160,24 +163,33 @@ window.LoungePlayer = (function () {
     if (S.tl && S.tl.no === no) return Promise.resolve(S.tl);
     if (S.reqNo === no && S.req) return S.req;
     S.reqNo = no;
-    S.req = fetch('data/tl/' + String(no).padStart(3, '0') + '.json')
+    S.req = fetch('data/tl/' + String(no).padStart(3, '0') + '.json?v=18')
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .catch(() => null);
     return S.req;
   }
 
+  // 마디 박의 강세: 2 마디 첫 박 · 1 복합박자(5/8·7/8·6/8·9/8·12/8) 그룹 첫 박 · 0 약박
+  function barAccents(bar) {
+    const endTick = bar.d * (bar.q / 60) * 12;      // 마디 길이(1/12쿼터 단위)
+    const sizes = bar.b.map((o, i) => Math.round((i + 1 < bar.b.length ? bar.b[i + 1] : endTick) - o));
+    const first = sizes[0] || 0;
+    // 묶음이 고르지 않거나(3+2·3+2+2) 점4분음표 묶음(18)이면 복합박자로 본다
+    const compound = sizes.some((s) => s !== first) || first === 18;
+    return bar.b.map((_, i) => (i === 0 ? 2 : (compound ? 1 : 0)));
+  }
+
   function buildEvents(tl) {
     const ev = [];
+    const pushBar = (bar, offset) => {
+      const acc = barAccents(bar);
+      bar.b.forEach((off, i) => {
+        ev.push({ t: bar.t + offset + (off / 12) * (60 / bar.q), k: 'c', s: acc[i] });
+      });
+    };
     const b0 = tl.bars[0];
-    // 예비박: 첫 마디 한 마디 앞에서 같은 박자로
-    for (const off of b0.b) {
-      ev.push({ t: b0.t - b0.d + (off / 12) * (60 / b0.q), k: 'c', s: off === b0.b[0] ? 2 : 1 });
-    }
-    for (const bar of tl.bars) {
-      for (const off of bar.b) {
-        ev.push({ t: bar.t + (off / 12) * (60 / bar.q), k: 'c', s: off === bar.b[0] ? 2 : 1 });
-      }
-    }
+    pushBar(b0, -b0.d);          // 예비박: 첫 마디 한 마디 앞에서 같은 박자로
+    for (const bar of tl.bars) pushBar(bar, 0);
     for (const n of tl.notes) {
       ev.push({ t: n[0] / 1000, d: n[1] / 1000, midi: n[2], m: n[3], v: n[4], k: 'n' });
     }
@@ -268,7 +280,7 @@ window.LoungePlayer = (function () {
 
   function scheduleEvent(e, when) {
     if (e.k === 'c') {
-      if (S.mode !== 'piano') Sound.click(when, e.s === 2);
+      if (S.mode !== 'piano') Sound.click(when, e.s);
     } else {
       if (S.mode !== 'metro') Sound.note(e.midi, when, e.d / S.speed, e.v === 3 ? 1.0 : e.v === 1 ? 0.45 : 0.82);
     }
@@ -279,20 +291,28 @@ window.LoungePlayer = (function () {
     const now = Sound.ctx.currentTime;
     const pos = currentPos();
     const horizon = pos + 0.5 * S.speed;          // 0.5초 앞까지 미리 잡는다
+    // A–B: B마디 끝을 넘어서는 음은 미리 잡지 않는다 (반복할 때 B 뒤 소리가 새지 않게)
+    let loopEnd = Infinity;
+    const looping = S.ab.on && S.ab.a != null && S.ab.b != null;
+    if (looping) {
+      const bb = S.tl.bars[S.ab.b];
+      loopEnd = bb.t + bb.d - 0.004;
+    }
     let guard = 0;
     while (S.evIdx < S.events.length && guard++ < 400) {
       const e = S.events[S.evIdx];
       if (e.t > horizon) break;
+      if (e.t >= loopEnd) break;
       const when = now + (e.t - pos) / S.speed;
       if (when > now - 0.02) scheduleEvent(e, Math.max(when, now));
       S.evIdx++;
     }
     // 끝
     if (pos > S.tl.dur + 0.25) { stop(true); return; }
-    // A–B 반복
-    if (S.ab.on && S.ab.a != null && S.ab.b != null) {
+    // A–B 반복: B마디 끝에 닿으면 A마디로 곧바로 되돌린다
+    if (looping) {
       const bEnd = S.tl.bars[S.ab.b].t + S.tl.bars[S.ab.b].d;
-      if (pos >= bEnd) { startAt(S.tl.bars[S.ab.a].t, false); return; }
+      if (pos >= bEnd) { startAt(S.tl.bars[S.ab.a].t, false, 0.005); return; }
     }
     if (S.mic.on) sampleMic();
     S.pos = pos;
@@ -300,13 +320,14 @@ window.LoungePlayer = (function () {
     updateProgress(pos);
   }
 
-  function startAt(pos, countIn) {
+  function startAt(pos, countIn, lead) {
     Sound.init();
+    if (Sound.bus) { try { Sound.bus.disconnect(); } catch (e) { /* 이미 끊긴 버스 */ } Sound.bus = null; }
     Sound.bus = Sound.ctx.createGain();
     Sound.bus.connect(Sound.master);
     const from = countIn ? pos - S.tl.bars[barAt(Math.max(0, pos))].d : pos;
     S.anchorPos = from;
-    S.anchorCtx = Sound.ctx.currentTime + 0.06;
+    S.anchorCtx = Sound.ctx.currentTime + (lead == null ? 0.06 : lead);
     S.evIdx = 0;
     while (S.evIdx < S.events.length && S.events[S.evIdx].t < from - 0.001) S.evIdx++;
     S.playing = true;
@@ -374,9 +395,11 @@ window.LoungePlayer = (function () {
     if (i > 0 && notes[i - 1][0] > ms) i = 0;
     while (i < notes.length && notes[i][0] <= ms) i++;
     S.noteIdx = i;
-    // 현재 울리는 음: i-1 부터 거슬러 올라가 t를 담고 있는 음
-    for (let j = i - 1; j >= Math.max(0, i - 6); j--) {
+    // 현재 울리는 음: 거슬러 올라가 t를 품고 있는 본음을 찾는다.
+    // 장식음(v === 1)은 판정에서 빼 본음 음정만 재도록 한다.
+    for (let j = i - 1, seen = 0; j >= 0 && seen < 12; j--, seen++) {
       const n = notes[j];
+      if (n[4] === 1) continue;
       if (ms >= n[0] && ms < n[0] + Math.max(120, n[1])) return n;
     }
     return null;
@@ -502,7 +525,8 @@ window.LoungePlayer = (function () {
       D.hud.classList.add('is-idle');
       toast('음정 체크를 켰습니다. 연주가 끝나면 점수와 코멘트를 보여 드려요.');
     } catch (e) {
-      toast('마이크 권한이 필요합니다. 브라우저 주소창의 권한을 허용해 주세요.');
+      // 한 줄 안내: 주소창의 자물쇠(권한) 아이콘에서 마이크를 허용
+      toast('마이크가 막혀 있어요. 주소창의 자물쇠 아이콘 → 마이크를 ‘허용’으로 바꾼 뒤 다시 눌러 주세요.');
     }
   }
 
@@ -584,7 +608,8 @@ window.LoungePlayer = (function () {
     if (S.piece) {
       const name = TONIC[String(S.piece.fifths)] || '—';
       const pc = TONIC_PC[name];
-      const midi = pc == null ? 69 : (pc >= 3 ? 60 + pc : 48 + pc);   // 으뜸음은 가운데 음역에서
+      // 으뜸음은 언제나 가운데 음역(C4~B4). D♭도 D♭4(61, ~277Hz)로 잡는다
+      const midi = pc == null ? 69 : 60 + pc;
       D.tpTonic.textContent = midi ? noteName(midi) : '—';
       D.tpTonic.dataset.midi = midi;
     }
@@ -616,11 +641,23 @@ window.LoungePlayer = (function () {
       D.stage.scrollTop = 0;
       D.stage.scrollLeft = 0;
       setTimeout(() => { D.stage.scrollTop = 0; syncGeometry(); }, 60);
+      // 브라우저 정책·기기 제약으로 실패해도 오류 없이 CSS 풀스크린을 그대로 쓴다
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && D.modal.requestFullscreen) {
+        try {
+          const p = D.modal.requestFullscreen({ navigationUI: 'hide' });
+          if (p && p.catch) p.catch(() => {});
+        } catch (e) { /* CSS 풀스크린 유지 */ }
+      }
     } else {
       clearInterval(S.countdownId);
       S.countdownId = 0;
       D.timerEl.classList.remove('is-show');
       D.modal.classList.remove('is-counting');
+      if (document.fullscreenElement && document.exitFullscreen) {
+        try { const p = document.exitFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+      } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+        try { document.webkitExitFullscreen(); } catch (e) {}
+      }
     }
     setTimeout(syncGeometry, 80);
   }
@@ -629,7 +666,7 @@ window.LoungePlayer = (function () {
      30초 읽기 → 신호음·"시작하세요!" → 피아노·메트로놈·커서 없이
      곡의 연주 시간(timeline.dur)만큼 마이너스 스톱워치 → 종료 신호음 */
   const EX_READ_SEC = 30;
-  const Ex = { on: false, phase: 'idle', readLeft: 0, readId: 0, tickId: 0,
+  const Ex = { on: false, phase: 'idle', readLeft: 0, readEnd: 0, readId: 0, tickId: 0,
                goId: 0, waitCount: 0, t0: 0, dur: 0 };
 
   const mmss = (sec) => {
@@ -643,6 +680,8 @@ window.LoungePlayer = (function () {
     D.exSub = $('#exSub');
     D.exSkip = $('#exSkip');
     D.exStop = $('#exStop');
+    D.exDone = $('#exDone');
+    D.exFocus = $('#exFocus');
     D.exAgain = $('#exAgain');
     D.exRetry = $('#exRetry');
     D.exClose = $('#exClose');
@@ -653,7 +692,8 @@ window.LoungePlayer = (function () {
     clearInterval(Ex.readId); Ex.readId = 0;
     clearInterval(Ex.tickId); Ex.tickId = 0;
     clearTimeout(Ex.goId); Ex.goId = 0;
-    Ex.on = false; Ex.phase = 'idle'; Ex.waitCount = 0;
+    Ex.on = false; Ex.phase = 'idle'; Ex.waitCount = 0; Ex.readEnd = 0;
+    S.noteIdx = 0;
     if (D.exPanel) D.exPanel.hidden = true;
     if (D.modal) D.modal.classList.remove('is-exam');
   }
@@ -675,7 +715,7 @@ window.LoungePlayer = (function () {
     if (D.cursor) D.cursor.style.opacity = '0';
     S.ab = { a: null, b: null, on: false };
     if (D.ab) { D.ab.classList.remove('is-on'); D.ab.setAttribute('aria-pressed', 'false'); }
-    S.sel = 0; S.pos = 0; S.session = null;
+    S.sel = 0; S.pos = 0; S.session = null; S.noteIdx = 0;
     if (D.rc) D.rc.hidden = true;
     if (D.tunePop) D.tunePop.hidden = true;
     if (D.markA) D.markA.hidden = true;
@@ -690,19 +730,26 @@ window.LoungePlayer = (function () {
   function exRead() {
     exShow('read');
     Ex.readLeft = EX_READ_SEC;
+    // 30초는 performance.now() 기준 — 탭이 백그라운드로 가 인터벌이 늦어도 오차 없이 맞춘다
+    Ex.readEnd = performance.now() + EX_READ_SEC * 1000;
     D.exMain.textContent = String(Ex.readLeft);
     D.exSub.textContent = '초 동안 악보를 읽으세요';
     Sound.panic();
     clearInterval(Ex.readId);
-    Ex.readId = setInterval(() => {
-      Ex.readLeft--;
-      if (Ex.readLeft > 0) {
-        D.exMain.textContent = String(Ex.readLeft);
-      } else {
+    const tickRead = () => {
+      const leftMs = Ex.readEnd - performance.now();
+      const left = Math.max(0, Math.ceil(leftMs / 1000));
+      if (left !== Ex.readLeft) {
+        Ex.readLeft = left;
+        if (left > 0) D.exMain.textContent = String(left);
+      }
+      if (leftMs <= 0) {
         clearInterval(Ex.readId); Ex.readId = 0;
         exGo();
       }
-    }, 1000);
+    };
+    Ex.readId = setInterval(tickRead, 200);
+    tickRead();
   }
 
   function exGo() {
@@ -742,13 +789,17 @@ window.LoungePlayer = (function () {
   function exTick() {
     if (Ex.phase !== 'play') return;
     const left = Math.max(0, Ex.dur - (performance.now() - Ex.t0) / 1000);
-    D.exMain.textContent = left > 0.05 ? '-' + mmss(Math.ceil(left)) : '0:00';
+    D.exMain.textContent = left > 0.05 ? '-' + mmss(Math.ceil(left)) : mmss(0);
     if (S.mic.on) sampleMic();
-    if (left <= 0) exEnd(false);
+    if (left <= 0) exEnd('timeout');
   }
 
-  function exEnd(aborted) {
+  function exEnd(reason) {
+    // reason: 'timeout'(제한 시간 만료) · 'finish'(다 쳤어요) · 'abort'(중단)
+    if (reason === false) reason = 'timeout';
+    if (reason === true) reason = 'abort';
     const wasPlay = Ex.phase === 'play';
+    if (reason === 'finish' && !wasPlay) reason = 'abort';
     clearInterval(Ex.tickId); Ex.tickId = 0;
     clearTimeout(Ex.goId); Ex.goId = 0;
     const used = wasPlay ? Math.min(Ex.dur, (performance.now() - Ex.t0) / 1000) : 0;
@@ -757,7 +808,7 @@ window.LoungePlayer = (function () {
     if (Sound.ctx) {
       if (Sound.ctx.state === 'suspended') Sound.ctx.resume();
       const now = Sound.ctx.currentTime + 0.02;
-      if (aborted) {
+      if (reason === 'abort') {
         Sound.tone(659.3, now, 0.18, 0.2);
         Sound.tone(523.3, now + 0.22, 0.32, 0.2);
       } else {
@@ -766,11 +817,16 @@ window.LoungePlayer = (function () {
         Sound.tone(659.3, now + 0.52, 0.42, 0.22);
       }
     }
-    if (aborted) {
+    if (reason === 'abort') {
       D.exMain.textContent = '연주 중단';
       D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} 중 ${mmss(used)} 연주`;
+    } else if (reason === 'finish') {
+      const left = Math.max(0, Ex.dur - used);
+      D.exMain.textContent = '연주 마침';
+      D.exSub.textContent = `실제 소요 ${mmss(used)} · 제한 시간 ${mmss(Ex.dur)}`
+        + (left >= 1 ? ` (${mmss(left)} 남음)` : '');
     } else {
-      D.exMain.textContent = '연주 종료';
+      D.exMain.textContent = '제한 시간 종료';
       D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} · 끝까지 연주했습니다`;
     }
     if (S.mic.on && S.session && S.session.samples > 30) showResult();
@@ -816,8 +872,16 @@ window.LoungePlayer = (function () {
       });
     });
     D.ab.addEventListener('click', () => {
-      if (S.ab.a == null) { S.ab.a = S.sel; toast('A 지점: ' + (S.sel + 1) + '마디'); }
-      else if (S.ab.b == null) { S.ab.b = S.sel; S.ab.on = true; D.ab.classList.add('is-on'); D.ab.setAttribute('aria-pressed', 'true'); toast('B 지점: ' + (S.sel + 1) + '마디 · 구간 반복 중'); }
+      // 재생 중에는 선택 마디(S.sel)가 아니라 지금 연주 중인 마디를 A·B로 잡는다
+      const cur = S.playing ? barAt(currentPos()) : S.sel;
+      if (S.ab.a == null) { S.ab.a = cur; toast('A 지점: ' + (cur + 1) + '마디'); }
+      else if (S.ab.b == null) {
+        if (cur < S.ab.a) { const t = S.ab.a; S.ab.a = cur; S.ab.b = t; }
+        else S.ab.b = cur;
+        S.ab.on = true;
+        D.ab.classList.add('is-on'); D.ab.setAttribute('aria-pressed', 'true');
+        toast(`B 지점: ${S.ab.b + 1}마디 · ${S.ab.a + 1}~${S.ab.b + 1}마디 구간 반복 중`);
+      }
       else { S.ab = { a: null, b: null, on: false }; D.ab.classList.remove('is-on'); D.ab.setAttribute('aria-pressed', 'false'); toast('구간 반복을 해제했습니다.'); }
       drawCursor(S.pos, true);
     });
@@ -850,7 +914,16 @@ window.LoungePlayer = (function () {
       clearInterval(Ex.readId); Ex.readId = 0;
       exGo();
     });
-    if (D.exStop) D.exStop.addEventListener('click', () => { if (Ex.on) exEnd(true); });
+    if (D.exStop) D.exStop.addEventListener('click', () => { if (Ex.on) exEnd('abort'); });
+    // 제한 시간 전에 연주를 마쳤을 때 — 바로 종료하고 실제 소요 시간을 보여 준다
+    if (D.exDone) D.exDone.addEventListener('click', () => { if (Ex.on && Ex.phase === 'play') exEnd('finish'); });
+    // 완료 화면: 이 곡을 일반 집중 연습으로 이어서
+    if (D.exFocus) D.exFocus.addEventListener('click', () => {
+      exReset();
+      if (D.rc) D.rc.hidden = true;
+      setFocus(true);
+      toast('집중 연습 화면입니다. 아래 연주 버튼으로 바로 시작하세요.');
+    });
     if (D.exAgain) D.exAgain.addEventListener('click', () => {
       const cur = S.piece ? S.piece.no : null;
       if (window.LoungeApp && window.LoungeApp.startExamRandom) window.LoungeApp.startExamRandom(cur);
@@ -908,6 +981,10 @@ window.LoungePlayer = (function () {
     setInterval(() => {
       if (S.playing && S.tl) updateProgress(currentPos());
     }, 250);
+    // iOS·백그라운드에서 돌아오면 잠든 오디오 컨텍스트를 깨운다
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && Sound.ctx && Sound.ctx.state === 'suspended') Sound.ctx.resume();
+    });
   }
 
   /* ============================================================ 열기/닫기 */
