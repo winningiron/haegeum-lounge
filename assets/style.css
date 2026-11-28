@@ -381,6 +381,13 @@ details[open] summary::before{transform:rotate(90deg)}
 .focus-timer span{font-size:13px;color:#cfc8ba}
 .modal.is-counting .modal-bar{opacity:0;pointer-events:none;transition:opacity .2s}
 .modal.is-counting .pitch-hud,.modal.is-counting .tune-pop{opacity:0;pointer-events:none}
+.focus-x{
+  display:none;position:absolute;right:14px;top:12px;z-index:15;width:38px;height:38px;
+  border-radius:50%;border:1px solid #4a443a;background:rgba(24,22,19,.86);color:#f2ede2;
+  font-size:17px;line-height:1;cursor:pointer;backdrop-filter:blur(6px)
+}
+.focus-x:hover{background:rgba(60,54,46,.95)}
+.modal.is-counting .focus-x{display:grid;place-items:center}
 .modal.is-focus .modal-top{display:none}
 .modal.is-focus .stage{align-items:flex-start}
 .modal.is-focus .stage img{margin-top:0}

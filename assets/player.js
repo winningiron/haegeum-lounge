@@ -591,6 +591,7 @@ window.LoungePlayer = (function () {
     S.focus = on;
     D.modal.classList.toggle('is-focus', on);
     D.focusExit.hidden = !on;
+    if (D.focusX) D.focusX.hidden = !on;
     if (on) {
       window.scrollTo(0, 0);
       D.stage.scrollTop = 0;
@@ -603,6 +604,19 @@ window.LoungePlayer = (function () {
       D.modal.classList.remove('is-counting');
     }
     setTimeout(syncGeometry, 80);
+  }
+
+  function finishRead() {
+    clearInterval(S.countdownId);
+    S.countdownId = 0;
+    D.timerEl.innerHTML = '<b>시작하세요!</b>';
+    Sound.init();
+    const now = Sound.ctx.currentTime + 0.02;
+    Sound.tone(1318, now, 0.14, 0.2);
+    Sound.tone(1760, now + 0.18, 0.22, 0.2);
+    setTimeout(() => { D.timerEl.classList.remove('is-show'); D.modal.classList.remove('is-counting'); }, 2000);
+    S.sel = 0;
+    play();
   }
 
   function startReadTimer(sec) {
@@ -618,16 +632,7 @@ window.LoungePlayer = (function () {
       if (left > 0) {
         D.timerEl.innerHTML = `<b>${left}</b><span>초 동안 악보를 읽으세요</span>`;
       } else {
-        clearInterval(S.countdownId);
-        S.countdownId = 0;
-        D.timerEl.innerHTML = '<b>시작하세요!</b>';
-        Sound.init();
-        const now = Sound.ctx.currentTime + 0.02;
-        Sound.tone(1318, now, 0.14, 0.2);
-        Sound.tone(1760, now + 0.18, 0.22, 0.2);
-        setTimeout(() => { D.timerEl.classList.remove('is-show'); D.modal.classList.remove('is-counting'); }, 2000);
-        S.sel = 0;
-        play();
+        finishRead();
       }
     }, 1000);
   }
@@ -693,7 +698,10 @@ window.LoungePlayer = (function () {
       startReadTimer(30);
     });
     D.focusExit.addEventListener('click', () => setFocus(false));
-    $('#focusTimer').addEventListener('click', () => startReadTimer(30));
+    $('#focusTimer').addEventListener('click', () => {
+      if (S.countdownId) finishRead(); else startReadTimer(30);
+    });
+    $('#pFocusX').addEventListener('click', () => setFocus(false));
     $('#rcClose').addEventListener('click', () => { D.rc.hidden = true; });
     $('#rcDismiss').addEventListener('click', () => { D.rc.hidden = true; });
     $('#rcAgain').addEventListener('click', () => { D.rc.hidden = true; S.sel = 0; newSession(); play(); });
@@ -764,6 +772,7 @@ window.LoungePlayer = (function () {
     D.hudCent = $('#phCent');
     D.hudNeedle = $('#phNeedle');
     D.timerEl = $('#focusTimer');
+    D.focusX = $('#pFocusX');
     D.rc = $('#resultCard');
     D.rcScore = $('#rcScore');
     D.rcSub = $('#rcSub');
