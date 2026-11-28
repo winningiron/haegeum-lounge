@@ -21,8 +21,10 @@ IDX_LETTER = 'CDEFGAB'
 FLAT_ORDER = 'BEADGCF'
 SHARP_ORDER = 'FCGDAEB'
 
-KEY_FIFTHS = {'F': -1, 'Bb': -2, 'Eb': -3, 'Ab': -4, 'Db': -5, 'Gb': -6}
-KEY_LABEL = {'F': 'F', 'Bb': 'B♭', 'Eb': 'E♭', 'Ab': 'A♭', 'Db': 'D♭', 'Gb': 'G♭'}
+KEY_FIFTHS = {'F': -1, 'Bb': -2, 'Eb': -3, 'Ab': -4, 'Db': -5, 'Gb': -6,
+              'G': 1, 'D': 2}
+KEY_LABEL = {'F': 'F', 'Bb': 'B♭', 'Eb': 'E♭', 'Ab': 'A♭', 'Db': 'D♭', 'Gb': 'G♭',
+             'G': 'G', 'D': 'D'}
 
 
 def key_alters(fifths):
@@ -718,6 +720,10 @@ class PieceBuilder:
                 return ["trip", "run"]
             return ["", "run"]
         # 고급
+        # 곡별로 지정한 자리(cfg['trip_at'], 8마디 주기 안의 위치)에는 3연음을 넣는다.
+        # 지정이 없는 곡은 예전과 똑같이 움직인다 (기존 곡의 선율을 바꾸지 않는다).
+        if i in (self.cfg.get('trip_at') or ()):
+            return ["trip", "run"]
         if i in (0, 2, 4, 6):
             return ["rest_mid", "rest_mid", "rest_start"]
         if i in (1, 5):
