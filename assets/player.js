@@ -713,13 +713,10 @@ window.LoungePlayer = (function () {
     if (S.focus) setFocus(false);
     S.cursorOn = false;
     if (D.cursor) D.cursor.style.opacity = '0';
-    S.ab = { a: null, b: null, on: false };
-    if (D.ab) { D.ab.classList.remove('is-on'); D.ab.setAttribute('aria-pressed', 'false'); }
+    resetAB();
     S.sel = 0; S.pos = 0; S.session = null; S.noteIdx = 0;
     if (D.rc) D.rc.hidden = true;
     if (D.tunePop) D.tunePop.hidden = true;
-    if (D.markA) D.markA.hidden = true;
-    if (D.markB) D.markB.hidden = true;
     updateProgress(0);
     Ex.on = true;
     D.stage.scrollTop = 0;
@@ -835,6 +832,20 @@ window.LoungePlayer = (function () {
     else if (S.mic.on) D.exSub.textContent += ' · 음정 표본이 적어 점수는 생략';
   }
 
+  /* ============================================================ A–B 구간 반복 */
+  // 곡을 새로 열거나 시험을 시작할 때 구간 상태(S.ab)와 버튼 표시를 함께 되돌린다.
+  // 클래스(is-on)만 지우면 style.css 의 [aria-pressed="true"] 규칙 때문에 버튼이 눌린 채로 남는다.
+  function resetAB() {
+    S.ab = { a: null, b: null, on: false };
+    if (D.ab) {
+      D.ab.classList.remove('is-on');
+      D.ab.setAttribute('aria-pressed', 'false');
+      D.ab.textContent = 'A–B';
+    }
+    if (D.markA) D.markA.hidden = true;
+    if (D.markB) D.markB.hidden = true;
+  }
+
   /* ============================================================ UI */
   let toastTimer = 0;
   function toast(msg) {
@@ -884,7 +895,7 @@ window.LoungePlayer = (function () {
         D.ab.classList.add('is-on'); D.ab.setAttribute('aria-pressed', 'true');
         toast(`B 지점: ${S.ab.b + 1}마디 · ${S.ab.a + 1}~${S.ab.b + 1}마디 구간 반복 중`);
       }
-      else { S.ab = { a: null, b: null, on: false }; D.ab.classList.remove('is-on'); D.ab.setAttribute('aria-pressed', 'false'); toast('구간 반복을 해제했습니다.'); }
+      else { resetAB(); toast('구간 반복을 해제했습니다.'); }
       drawCursor(S.pos, true);
     });
     D.mic.addEventListener('click', micToggle);
@@ -1043,8 +1054,7 @@ window.LoungePlayer = (function () {
     S.sel = 0;
     S.pos = 0;
     S.cursorOn = false;
-    S.ab = { a: null, b: null, on: false };
-    D.ab.classList.remove('is-on');
+    resetAB();
     S.session = null;
     D.rc.hidden = true;
     D.tunePop.hidden = true;
@@ -1073,6 +1083,7 @@ window.LoungePlayer = (function () {
     if (S.mic.on) micOff();
     if (S.focus) setFocus(false);
     S.piece = null; S.tl = null; S.events = [];
+    resetAB();
     D.rc.hidden = true; D.tunePop.hidden = true;
     clearInterval(S.countdownId);
     if (D.timerEl) D.timerEl.classList.remove('is-show');

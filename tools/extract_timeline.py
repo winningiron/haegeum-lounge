@@ -351,7 +351,8 @@ def main(only=None):
         print('WARN', w)
     print('elapsed', round(__import__('time').time() - t0, 1), 's', 'fails', len(fails),
           'warnings', len(WARNINGS))
+    return 1 if fails else 0
 
 
 if __name__ == '__main__':
-    main([int(x) for x in sys.argv[1:]] or None)
+    sys.exit(main([int(x) for x in sys.argv[1:]] or None))
