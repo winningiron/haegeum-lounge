@@ -807,7 +807,8 @@ window.LoungePlayer = (function () {
     updateTune();
     Sound.load();
     loadTimeline(piece.no).then((tl) => {
-      if (!tl || (S.piece && S.piece.no !== tl.no)) return;
+      if (!S.piece || S.piece.no !== piece.no) return;
+      if (!tl) { D.cursor.style.opacity = '0'; toast('이 곡의 연주 데이터를 불러오지 못했어요.'); return; }
       S.tl = tl;
       S.events = buildEvents(tl);
       D.total.textContent = fmt(tl.dur);
