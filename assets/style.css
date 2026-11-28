@@ -371,7 +371,7 @@ details[open] summary::before{transform:rotate(90deg)}
 
 /* 집중 연습 */
 .focus-timer{
-  position:absolute;left:50%;bottom:118px;transform:translate(-50%,10px);z-index:7;
+  position:absolute;left:50%;bottom:22px;transform:translate(-50%,10px);z-index:14;
   display:flex;align-items:baseline;gap:10px;padding:12px 22px;border-radius:16px;
   background:rgba(24,22,19,.92);border:1px solid #4a443a;color:#f6f1e6;
   opacity:0;pointer-events:none;transition:.25s;cursor:pointer;backdrop-filter:blur(8px)
@@ -379,6 +379,8 @@ details[open] summary::before{transform:rotate(90deg)}
 .focus-timer.is-show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .focus-timer b{font-size:26px;font-weight:800;letter-spacing:-.02em;color:#f0c48a}
 .focus-timer span{font-size:13px;color:#cfc8ba}
+.modal.is-counting .modal-bar{opacity:0;pointer-events:none;transition:opacity .2s}
+.modal.is-counting .pitch-hud,.modal.is-counting .tune-pop{opacity:0;pointer-events:none}
 .modal.is-focus .modal-top{display:none}
 .modal.is-focus .stage{align-items:flex-start}
 .modal.is-focus .stage img{margin-top:0}
@@ -457,7 +459,7 @@ details[open] summary::before{transform:rotate(90deg)}
   .pbar{order:9;width:100%}
   .pitch-hud{right:10px;bottom:132px;padding:7px 10px;gap:8px}
   .ph-needle{width:76px}
-  .focus-timer{bottom:140px}
+  .focus-timer{bottom:16px}
   .tune-pop{left:10px;right:10px;width:auto;bottom:132px}
   .p-toast{bottom:178px}
   .result-card{top:4%;padding:14px}

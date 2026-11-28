@@ -596,11 +596,11 @@ window.LoungePlayer = (function () {
       D.stage.scrollTop = 0;
       D.stage.scrollLeft = 0;
       setTimeout(() => { D.stage.scrollTop = 0; syncGeometry(); }, 60);
-      toast('집중 연습: 상단을 비우고 악보 첫 단부터 보여 드립니다.');
     } else {
       clearInterval(S.countdownId);
       S.countdownId = 0;
       D.timerEl.classList.remove('is-show');
+      D.modal.classList.remove('is-counting');
     }
     setTimeout(syncGeometry, 80);
   }
@@ -609,6 +609,7 @@ window.LoungePlayer = (function () {
     if (!S.focus) setFocus(true);
     D.stage.scrollTop = 0;
     let left = sec;
+    D.modal.classList.add('is-counting');
     D.timerEl.classList.add('is-show');
     D.timerEl.innerHTML = `<b>${left}</b><span>초 동안 악보를 읽으세요</span>`;
     clearInterval(S.countdownId);
@@ -624,7 +625,7 @@ window.LoungePlayer = (function () {
         const now = Sound.ctx.currentTime + 0.02;
         Sound.tone(1318, now, 0.14, 0.2);
         Sound.tone(1760, now + 0.18, 0.22, 0.2);
-        setTimeout(() => D.timerEl.classList.remove('is-show'), 2000);
+        setTimeout(() => { D.timerEl.classList.remove('is-show'); D.modal.classList.remove('is-counting'); }, 2000);
         S.sel = 0;
         play();
       }
