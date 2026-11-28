@@ -23,6 +23,7 @@ window.LoungePlayer = (function () {
     ab: { a: null, b: null, on: false },
     sel: 0,                            // 현재(정지 시) 선택 마디 index
     lastBar: -1,
+    cursorOn: false,                   // 정지·최초 진입에는 커서를 두지 않는다
     focus: false, timerId: 0, rafId: 0,
     countdown: 0, countdownId: 0,
     a4: 442,
@@ -224,6 +225,8 @@ window.LoungePlayer = (function () {
     const w = b.w * S.geo.w;
     const h = b.h * S.geo.h;
     const c = D.cursor;
+    // 재생 중이거나 사용자가 직접 마디를 짚었을 때만 보인다. 최초 진입·정지 상태에서는 숨김.
+    c.style.opacity = (S.playing || S.cursorOn) ? '' : '0';
     c.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
     c.style.width = w.toFixed(1) + 'px';
     c.style.height = h.toFixed(1) + 'px';
@@ -306,6 +309,7 @@ window.LoungePlayer = (function () {
     S.evIdx = 0;
     while (S.evIdx < S.events.length && S.events[S.evIdx].t < from - 0.001) S.evIdx++;
     S.playing = true;
+    S.cursorOn = true;
     S.lastBar = -1;
     S.noteIdx = 0;
     D.play.classList.add('is-playing');
@@ -336,8 +340,12 @@ window.LoungePlayer = (function () {
     D.play.classList.remove('is-playing');
     D.play.querySelector('b').textContent = '연주';
     D.play.querySelector('#pPlayIcon').textContent = '▶';
-    if (atEnd) { S.sel = 0; drawCursor(0); updateProgress(0); S.pos = 0; }
-    else { drawCursor(S.pos); updateProgress(S.pos); }
+    if (atEnd) { S.sel = 0; S.cursorOn = false; drawCursor(0); updateProgress(0); S.pos = 0; }
+    else {
+      S.sel = S.tl ? barAt(S.pos) : 0;   // 멈춘 그 마디에서 이어서 시작하도록
+      S.cursorOn = true;                 // 일시정지는 멈춘 곳을 보여 준다
+      drawCursor(S.pos); updateProgress(S.pos);
+    }
     if (S.mic.on && S.session && S.session.samples > 30) showResult();
     else if (S.mic.on && S.session) S.session = null;
   }
@@ -346,6 +354,7 @@ window.LoungePlayer = (function () {
     S.sel = clamp(i, 0, S.tl.bars.length - 1);
     const t = S.tl.bars[S.sel].t;
     S.pos = t;
+    S.cursorOn = true;
     if (S.playing) { startAt(t, false); }
     else { drawCursor(t); updateProgress(t); }
   }
@@ -796,6 +805,7 @@ window.LoungePlayer = (function () {
     S.tl = null;
     S.sel = 0;
     S.pos = 0;
+    S.cursorOn = false;
     S.ab = { a: null, b: null, on: false };
     D.ab.classList.remove('is-on');
     S.session = null;
@@ -812,8 +822,9 @@ window.LoungePlayer = (function () {
       S.tl = tl;
       S.events = buildEvents(tl);
       D.total.textContent = fmt(tl.dur);
-      D.cursor.style.opacity = '';
       S.sel = 0;
+      S.cursorOn = false;              // ▶ 연주를 누르기 전에는 커서 없음
+      D.cursor.style.opacity = '0';
       drawCursor(0, true);
       syncGeometry();
     });

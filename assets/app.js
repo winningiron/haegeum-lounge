@@ -175,6 +175,9 @@
     ].filter(Boolean).join(' · ');
     $('#mPdf').href = p.pdf;
     $('#mPrint').href = p.pdf;
+    const posText = `${state.index + 1} / ${state.list.length}`;
+    const posA = $('#mPos'); if (posA) posA.textContent = posText;
+    const posB = $('#mPosF'); if (posB) posB.textContent = posText;
     $('#mLoading').classList.remove('is-hidden');
     img.style.width = '';
     img.removeAttribute('src');
@@ -191,8 +194,6 @@
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    $('#prevBtn').disabled = false;
-    $('#nextBtn').disabled = false;
     if (window.LoungePlayer) window.LoungePlayer.open(p);
   }
 
@@ -298,6 +299,8 @@
 
   $('#prevBtn').addEventListener('click', () => openModal(state.index - 1));
   $('#nextBtn').addEventListener('click', () => openModal(state.index + 1));
+  $('#prevBtnF').addEventListener('click', () => openModal(state.index - 1));
+  $('#nextBtnF').addEventListener('click', () => openModal(state.index + 1));
 
   stage.addEventListener('wheel', (e) => {
     if (!(e.ctrlKey || e.metaKey)) return;

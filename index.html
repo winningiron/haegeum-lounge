@@ -6,7 +6,7 @@
 <title>해금 초견 라운지 · 70곡</title>
 <meta name="description" content="해금 초견 교본 150곡 중 70곡(기초 1~50 · 중급 51~60 · 고급 101~110). 악보마다 피아노 가이드 연주, 메트로놈, 노래방식 커서, 마이크 음정 체크로 초견을 연습합니다.">
 <meta name="theme-color" content="#f7f3ea">
-<link rel="stylesheet" href="assets/style.css?v=12">
+<link rel="stylesheet" href="assets/style.css?v=13">
 </head>
 <body>
 <header class="hero">
@@ -115,7 +115,14 @@
         <div class="m-meta" id="mMeta"></div>
       </div>
     </div>
-    <button class="m-close" id="mClose" aria-label="닫기">✕</button>
+    <div class="m-top-right">
+      <div class="m-nav" role="group" aria-label="곡 이동">
+        <button id="prevBtn" aria-label="이전 곡">‹ 이전</button>
+        <span class="m-pos" id="mPos">1 / 50</span>
+        <button id="nextBtn" aria-label="다음 곡">다음 ›</button>
+      </div>
+      <button class="m-close" id="mClose" aria-label="닫기">✕</button>
+    </div>
   </div>
   <div class="stage" id="stage">
     <img id="mImg" alt="악보" draggable="false">
@@ -137,6 +144,11 @@
   <button class="focus-x" id="pFocusX" hidden aria-label="집중 연습 끝내기">✕</button>
 
   <div class="modal-bar">
+    <div class="m-nav bar-nav" role="group" aria-label="곡 이동">
+      <button id="prevBtnF" aria-label="이전 곡">‹ 이전</button>
+      <span class="m-pos" id="mPosF">1 / 50</span>
+      <button id="nextBtnF" aria-label="다음 곡">다음 ›</button>
+    </div>
     <div class="player-bar" id="playerBar">
       <button class="pc-btn play" id="pPlay" aria-label="연주 시작"><span id="pPlayIcon">▶</span> <b>연주</b></button>
       <div class="pc-seg" id="pMode" role="group" aria-label="재생 모드">
@@ -174,8 +186,6 @@
     </div>
     <button id="pFocusExit" class="pc-btn focus-exit">집중 연습 끝내기</button>
   </div>
-  <button class="nav prev" id="prevBtn" aria-label="이전 곡">‹</button>
-  <button class="nav next" id="nextBtn" aria-label="다음 곡">›</button>
 
   <div class="tune-pop" id="tunePop" hidden>
     <div class="tp-head">조율 기준음 <button class="tp-x" id="tuneClose" aria-label="닫기">✕</button></div>
@@ -209,7 +219,7 @@
 </div>
 
 <script src="data/pieces.js?v=13"></script>
-<script src="assets/player.js?v=4"></script>
-<script src="assets/app.js?v=15"></script>
+<script src="assets/player.js?v=5"></script>
+<script src="assets/app.js?v=16"></script>
 </body>
 </html>

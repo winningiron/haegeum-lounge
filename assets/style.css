@@ -273,17 +273,21 @@ details[open] summary::before{transform:rotate(90deg)}
 .acts .btn{flex:0 0 auto;padding:9px 14px;border-radius:9px}
 .acts .btn.ghost{background:transparent;color:#f5f1e8;border-color:#3a362f}
 .acts .btn.ghost:hover{border-color:#6a6355}
-.nav{
-  position:fixed;top:50%;transform:translateY(-50%);z-index:101;
-  width:44px;height:64px;border:0;border-radius:10px;background:rgba(255,255,255,.10);color:#fff;
-  font-size:30px;line-height:1;cursor:pointer;backdrop-filter:blur(4px)
+.m-top-right{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+/* 곡 이동 (헤더) — 악보 위를 가리지 않도록 도구 줄에만 둔다 */
+.m-nav{display:inline-flex;align-items:center;gap:2px;background:#2b2823;border:1px solid #3a362f;border-radius:10px;padding:2px}
+.m-nav button{
+  background:transparent;border:0;color:#e7e1d4;font-size:12.5px;font-weight:650;
+  padding:6px 9px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:.14s
 }
-.nav:hover{background:rgba(255,255,255,.2)}
-.nav:disabled{opacity:.2;cursor:default}
-.nav.prev{left:10px}
-.nav.next{right:10px}
+.m-nav button:hover{background:#3d3830;color:#fff}
+.m-nav button:disabled{opacity:.32;cursor:default;background:transparent}
+.m-pos{font-size:11.5px;color:#a9a294;font-variant-numeric:tabular-nums;min-width:44px;text-align:center;letter-spacing:.01em}
+.bar-nav{display:none}
 @media(max-width:640px){
-  .nav{width:36px;height:52px;font-size:24px}
+  .m-nav button{padding:5px 7px;font-size:11.5px}
+  .m-pos{min-width:38px;font-size:11px}
+  .m-top-right{gap:6px}
   .modal-top{padding:10px 12px}
   .m-title{font-size:14px}
   .zoom button{width:34px;height:34px}
@@ -393,7 +397,7 @@ details[open] summary::before{transform:rotate(90deg)}
 .modal.is-focus .stage img{margin-top:0}
 .modal.is-focus .zoom,.modal.is-focus .acts{display:none}
 .modal.is-focus .modal-bar{justify-content:center}
-.modal.is-focus .nav{display:none}
+.modal.is-focus .bar-nav{display:inline-flex;margin-right:2px}
 .focus-exit{display:none;background:#9c3d2e;border-color:#b1543f}
 .modal.is-focus .focus-exit{display:inline-flex}
 
