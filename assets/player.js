@@ -227,6 +227,19 @@ window.LoungePlayer = (function () {
     return b;
   }
 
+  // 마디 상자의 위아래 여백.
+  // 오선 높이(h)의 1.4배까지 넉넉히 잡아 덧줄 음표(A3~C4·A5~C6)와 슬러·모르덴트·
+  // 아티큘레이션이 테두리에 걸리지 않게 하고, 이웃 단과 겹치지 않도록
+  // 단 사이 빈틈의 절반을 넘지 않게 제한한다.
+  const PAD_RATIO = 1.4;
+  function barPad(b) {
+    const H = S.geo.h, want = b.h * H * PAD_RATIO;
+    const syss = S.tl.systems, sys = syss[b.s];
+    const upRoom = (b.s > 0 ? sys.y0 - syss[b.s - 1].y1 : sys.y0) * H / 2 - 1;
+    const dnRoom = (b.s + 1 < syss.length ? syss[b.s + 1].y0 - sys.y1 : 1 - sys.y1) * H / 2 - 1;
+    return { up: Math.max(0, Math.min(want, upRoom)), dn: Math.max(0, Math.min(want, dnRoom)) };
+  }
+
   function drawCursor(t, force) {
     // 지금 연주 중인 마디 전체를 배경 상자로 덮는다 (마디 안을 지나가는 세로선은 없다).
     if (!S.tl || !S.geo.w) return;
@@ -237,14 +250,20 @@ window.LoungePlayer = (function () {
     const y = b.y * S.geo.h;
     const w = b.w * S.geo.w;
     const h = b.h * S.geo.h;
+    const pad = barPad(b);
+    // 좌우도 2px씩 여유를 두어 마디줄·붙임줄 끝이 상자 선에 닿지 않게 한다.
+    const left = Math.max(0, x - 2);
+    const top = Math.max(0, y - pad.up);
+    const right = Math.min(S.geo.w, x + w + 2);
+    const bottom = y + h + pad.dn;
     const c = D.cursor;
     // 재생 중이거나 사용자가 직접 마디를 짚었을 때만 보인다. 최초 진입·정지 상태에서는 숨김.
     // '마디 표시'를 끈 경우와 실전 테스트 중에는 악보 위에 아무것도 그리지 않는다.
     const showBar = S.cursorEnabled && !Ex.on && (S.playing || S.cursorOn);
     c.style.opacity = showBar ? '' : '0';
-    c.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
-    c.style.width = w.toFixed(1) + 'px';
-    c.style.height = h.toFixed(1) + 'px';
+    c.style.transform = `translate(${left.toFixed(1)}px,${top.toFixed(1)}px)`;
+    c.style.width = (right - left).toFixed(1) + 'px';
+    c.style.height = (bottom - top).toFixed(1) + 'px';
     if (S.playing && showBar && i !== S.lastBar) {
       S.lastBar = i;
       ensureVisible(i);
@@ -259,7 +278,8 @@ window.LoungePlayer = (function () {
 
   function placeMark(el, i) {
     const b = barBox(i);
-    el.style.transform = `translate(${(b.x * S.geo.w).toFixed(1)}px,${(b.y * S.geo.h).toFixed(1)}px)`;
+    const pad = barPad(b);
+    el.style.transform = `translate(${(b.x * S.geo.w).toFixed(1)}px,${(b.y * S.geo.h - pad.up).toFixed(1)}px)`;
   }
 
   function ensureVisible(i) {

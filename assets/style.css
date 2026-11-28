@@ -342,9 +342,9 @@ details[open] summary::before{transform:rotate(90deg)}
 /* 악보 위 현재 마디 배경 */
 .playlayer{position:absolute;left:0;top:0;pointer-events:none;z-index:3}
 .pcursor{
-  position:absolute;left:0;top:0;width:0;height:0;border-radius:4px;
-  border:1.5px solid rgba(156,61,46,.45);background:rgba(156,61,46,.10);
-  box-shadow:0 0 0 1px rgba(255,255,255,.35) inset;transition:opacity .2s
+  position:absolute;left:0;top:0;width:0;height:0;border-radius:6px;
+  border:1px solid rgba(156,61,46,.25);background:rgba(156,61,46,.07);
+  transition:opacity .2s
 }
 .pmark{
   position:absolute;left:0;top:0;margin-top:-9px;padding:1px 5px;border-radius:5px;
