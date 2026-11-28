@@ -819,7 +819,9 @@ window.LoungePlayer = (function () {
     }
     if (reason === 'abort') {
       D.exMain.textContent = '연주 중단';
-      D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} 중 ${mmss(used)} 연주`;
+      D.exSub.textContent = Ex.dur > 0
+        ? `제한 시간 ${mmss(Ex.dur)} 중 ${mmss(used)} 연주`
+        : '읽기 단계에서 중단했습니다';
     } else if (reason === 'finish') {
       const left = Math.max(0, Ex.dur - used);
       D.exMain.textContent = '연주 마침';
