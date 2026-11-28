@@ -790,7 +790,10 @@ window.LoungePlayer = (function () {
     el.textContent = msg;
     el.classList.add('is-show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('is-show'), 3600);
+    toastTimer = setTimeout(() => {
+      el.classList.remove('is-show');
+      setTimeout(() => { if (!el.classList.contains('is-show')) el.textContent = ''; }, 400);
+    }, 3600);
   }
 
   function bind() {
