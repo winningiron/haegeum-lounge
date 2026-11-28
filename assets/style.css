@@ -406,6 +406,62 @@ details[open] summary::before{transform:rotate(90deg)}
 .focus-exit{display:none;background:#9c3d2e;border-color:#b1543f}
 .modal.is-focus .focus-exit{display:inline-flex}
 
+/* ============================================================
+   실전 테스트 (랜덤 출제 · 읽기 30초 · 마이너스 스톱워치)
+   ============================================================ */
+.exam-cta-row{
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  max-width:1180px;margin:14px auto 2px;padding:0 22px
+}
+.exam-cta{
+  display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 20px;border-radius:12px;
+  border:1px solid #b1543f;background:linear-gradient(180deg,#a8442f,#8b3324);color:#fff;
+  font-size:14.5px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(156,61,46,.22);
+  transition:.15s
+}
+.exam-cta span{font-size:12px;font-weight:700;color:rgba(255,255,255,.8)}
+.exam-cta:hover{filter:brightness(1.06);box-shadow:0 8px 22px rgba(156,61,46,.3)}
+#examScope{
+  height:40px;padding:0 10px;border-radius:10px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);font-size:13px;font-weight:650;cursor:pointer
+}
+.exam-note{font-size:12px;color:var(--ink-3)}
+.pc-btn.exam{background:#3a2a24;border-color:#7d4a3b;color:#ffd9c8}
+.pc-btn.exam:hover{background:#4a332b;border-color:#a3614c}
+
+.exam-panel{
+  position:absolute;left:50%;bottom:100px;transform:translateX(-50%);z-index:16;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:15px 24px 13px;border-radius:18px;background:rgba(20,18,15,.93);
+  border:1px solid #4a443a;color:#f6f1e6;backdrop-filter:blur(10px);
+  box-shadow:0 18px 50px rgba(0,0,0,.5);min-width:min(340px,calc(100% - 24px));
+  max-width:calc(100% - 24px)
+}
+.exam-panel[hidden]{display:none}
+.ex-clock{display:flex;align-items:baseline;gap:11px;justify-content:center;flex-wrap:wrap}
+.ex-clock b{
+  font-size:44px;font-weight:800;letter-spacing:-.02em;color:#f0c48a;line-height:1.05;
+  font-variant-numeric:tabular-nums
+}
+.ex-clock span{font-size:13px;color:#cfc8ba}
+.exam-panel[data-phase="go"] .ex-clock b{font-size:36px;color:#8fe0ac}
+.exam-panel[data-phase="play"] .ex-clock b{font-size:56px;color:#ffa47d;letter-spacing:-.03em}
+.exam-panel[data-phase="done"] .ex-clock b{font-size:28px;color:#f6f1e6}
+.ex-acts{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.exam-panel [data-ex]{display:none}
+.exam-panel[data-phase="read"] [data-ex~="read"],
+.exam-panel[data-phase="go"] [data-ex~="go"],
+.exam-panel[data-phase="play"] [data-ex~="play"],
+.exam-panel[data-phase="done"] [data-ex~="done"]{display:inline-flex}
+/* 시험 중에는 연주 도구·진행 바를 감춰 악보만 남긴다 */
+.modal.is-exam .player-bar,
+.modal.is-exam .pbar,
+.modal.is-exam .acts,
+.modal.is-exam .focus-exit{display:none}
+.modal.is-exam .modal-bar{justify-content:center}
+.modal.is-exam .pitch-hud{bottom:206px}
+.modal.is-exam .result-card{top:6%}
+
 /* 조율 패널 */
 .tune-pop{
   position:absolute;left:16px;bottom:104px;z-index:8;width:288px;max-width:calc(100% - 32px);
@@ -467,6 +523,11 @@ details[open] summary::before{transform:rotate(90deg)}
 
 @media(max-width:720px){
   .modal-bar{padding:8px 8px 10px;gap:6px;row-gap:7px}
+  .exam-panel{bottom:84px;padding:12px 16px 11px;gap:7px}
+  .ex-clock b{font-size:34px}
+  .exam-panel[data-phase="play"] .ex-clock b{font-size:44px}
+  .exam-cta-row{padding:0 14px;gap:7px}
+  .exam-note{display:none}
   .player-bar{gap:6px;flex-wrap:wrap;width:100%;min-width:0}
   .pc-btn,.pc-seg button{height:31px;font-size:11.5px;padding:0 9px}
   .pc-btn.play{min-width:72px}

@@ -261,6 +261,7 @@ window.LoungePlayer = (function () {
 
   /* ============================================================ 재생 */
   function currentPos() {
+    if (Ex.phase === 'play') return Math.min(Ex.dur, (performance.now() - Ex.t0) / 1000);
     if (!S.playing) return S.pos;
     return S.anchorPos + (Sound.ctx.currentTime - S.anchorCtx) * S.speed;
   }
@@ -320,7 +321,7 @@ window.LoungePlayer = (function () {
   }
 
   function play() {
-    if (!S.tl) return;
+    if (!S.tl || Ex.on) return;
     Sound.load().then((ok) => {
       if (!ok) { toast('피아노 음원을 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.'); return; }
       newSession();
@@ -496,6 +497,7 @@ window.LoungePlayer = (function () {
       newSession();
       D.mic.classList.add('is-on');
       D.mic.setAttribute('aria-pressed', 'true');
+      syncMicButtons();
       D.hud.hidden = false;
       D.hud.classList.add('is-idle');
       toast('음정 체크를 켰습니다. 연주가 끝나면 점수와 코멘트를 보여 드려요.');
@@ -512,7 +514,15 @@ window.LoungePlayer = (function () {
     D.mic.classList.remove('is-on');
     D.mic.setAttribute('aria-pressed', 'false');
     D.hud.hidden = true;
+    syncMicButtons();
     if (S.session && S.session.samples > 30) showResult();
+  }
+
+  // 실전 테스트 패널의 음정 체크 버튼도 같은 상태를 보여 준다
+  function syncMicButtons() {
+    if (!D.exMic) return;
+    D.exMic.classList.toggle('is-on', !!S.mic.on);
+    D.exMic.setAttribute('aria-pressed', S.mic.on ? 'true' : 'false');
   }
 
   /* ============================================================ 결과 */
@@ -615,35 +625,156 @@ window.LoungePlayer = (function () {
     setTimeout(syncGeometry, 80);
   }
 
-  function finishRead() {
-    clearInterval(S.countdownId);
-    S.countdownId = 0;
-    D.timerEl.innerHTML = '<b>시작하세요!</b>';
-    Sound.init();
-    const now = Sound.ctx.currentTime + 0.02;
-    Sound.tone(1318, now, 0.14, 0.2);
-    Sound.tone(1760, now + 0.18, 0.22, 0.2);
-    setTimeout(() => { D.timerEl.classList.remove('is-show'); D.modal.classList.remove('is-counting'); }, 2000);
-    S.sel = 0;
-    play();
+  /* ============================================================ 실전 테스트
+     30초 읽기 → 신호음·"시작하세요!" → 피아노·메트로놈·커서 없이
+     곡의 연주 시간(timeline.dur)만큼 마이너스 스톱워치 → 종료 신호음 */
+  const EX_READ_SEC = 30;
+  const Ex = { on: false, phase: 'idle', readLeft: 0, readId: 0, tickId: 0,
+               goId: 0, waitCount: 0, t0: 0, dur: 0 };
+
+  const mmss = (sec) => {
+    const s = Math.max(0, Math.round(sec));
+    return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  };
+
+  function exDom() {
+    D.exPanel = $('#examPanel');
+    D.exMain = $('#exMain');
+    D.exSub = $('#exSub');
+    D.exSkip = $('#exSkip');
+    D.exStop = $('#exStop');
+    D.exAgain = $('#exAgain');
+    D.exRetry = $('#exRetry');
+    D.exClose = $('#exClose');
+    D.exMic = $('#exMic');
   }
 
-  function startReadTimer(sec) {
-    if (!S.focus) setFocus(true);
+  function exReset() {
+    clearInterval(Ex.readId); Ex.readId = 0;
+    clearInterval(Ex.tickId); Ex.tickId = 0;
+    clearTimeout(Ex.goId); Ex.goId = 0;
+    Ex.on = false; Ex.phase = 'idle'; Ex.waitCount = 0;
+    if (D.exPanel) D.exPanel.hidden = true;
+    if (D.modal) D.modal.classList.remove('is-exam');
+  }
+
+  function exShow(phase) {
+    Ex.phase = phase;
+    D.modal.classList.add('is-exam');
+    D.exPanel.hidden = false;
+    D.exPanel.dataset.phase = phase;
+    syncGeometry();
+  }
+
+  function startExam() {
+    if (!S.piece) return;
+    exReset();
+    if (S.playing) stop(false);
+    if (S.focus) setFocus(false);
+    S.cursorOn = false;
+    if (D.cursor) D.cursor.style.opacity = '0';
+    S.ab = { a: null, b: null, on: false };
+    if (D.ab) { D.ab.classList.remove('is-on'); D.ab.setAttribute('aria-pressed', 'false'); }
+    S.sel = 0; S.pos = 0; S.session = null;
+    if (D.rc) D.rc.hidden = true;
+    if (D.tunePop) D.tunePop.hidden = true;
+    if (D.markA) D.markA.hidden = true;
+    if (D.markB) D.markB.hidden = true;
+    updateProgress(0);
+    Ex.on = true;
     D.stage.scrollTop = 0;
-    let left = sec;
-    D.modal.classList.add('is-counting');
-    D.timerEl.classList.add('is-show');
-    D.timerEl.innerHTML = `<b>${left}</b><span>초 동안 악보를 읽으세요</span>`;
-    clearInterval(S.countdownId);
-    S.countdownId = setInterval(() => {
-      left--;
-      if (left > 0) {
-        D.timerEl.innerHTML = `<b>${left}</b><span>초 동안 악보를 읽으세요</span>`;
+    D.stage.scrollLeft = 0;
+    exRead();
+  }
+
+  function exRead() {
+    exShow('read');
+    Ex.readLeft = EX_READ_SEC;
+    D.exMain.textContent = String(Ex.readLeft);
+    D.exSub.textContent = '초 동안 악보를 읽으세요';
+    Sound.panic();
+    clearInterval(Ex.readId);
+    Ex.readId = setInterval(() => {
+      Ex.readLeft--;
+      if (Ex.readLeft > 0) {
+        D.exMain.textContent = String(Ex.readLeft);
       } else {
-        finishRead();
+        clearInterval(Ex.readId); Ex.readId = 0;
+        exGo();
       }
     }, 1000);
+  }
+
+  function exGo() {
+    if (Ex.phase !== 'read') return;
+    if (!S.tl) {
+      // 타임라인이 아직 도착하지 않았으면 잠깐 기다린다 (건너뛰기 직후 등)
+      if (Ex.waitCount++ < 20) { Ex.goId = setTimeout(exGo, 200); return; }
+      toast('이 곡의 연주 데이터를 불러오지 못해 실전 테스트를 시작할 수 없어요.');
+      exReset();
+      return;
+    }
+    clearInterval(Ex.readId); Ex.readId = 0;
+    Ex.dur = S.tl.dur;
+    exShow('go');
+    D.exMain.textContent = '시작하세요!';
+    D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} · 피아노·메트로놈·커서 없이`;
+    Sound.init();
+    if (Sound.ctx) {
+      if (Sound.ctx.state === 'suspended') Sound.ctx.resume();
+      const now = Sound.ctx.currentTime + 0.02;
+      Sound.tone(1318.5, now, 0.16, 0.22);
+      Sound.tone(1760, now + 0.2, 0.26, 0.22);
+    }
+    Ex.goId = setTimeout(() => { if (Ex.on && Ex.phase === 'go') exPlay(); }, 1500);
+  }
+
+  function exPlay() {
+    exShow('play');
+    Ex.t0 = performance.now();
+    D.exSub.textContent = '남은 시간 · 피아노·메트로놈·커서 없이';
+    if (S.mic.on) newSession();
+    clearInterval(Ex.tickId);
+    Ex.tickId = setInterval(exTick, 100);
+    exTick();
+  }
+
+  function exTick() {
+    if (Ex.phase !== 'play') return;
+    const left = Math.max(0, Ex.dur - (performance.now() - Ex.t0) / 1000);
+    D.exMain.textContent = left > 0.05 ? '-' + mmss(Math.ceil(left)) : '0:00';
+    if (S.mic.on) sampleMic();
+    if (left <= 0) exEnd(false);
+  }
+
+  function exEnd(aborted) {
+    const wasPlay = Ex.phase === 'play';
+    clearInterval(Ex.tickId); Ex.tickId = 0;
+    clearTimeout(Ex.goId); Ex.goId = 0;
+    const used = wasPlay ? Math.min(Ex.dur, (performance.now() - Ex.t0) / 1000) : 0;
+    exShow('done');
+    Sound.init();
+    if (Sound.ctx) {
+      if (Sound.ctx.state === 'suspended') Sound.ctx.resume();
+      const now = Sound.ctx.currentTime + 0.02;
+      if (aborted) {
+        Sound.tone(659.3, now, 0.18, 0.2);
+        Sound.tone(523.3, now + 0.22, 0.32, 0.2);
+      } else {
+        Sound.tone(880, now, 0.16, 0.22);
+        Sound.tone(880, now + 0.24, 0.16, 0.22);
+        Sound.tone(659.3, now + 0.52, 0.42, 0.22);
+      }
+    }
+    if (aborted) {
+      D.exMain.textContent = '연주 중단';
+      D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} 중 ${mmss(used)} 연주`;
+    } else {
+      D.exMain.textContent = '연주 종료';
+      D.exSub.textContent = `제한 시간 ${mmss(Ex.dur)} · 끝까지 연주했습니다`;
+    }
+    if (S.mic.on && S.session && S.session.samples > 30) showResult();
+    else if (S.mic.on) D.exSub.textContent += ' · 음정 표본이 적어 점수는 생략';
   }
 
   /* ============================================================ UI */
@@ -703,14 +834,33 @@ window.LoungePlayer = (function () {
       b.addEventListener('click', () => playTone(b.dataset.tone));
     });
     D.focus.addEventListener('click', () => {
+      if (Ex.on) return;
+      // 집중 연습은 바로 시작 — 30초 대기 없이 연주 도구를 그대로 쓸 수 있다
       if (!S.focus) setFocus(true);
-      startReadTimer(30);
+      toast('집중 연습 화면입니다. 아래 연주 버튼으로 바로 시작하세요.');
     });
     D.focusExit.addEventListener('click', () => setFocus(false));
-    $('#focusTimer').addEventListener('click', () => {
-      if (S.countdownId) finishRead(); else startReadTimer(30);
-    });
     $('#pFocusX').addEventListener('click', () => setFocus(false));
+    // 실전 테스트
+    if (D.exSkip) D.exSkip.addEventListener('click', () => {
+      if (Ex.phase !== 'read') return;
+      clearInterval(Ex.readId); Ex.readId = 0;
+      exGo();
+    });
+    if (D.exStop) D.exStop.addEventListener('click', () => { if (Ex.on) exEnd(true); });
+    if (D.exAgain) D.exAgain.addEventListener('click', () => {
+      const cur = S.piece ? S.piece.no : null;
+      if (window.LoungeApp && window.LoungeApp.startExamRandom) window.LoungeApp.startExamRandom(cur);
+      else startExam();
+    });
+    if (D.exRetry) D.exRetry.addEventListener('click', startExam);
+    if (D.exClose) D.exClose.addEventListener('click', () => {
+      exReset();
+      toast('실전 테스트를 마쳤습니다. 악보 도구를 그대로 쓸 수 있어요.');
+    });
+    if (D.exMic) D.exMic.addEventListener('click', micToggle);
+    const examBtn = $('#pExam');
+    if (examBtn) examBtn.addEventListener('click', startExam);
     $('#rcClose').addEventListener('click', () => { D.rc.hidden = true; });
     $('#rcDismiss').addEventListener('click', () => { D.rc.hidden = true; });
     $('#rcAgain').addEventListener('click', () => { D.rc.hidden = true; S.sel = 0; newSession(); play(); });
@@ -723,7 +873,7 @@ window.LoungePlayer = (function () {
     });
     // 악보 클릭 → 그 마디부터
     D.stage.addEventListener('click', (e) => {
-      if (!S.tl || !S.geo.w) return;
+      if (!S.tl || !S.geo.w || Ex.on) return;
       if (Math.abs(e.clientX - S.dragX) > 8 || Math.abs(e.clientY - S.dragY) > 8) return;
       const r = D.img.getBoundingClientRect();
       const fx = (e.clientX - r.left) / r.width;
@@ -742,7 +892,11 @@ window.LoungePlayer = (function () {
     // 키보드
     window.addEventListener('keydown', (e) => {
       if (!S.tl || !D.modal.classList.contains('is-open')) return;
-      if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+      if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if (Ex.on) {                       // 시험 중에는 연주·마디 이동 단추를 받지 않는다
+        if (e.code === 'Space') e.preventDefault();
+        return;
+      }
       if (e.code === 'Space') { e.preventDefault(); if (S.playing) stop(false); else play(); }
       if (e.key === '[' && S.tl) seekMeasure(barAt(S.pos) - 1);
       if (e.key === ']' && S.tl) seekMeasure(barAt(S.pos) + 1);
@@ -793,7 +947,7 @@ window.LoungePlayer = (function () {
     D.tpTonic = $('#tpTonic');
     D.tpG = $('#tpG');
     D.tpC = $('#tpC');
-
+    exDom();
     if (!bind.done) { bind(); bind.done = true; }
     try {
       const v = localStorage.getItem('hg_a4');
@@ -801,6 +955,7 @@ window.LoungePlayer = (function () {
     } catch (e) {}
 
     stop(false);
+    exReset();
     S.piece = piece;
     S.tl = null;
     S.sel = 0;
@@ -831,6 +986,7 @@ window.LoungePlayer = (function () {
   }
 
   function close() {
+    exReset();
     stop(false);
     if (S.mic.on) micOff();
     if (S.focus) setFocus(false);
@@ -840,6 +996,7 @@ window.LoungePlayer = (function () {
     if (D.timerEl) D.timerEl.classList.remove('is-show');
   }
 
-  return { open, close, syncGeometry, setFocus, startReadTimer,
-           _S: S, _Sound: Sound, _barAt: barAt, _draw: drawCursor };
+  return { open, close, syncGeometry, setFocus, startExam, endExam: () => exEnd(true),
+           examActive: () => Ex.on,
+           _S: S, _Ex: Ex, _Sound: Sound, _barAt: barAt, _draw: drawCursor };
 })();

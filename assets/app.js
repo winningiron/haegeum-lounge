@@ -381,6 +381,8 @@
       el.classList.toggle('is-hidden', k !== name);
     });
     if (levelTabs) levelTabs.classList.toggle('is-hidden', name !== 'scores');
+    const examRow = document.querySelector('#examRow');
+    if (examRow) examRow.classList.toggle('is-hidden', name !== 'scores');
     $$('.vtab').forEach(t => t.classList.toggle('is-active', t.dataset.view === name));
     document.body.dataset.view = name;
     if (name === 'scores') render();
@@ -401,9 +403,62 @@
       tab.classList.add('is-active');
       state.level = tab.dataset.level;
       render();
+      syncExamNote();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  /* ---------------- 실전 테스트 (랜덤 출제) ---------------- */
+  const examRow = document.querySelector('#examRow');
+  const examScope = document.querySelector('#examScope');
+  const examNote = document.querySelector('#examNote');
+
+  function examPool() {
+    return (examScope && examScope.value === 'all') ? pieces.slice() : levelPieces(state.level);
+  }
+
+  function syncExamNote() {
+    if (!examNote) return;
+    const n = examPool().length;
+    const where = examScope && examScope.value === 'all' ? '전체' : state.level;
+    examNote.textContent = `30초 읽고, 소리·커서 없이 제한 시간 안에 연주 · ${where} ${n}곡 중 뽑기`;
+  }
+
+  function openPieceByNo(no) {
+    const p = pieces.find((x) => x.no === no);
+    if (!p) return false;
+    if (p.level !== state.level) {
+      state.level = p.level;
+      $$('.tab').forEach((t) => t.classList.toggle('is-active', t.dataset.level === p.level));
+      render();
+      syncExamNote();
+    }
+    const i = state.list.findIndex((x) => x.no === no);
+    if (i < 0) return false;
+    openModal(i);
+    return true;
+  }
+
+  function startExamRandom(excludeNo) {
+    let pool = examPool();
+    if (excludeNo != null && pool.length > 1) pool = pool.filter((p) => p.no !== excludeNo);
+    if (!pool.length) return;
+    const p = pool[Math.floor(Math.random() * pool.length)];
+    if (!openPieceByNo(p.no)) return;
+    if (window.LoungePlayer && window.LoungePlayer.startExam) window.LoungePlayer.startExam();
+  }
+
+  const examStartBtn = document.querySelector('#examStart');
+  if (examStartBtn) examStartBtn.addEventListener('click', () => startExamRandom());
+  if (examScope) examScope.addEventListener('change', syncExamNote);
+  syncExamNote();
+
+  /* 다른 화면·도구에서 쓰는 최소 인터페이스 */
+  window.LoungeApp = {
+    openPieceByNo,
+    startExamRandom,
+    examPool: () => examPool().map((p) => p.no)
+  };
 
   renderStats();
   render();
