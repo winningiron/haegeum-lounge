@@ -292,6 +292,11 @@ details[open] summary::before{transform:rotate(90deg)}
   .m-title{font-size:14px}
   .zoom button{width:34px;height:34px}
 }
+@media(max-width:430px){
+  /* 아주 좁은 화면: 곡 번호 상자가 있어 머리줄의 순번 표시는 생략 */
+  .modal-top .m-pos{display:none}
+  .m-nav button{padding:5px 6px;font-size:11px}
+}
 
 /* ============================================================
    연주 도구 (메트로놈 · 피아노 가이드 · 음정 체크)
