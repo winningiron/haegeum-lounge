@@ -6,7 +6,7 @@
 <title>해금 초견 라운지 · 70곡</title>
 <meta name="description" content="해금 초견 교본 150곡 중 70곡(기초 1~50 · 중급 51~60 · 고급 101~110). 악보마다 피아노 가이드 연주, 메트로놈, 노래방식 커서, 마이크 음정 체크로 초견을 연습합니다.">
 <meta name="theme-color" content="#f7f3ea">
-<link rel="stylesheet" href="assets/style.css?v=15">
+<link rel="stylesheet" href="assets/style.css?v=16">
 </head>
 <body>
 <header class="hero">
@@ -152,19 +152,18 @@
   <div class="focus-timer" id="focusTimer" aria-live="polite"></div>
   <button class="focus-x" id="pFocusX" hidden aria-label="집중 연습 끝내기">✕</button>
 
-  <div class="exam-panel" id="examPanel" data-phase="read" aria-live="polite" hidden>
-    <div class="ex-clock"><b id="exMain">30</b><span id="exSub">초 동안 악보를 읽으세요</span></div>
-    <div class="ex-acts">
-      <button class="pc-btn" id="exSkip" data-ex="read">건너뛰고 시작</button>
-      <button class="pc-btn" id="exMic" data-ex="play" aria-pressed="false">🎤 음정 체크</button>
-      <button class="pc-btn" id="exStop" data-ex="read go play">중단</button>
-      <button class="pc-btn" id="exAgain" data-ex="done">다른 곡 뽑기</button>
-      <button class="pc-btn" id="exRetry" data-ex="done">이 곡 다시</button>
-      <button class="pc-btn ghost" id="exClose" data-ex="done">닫기</button>
-    </div>
-  </div>
-
   <div class="modal-bar">
+    <div class="exam-panel" id="examPanel" data-phase="read" aria-live="polite" hidden>
+      <div class="ex-clock"><b id="exMain">30</b><span id="exSub">초 동안 악보를 읽으세요</span></div>
+      <div class="ex-acts">
+        <button class="pc-btn" id="exSkip" data-ex="read">건너뛰고 시작</button>
+        <button class="pc-btn" id="exMic" data-ex="play" aria-pressed="false">🎤 음정 체크</button>
+        <button class="pc-btn" id="exStop" data-ex="read go play">중단</button>
+        <button class="pc-btn" id="exAgain" data-ex="done">다른 곡 뽑기</button>
+        <button class="pc-btn" id="exRetry" data-ex="done">이 곡 다시</button>
+        <button class="pc-btn ghost" id="exClose" data-ex="done">닫기</button>
+      </div>
+    </div>
     <div class="m-nav bar-nav" role="group" aria-label="곡 이동">
       <button id="prevBtnF" aria-label="이전 곡">‹ 이전</button>
       <span class="m-pos" id="mPosF">1 / 50</span>
