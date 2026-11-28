@@ -193,9 +193,11 @@
     document.body.style.overflow = 'hidden';
     $('#prevBtn').disabled = false;
     $('#nextBtn').disabled = false;
+    if (window.LoungePlayer) window.LoungePlayer.open(p);
   }
 
   function closeModal() {
+    if (window.LoungePlayer) window.LoungePlayer.close();
     if (state.fs) exitFs(false);
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
@@ -220,6 +222,7 @@
     }
     img.style.width = Math.round(w) + 'px';
     $('#zLevel').textContent = Math.round(state.zoom * 100) + '%';
+    if (window.LoungePlayer) window.LoungePlayer.syncGeometry();
   }
 
   function setZoom(z, reset) {

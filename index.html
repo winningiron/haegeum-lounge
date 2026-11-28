@@ -3,17 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>해금 초견 라운지 · 기초 50곡</title>
-<meta name="description" content="해금 초견 교본 150곡 중 기초 50곡과 중급·고급 시범 30곡. 기초 1~50, 중급 51~60, 고급 101~110.">
+<title>해금 초견 라운지 · 70곡</title>
+<meta name="description" content="해금 초견 교본 150곡 중 70곡(기초 1~50 · 중급 51~60 · 고급 101~110). 악보마다 피아노 가이드 연주, 메트로놈, 노래방식 커서, 마이크 음정 체크로 초견을 연습합니다.">
 <meta name="theme-color" content="#f7f3ea">
-<link rel="stylesheet" href="assets/style.css?v=9">
+<link rel="stylesheet" href="assets/style.css?v=10">
 </head>
 <body>
 <header class="hero">
   <div class="hero-inner">
     <div class="kicker">해금 초견 교본 · 150곡 프로젝트</div>
-    <h1>해금 초견 라운지</h1>
-    <div class="byline" aria-label="만든 사람 LEE SEUNG CHUL (with AI)">
+    <h1>해금 초견 라운지</h1>    <div class="byline" aria-label="만든 사람 LEE SEUNG CHUL (with AI)">
       <span class="byline-name">LEE SEUNG CHUL</span>
       <span class="byline-ai">(with AI)</span>
     </div>
@@ -120,9 +119,47 @@
   </div>
   <div class="stage" id="stage">
     <img id="mImg" alt="악보" draggable="false">
+    <div class="playlayer" id="playLayer" aria-hidden="true">
+      <div class="pcursor" id="pCursor"><i class="pfill"></i><i class="phead"></i></div>
+      <div class="pmark" id="pMarkA">A</div>
+      <div class="pmark b" id="pMarkB">B</div>
+    </div>
     <div class="stage-loading" id="mLoading">악보를 불러오는 중…</div>
   </div>
+
+  <div class="pitch-hud" id="pitchHud" aria-live="off" hidden>
+    <div class="ph-note" id="phNote">—</div>
+    <div class="ph-needle"><i id="phNeedle"></i><span class="ph-mid"></span></div>
+    <div class="ph-cent" id="phCent">0¢</div>
+  </div>
+
+  <div class="focus-timer" id="focusTimer" aria-live="polite"></div>
+
   <div class="modal-bar">
+    <div class="player-bar" id="playerBar">
+      <button class="pc-btn play" id="pPlay" aria-label="연주 시작"><span id="pPlayIcon">▶</span> <b>연주</b></button>
+      <div class="pc-seg" id="pMode" role="group" aria-label="재생 모드">
+        <button data-mode="both" class="is-active">피아노+메트로놈</button>
+        <button data-mode="metro">예비박+메트로놈만</button>
+        <button data-mode="piano">피아노만</button>
+      </div>
+      <div class="pc-seg small" id="pSpeed" role="group" aria-label="속도">
+        <button data-speed="0.75">0.75×</button>
+        <button data-speed="0.85">0.85×</button>
+        <button data-speed="1" class="is-active">1.0×</button>
+      </div>
+      <button class="pc-btn" id="pAB" aria-pressed="false">A–B</button>
+      <button class="pc-btn" id="pMic" aria-pressed="false">음정 체크</button>
+      <button class="pc-btn" id="pTune">조율 <span id="pTuneHz">442</span>Hz</button>
+      <button class="pc-btn" id="pFocus">집중 연습</button>
+    </div>
+    <div class="pbar">
+      <span class="ptime" id="pTime">0:00</span>
+      <div class="pseek" id="pSeek" role="slider" aria-label="재생 위치" tabindex="0">
+        <i class="pseek-fill" id="pSeekFill"></i>
+      </div>
+      <span class="ptime" id="pTotal">0:00</span>
+    </div>
     <div class="zoom">
       <button id="zOut" aria-label="축소">−</button>
       <span id="zLevel">100%</span>
@@ -134,12 +171,44 @@
       <a id="mPdf" class="btn" href="#" target="_blank" rel="noopener">PDF 열기</a>
       <a id="mPrint" class="btn ghost" href="#" target="_blank" rel="noopener">인쇄</a>
     </div>
+    <button id="pFocusExit" class="pc-btn focus-exit">집중 연습 끝내기</button>
   </div>
   <button class="nav prev" id="prevBtn" aria-label="이전 곡">‹</button>
   <button class="nav next" id="nextBtn" aria-label="다음 곡">›</button>
+
+  <div class="tune-pop" id="tunePop" hidden>
+    <div class="tp-head">조율 기준음 <button class="tp-x" id="tuneClose" aria-label="닫기">✕</button></div>
+    <div class="tp-a4"><b id="tpA4">442.0</b> Hz <span>A4</span></div>
+    <input type="range" id="tpSlider" min="440" max="450" step="1" value="442" aria-label="A4 기준 주파수">
+    <div class="tp-scale"><span>440</span><span>445</span><span>450</span></div>
+    <div class="tp-row">
+      <button class="pc-btn" data-tone="a4">A4 듣기</button>
+      <button class="pc-btn" data-tone="tonic">으뜸음 <span id="tpTonic">—</span></button>
+    </div>
+    <div class="tp-strings">
+      <div><span class="k">중현</span><b id="tpG">G3 · 196.0Hz</b><button class="pc-btn tiny" data-tone="g3">듣기</button></div>
+      <div><span class="k">유현</span><b id="tpC">C4 · 261.6Hz</b><button class="pc-btn tiny" data-tone="c4">듣기</button></div>
+    </div>
+    <p class="tp-note">두 줄은 완전5도. 이 곡의 조표에 맞춘 기준음과 개방현을 함께 들려 드립니다.</p>
+  </div>
+
+  <div class="result-card" id="resultCard" hidden>
+    <div class="rc-head">
+      <div class="rc-score"><b id="rcScore">0</b><span>점</span></div>
+      <div class="rc-title">음정 체크 결과<small id="rcSub"></small></div>
+      <button class="tp-x" id="rcClose" aria-label="닫기">✕</button>
+    </div>
+    <ul class="rc-lines" id="rcLines"></ul>
+    <div class="rc-ticks" id="rcTicks" aria-hidden="true"></div>
+    <div class="rc-acts">
+      <button class="pc-btn" id="rcAgain">다시 연주</button>
+      <button class="pc-btn ghost" id="rcDismiss">닫기</button>
+    </div>
+  </div>
 </div>
 
 <script src="data/pieces.js?v=13"></script>
-<script src="assets/app.js?v=14"></script>
+<script src="assets/player.js?v=1"></script>
+<script src="assets/app.js?v=15"></script>
 </body>
 </html>
