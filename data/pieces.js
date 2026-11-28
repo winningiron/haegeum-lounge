@@ -810,7 +810,7 @@ window.PIECES = [
   "level": "기초",
   "key": "E♭",
   "fifths": -3,
-  "title": "농현 첫걸음",
+  "title": "모르덴트 첫걸음",
   "meters": [
    "3/4"
   ],
@@ -828,10 +828,10 @@ window.PIECES = [
    8
   ],
   "midline": false,
-  "focus": "긴 음에 농현(~) 얹어 소리 흔들기",
+  "focus": "긴 음에 윗·아랫모르덴트 얹어 읽기",
   "tags": [
    "3/4",
-   "농현"
+   "모르덴트"
   ],
   "image": "scores/026.png?v=11",
   "pdf": "scores/026.pdf?v=11",
@@ -1071,7 +1071,7 @@ window.PIECES = [
   "level": "기초",
   "key": "A♭",
   "fifths": -4,
-  "title": "6/8박의 농현과 쉼표",
+  "title": "6/8박의 모르덴트와 쉼표",
   "meters": [
    "6/8"
   ],
@@ -1089,10 +1089,10 @@ window.PIECES = [
    8
   ],
   "midline": false,
-  "focus": "쉼표 뒤 농현으로 다시 들어오기",
+  "focus": "쉼표 뒤 모르덴트로 다시 들어오기",
   "tags": [
    "6/8",
-   "농현",
+   "모르덴트",
    "쉼표"
   ],
   "image": "scores/034.png?v=11",
@@ -1970,7 +1970,7 @@ window.PIECES = [
   "level": "중급",
   "key": "D♭",
   "fifths": -5,
-  "title": "9/8 마무리와 농현",
+  "title": "9/8 마무리와 모르덴트",
   "meters": [
    "9/8",
    "6/8",
@@ -1995,7 +1995,7 @@ window.PIECES = [
   "tags": [
    "9/8→6/8→9/8",
    "조바꿈 D♭↔A♭",
-   "농현"
+   "모르덴트"
   ],
   "image": "scores/060.png?v=11",
   "pdf": "scores/060.pdf?v=11",

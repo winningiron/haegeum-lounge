@@ -121,7 +121,7 @@ PIECES = [
     # ---------------- 기초 11~20 ----------------
     # 8~10번(8분음표·슬러)에서 이어지는 단계. 8분음표를 계속 이어 읽고,
     # 8분쉼표·점4분음표를 섞고, 음역을 A3~G5 쪽으로 조금씩 넓힌다.
-    # 꾸밈표(농현·꾸밈음)는 아직 넣지 않는다 (plain=True).
+    # 꾸밈표(모르덴트·꾸밈음)는 아직 넣지 않는다 (plain=True).
     dict(no=11, level='기초', key='Ab', seed=111, phrase_near=True,
          sections=[(42, (4, 4))], lines=[6, 6, 6, 6, 6, 6, 6],
          tempos={1: 72}, dynamics={1: 'mp'},
@@ -215,7 +215,7 @@ PIECES = [
 
     # ---------------- 기초 21~30 ----------------
     # 8분음표 연속과 기본 당김음. 24번부터 한 음 앞꾸밈음,
-    # 26번부터 정해 둔 마디의 긴 음에 농현(~)을 붙인다 (mordent_measures).
+    # 26번부터 정해 둔 마디의 긴 음에 모르덴트를 붙인다 (mordent_measures).
     dict(no=21, level='기초', key='Eb', seed=121, phrase_near=True,
          sections=[(42, (4, 4))], lines=[6, 6, 6, 6, 6, 6, 6],
          tempos={1: 84}, dynamics={1: 'mf'},
@@ -269,8 +269,8 @@ PIECES = [
          max_interval=4, midi_range=(57, 81), slur_len=[2, 3, 3],
          pools={(3, 4): ["q q q", "h q", "e e q q", "q e e q", "e e e e q", "q q e e"]},
          cadence={(3, 4): "q h"},
-         title='농현 첫걸음', focus='긴 음에 농현(~) 얹어 소리 흔들기',
-         tags=['3/4', '농현']),
+         title='모르덴트 첫걸음', focus='긴 음에 윗·아랫모르덴트 얹어 읽기',
+         tags=['3/4', '모르덴트']),
     dict(no=27, level='기초', key='Ab', seed=127, phrase_near=True,
          sections=[(56, (6, 8))], lines=[8, 8, 8, 8, 8, 8, 8],
          tempos={1: 72}, dynamics={1: 'mf'},
@@ -278,8 +278,8 @@ PIECES = [
          max_interval=4, midi_range=(57, 81), slur_len=[2, 3, 3],
          pools={(6, 8): ["q e q e", "e e e q e", "q e e e e", "e e e e e e", "dq dq"]},
          cadence={(6, 8): "dq dq"},
-         title='6/8박의 꾸밈음', focus='6/8박에서 꾸밈음과 농현 구분해 읽기',
-         tags=['6/8', '꾸밈음', '농현']),
+         title='6/8박의 꾸밈음', focus='6/8박에서 꾸밈음과 모르덴트 구분해 읽기',
+         tags=['6/8', '꾸밈음', '모르덴트']),
     dict(no=28, level='기초', key='Eb', seed=128, phrase_near=True,
          sections=[(56, (2, 4))], lines=[8, 8, 8, 8, 8, 8, 8],
          tempos={1: 92}, dynamics={1: 'f'},
@@ -307,10 +307,10 @@ PIECES = [
          pools={(6, 8): ["q e q e", "e e e e e e", "q e e e e", "dq re e e", "q e re e e"]},
          cadence={(6, 8): "dq dq"},
          title='6/8박 마무리', focus='한 박 두 음·세 음을 바꿔 가며 읽기',
-         tags=['6/8', '8분음표', '농현']),
+         tags=['6/8', '8분음표', '모르덴트']),
 
     # ---------------- 기초 31~40 ----------------
-    # 31~34: 긴 음과 짧은 음의 대비, 농현·꾸밈음 확장.
+    # 31~34: 긴 음과 짧은 음의 대비, 모르덴트·꾸밈음 확장.
     # 35번에서 B♭(♭2) 첫 만남, 36번부터 점8분음표+16분음표.
     dict(no=31, level='기초', key='Eb', seed=131, phrase_near=True,
          sections=[(42, (4, 4))], lines=[6, 6, 6, 6, 6, 6, 6],
@@ -320,7 +320,7 @@ PIECES = [
          pools={(4, 4): ["h q q", "e e q q q", "q q e e q", "q rq e e q", "e e q e e q"]},
          cadence={(4, 4): "h h"},
          title='긴 음과 짧은 음', focus='2분음표 뒤에 8분음표가 붙는 흐름',
-         tags=['4/4', '농현', '꾸밈음']),
+         tags=['4/4', '모르덴트', '꾸밈음']),
     dict(no=32, level='기초', key='Ab', seed=132, phrase_near=True,
          sections=[(56, (3, 4))], lines=[8, 8, 8, 8, 8, 8, 8],
          tempos={1: 92}, dynamics={1: 'mf'},
@@ -329,7 +329,7 @@ PIECES = [
          pools={(3, 4): ["h q", "q h", "e e q q", "q e e q", "e e e e q"]},
          cadence={(3, 4): "q h"},
          title='3/4박의 긴 음', focus='2분음표를 끝까지 세고 이어 가기',
-         tags=['3/4', '2분음표', '농현']),
+         tags=['3/4', '2분음표', '모르덴트']),
     dict(no=33, level='기초', key='Eb', seed=133, phrase_near=True,
          sections=[(35, (12, 8))], lines=[5, 5, 5, 5, 5, 5, 5],
          tempos={1: 63}, dynamics={1: 'mp'},
@@ -339,7 +339,7 @@ PIECES = [
                           "q e q e dq dq", "e e e q e dq dq"]},
          cadence={(12, 8): "dq dq dq dq"},
          title='12/8박의 넓은 흐름', focus='12/8박에서 긴 음과 8분음표 엮기',
-         tags=['12/8', '농현']),
+         tags=['12/8', '모르덴트']),
     dict(no=34, level='기초', key='Ab', seed=134, phrase_near=True,
          sections=[(56, (6, 8))], lines=[8, 8, 8, 8, 8, 8, 8],
          tempos={1: 76}, dynamics={1: 'mf'},
@@ -347,8 +347,8 @@ PIECES = [
          max_interval=5, midi_range=(57, 83), slur_len=[2, 3, 3],
          pools={(6, 8): ["q e q e", "e e e e e e", "dq rdq", "re e e dq", "q e re e e"]},
          cadence={(6, 8): "dq dq"},
-         title='6/8박의 농현과 쉼표', focus='쉼표 뒤 농현으로 다시 들어오기',
-         tags=['6/8', '농현', '쉼표']),
+         title='6/8박의 모르덴트와 쉼표', focus='쉼표 뒤 모르덴트로 다시 들어오기',
+         tags=['6/8', '모르덴트', '쉼표']),
     dict(no=35, level='기초', key='Bb', seed=135, phrase_near=True,
          sections=[(42, (4, 4))], lines=[6, 6, 6, 6, 6, 6, 6],
          tempos={1: 88}, dynamics={1: 'mf'},
@@ -564,7 +564,7 @@ PIECES = [
          lines=[6, 6, 8, 8, 8, 8, 6],
          tempos={1: 66, 13: 72}, dynamics={1: 'mp'},
          key_changes={13: 'Ab', 45: 'Db'},
-         title='9/8 마무리와 농현', tags=['9/8→6/8→9/8', '조바꿈 D♭↔A♭', '농현']),
+         title='9/8 마무리와 모르덴트', tags=['9/8→6/8→9/8', '조바꿈 D♭↔A♭', '모르덴트']),
 
     # ---------------- 고급 101~110 ----------------
     # 101·104·108·110 : 박자 변화가 줄 중간에서 일어난다
